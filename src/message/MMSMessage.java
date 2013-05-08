@@ -1,5 +1,7 @@
 package message;
 
+import java.util.ArrayList;
+
 public class MMSMessage {
 	int from; 
 	ArrayList<String> messageTo = new ArrayList<String>();
