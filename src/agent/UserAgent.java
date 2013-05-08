@@ -12,5 +12,5 @@ public class UserAgent {
 		//Message kann über Account versandt werden
 	}
 	
-	
+
 }
