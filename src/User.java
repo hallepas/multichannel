@@ -2,8 +2,8 @@
 import java.util.*;
 
 public class User {
-	ArrayList<String> userAccount = new ArrayList<String>();
-	ArrayList<String> userDevice = new ArrayList<String>();
+	 ArrayList<String> userAccount = new ArrayList<String>();
+	 ArrayList<String> userDevice = new ArrayList<String>();
 	
 	public void sendSMSTo() {
 		//die SMS wird mit einem bestimmten bestimmten Device über einen Useraccount verschickt

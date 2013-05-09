@@ -1,18 +1,14 @@
 package message;
 
-import java.util.ArrayList;
+public class MMSMessage<Host> extends Message<Host> {
+	private String subject;
 
-public class MMSMessage {
-	int from; 
-	ArrayList<String> messageTo = new ArrayList<String>();
-	String subject; 
-	Datetime date; 
-	String mmsMessage; 
-	
-	public void deliverStatus() {
-		// der Zustellstatus wird kontrolliert
+	public String getSubject() {
+		return subject;
 	}
-	
-	.encoding() {
-		// die Nachricht wird richtig eingelesen/gelesen...
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	} 
+
 	}

@@ -1,15 +1,12 @@
-import MessageServer.PrintServer;
-import message.PrintJobMessage;
+import useragent.PrintJobUserAgent;
+import useragent.UserAgent;
 
 
-public class Printer {
-	Hostname hostname = new Hostname();
+public class Printer extends UserAgent<Object> {
+	PrintJobUserAgent computer = new PrintJobUserAgent();
 	
-	public void print(PrintJobMessage printJobs) {
-		
+	public void printStatus() {
+		// es wird gedruckt und der Druckstatus ausgegeben
 	}
 	
-	public void register(PrintServer server) {
-		
-	}
 }
