@@ -1,4 +1,4 @@
-package Device;
+package device;
 
 class Computer extends Device {
 	
