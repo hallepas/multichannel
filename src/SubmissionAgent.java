@@ -1,7 +1,7 @@
+package message; 	
 import message.Message;
 
-
 public interface SubmissionAgent {
-	void statusCheckIfUserExists(String address);
-	void statusRecieveMessage(Message message); 
+	void checkIfUserExists (String address); 
+	void recievMessage(Message message); 
 }

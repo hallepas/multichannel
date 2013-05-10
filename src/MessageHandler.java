@@ -1,7 +1,7 @@
 
 public interface MessageHandler {
-	void open();
+	void open(); 
 	void close(); 
-	void delete();
-	void validate();
+	void delete(); 
+	void validate(); 
 }

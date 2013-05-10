@@ -1,61 +1,28 @@
 package device;
 
-abstract public class Device<MessageClient, Sms, Mms, Email, PrintJobMessage> {
+public abstract class Device<MessageClient> {
+	private MessageClient messageclient; 
 	
-	private MessageClient client; 
-	private Sms sms; 
-	private Mms mms; 
-	private Email email; 
-	private PrintJobMessage printJobMessage;
+	public void newSMS() {
+		
+	}
 	
-	public MessageClient getClient() {
-		return client;
+	public void newMMS() {
+		
 	}
-	public void setClient(MessageClient client) {
-		this.client = client;
-	}
-	public Sms getSms() {
-		return sms;
-	}
-	public void setSms(Sms sms) {
-		this.sms = sms;
-	}
-	public Mms getMms() {
-		return mms;
-	}
-	public void setMms(Mms mms) {
-		this.mms = mms;
-	}
-	public Email getEmail() {
-		return email;
-	}
-	public void setEmail(Email email) {
-		this.email = email;
-	}
-	public PrintJobMessage getPrintJobMessage() {
-		return printJobMessage;
-	}
-	public void setPrintJobMessage(PrintJobMessage printJobMessage) {
-		this.printJobMessage = printJobMessage;
-	} 
 	
 	public void openMailbox() {
-		// die Mailbox wird geöffnet
+		
+	}
+
+	public MessageClient getMessageclient() {
+		return messageclient;
+	}
+
+	public void setMessageclient(MessageClient messageclient) {
+		this.messageclient = messageclient;
 	}
 	
-	public void printJobMessage() {
-		// die Nachricht wird vom Drucker gedruckt
-	}
-	
-	public void recieveNewSMSMessage() {
-		// sms wird empfangen
-	}
-	
-	public void recieveNewMMSMesssage() {
-		//mms wird empfangen
-	}
-	
-	public void recieveNewEmail() {
-		//neue email wird empfangen
-	}
 }
+
+

@@ -1,5 +1,5 @@
 package message;
 
-class SMSMessage<Host> extends Message<Host> {
-	
+public class SMSMessage extends Message {
+
 }

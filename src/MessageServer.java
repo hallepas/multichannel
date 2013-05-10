@@ -1,21 +1,19 @@
-import java.util.Map;
+import java.util.*;
 
 
 public class MessageServer {
+	Map<String, MessageClient> accountsOnline = new Map<String, MessageClient>();
+	Map<String, Object> accounts = new Map<String, Object>();
+	private String login; 
 	
-	private Map<String, MessageClient> accountsOnline; 
-	private Map<String, Object> accounts;
+	public boolean register = true; 
 	
-	public Map<String, MessageClient> getAccountsOnline() {
-		return accountsOnline;
+	public void setlogin() {
+		
 	}
-	public void setAccountsOnline(Map<String, MessageClient> accountsOnline) {
-		this.accountsOnline = accountsOnline;
+	
+	public void getlogin() {
+		
 	}
-	public Map<String, Object> getAccounts() {
-		return accounts;
-	}
-	public void setAccounts(Map<String, Object> accounts) {
-		this.accounts = accounts;
-	} 
+	
 }

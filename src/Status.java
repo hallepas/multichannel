@@ -1,4 +1,4 @@
-
+		
 public class Status {
 	private int code; 
 	private String description;

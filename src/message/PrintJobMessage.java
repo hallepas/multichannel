@@ -1,41 +1,27 @@
 package message;
 
-public class PrintJobMessage<Host> extends Message<Host> {
+public class PrintJobMessage<Host> extends Message {
+	private Host fromPrinter; 
+	private Host toPrinter; 
 	private String queue; 
-	private String message;
-	private Host hostFrom; 
-	private Host hostTo; 
-	
 	
 	public String getQueue() {
 		return queue;
 	}
-	
 	public void setQueue(String queue) {
 		this.queue = queue;
 	}
 	
-	public String getMessage() {
-		return message;
+	public Host getToPrinter() {
+		return toPrinter;
 	}
-	
-	public void setMessage(String message) {
-		this.message = message;	
+	public void setToPrinter(Host toPrinter) {
+		this.toPrinter = toPrinter;
 	}
-	
-	public Host getHostFrom() {
-		return hostFrom;
+	public Host getFromPrinter() {
+		return fromPrinter;
 	}
-	
-	public void setHostFrom(Host hostFrom) {
-		this.hostFrom = hostFrom;
-	}
-	
-	public Host getHostTo() {
-		return hostTo;
-	}
-	
-	public void setHostTo(Host hostTo) {
-		this.hostTo = hostTo;
+	public void setFromPrinter(Host fromPrinter) {
+		this.fromPrinter = fromPrinter;
 	} 
 }

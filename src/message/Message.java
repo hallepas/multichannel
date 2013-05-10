@@ -1,55 +1,70 @@
 package message;
-
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.omg.IOP.Encoding;
 
-public abstract class Message<Host> {
-	private String from; 
-	
-	private Date datetime; 
+public class Message {
 	private String message; 
-	private Encoding encoding; 
-	ArrayList<Host> forwardPath = new ArrayList<Host>(); 
-	ArrayList<Host> reversePath = new ArrayList<Host>();
-	
-	
-	ArrayList<String> list = new ArrayList<String>();
-	
-	public String getFrom() {
-		return from;
-	}
-	
-	public void setFrom(String from) {
-		this.from = from;
-	}
-	
-	public Date getDatetime() {
-		return datetime;
-	}
-	
-	public void setDate(Date datetime) {
-		this.datetime = datetime;
-	}
-	
+	private String from; 
+	private String subject; 
+	private Date date; 
+	ArrayList<String> to = new ArrayList<String>();
+	private Encoding encoding;
+
 	public String getMessage() {
 		return message;
 	}
-	
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	public void deliverStatus() {
-		// der Zustellstatus wird kontrolliert
+	public String getFrom() {
+		return from;
 	}
-	
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public Encoding getEncoding() {
 		return encoding;
 	}
-	
+
 	public void setEncoding(Encoding encoding) {
 		this.encoding = encoding;
 	}
 	
+	public void deliverStatus() {
+		
+	}
+	
+	public void encoding() {
+		
+	}
+	
+	public void setDateTimeReminder() {
+		
+	}
+	
+	public void getdateTimeReminder() {
+		
+	}
 }

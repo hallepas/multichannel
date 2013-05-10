@@ -1,6 +1,5 @@
 package device;
 
-class Smartphone extends Device {
-	
+public class Smartphone extends Device<Object> {
 	
 }

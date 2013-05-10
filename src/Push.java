@@ -1,4 +1,4 @@
 
 public interface Push {
-	void newMessages();
+	public void newMessages();
 }

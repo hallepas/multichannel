@@ -1,12 +1,5 @@
-import useragent.PrintJobUserAgent;
-import useragent.UserAgent;
+package userAgent.PrinJobUserAgent; 
 
-
-public class Printer extends UserAgent<Object> {
-	PrintJobUserAgent computer = new PrintJobUserAgent();
-	
-	public void printStatus() {
-		// es wird gedruckt und der Druckstatus ausgegeben
-	}
-	
+public class Printer<PrintJobUserAgent> {
+	private PrintJobUserAgent computer; 
 }
