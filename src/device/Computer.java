@@ -1,6 +1,6 @@
 package device;
 
-public class Computer extends Device<Object>{
+public class Computer extends Device<Object> {
 	private Computer computer;
 
 	public Computer getComputer() {
@@ -9,5 +9,5 @@ public class Computer extends Device<Object>{
 
 	public void setComputer(Computer computer) {
 		this.computer = computer;
-	} 
+	}
 }

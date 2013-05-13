@@ -6,6 +6,8 @@ import gui.helper.GridBagManager;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,6 +34,7 @@ public class MessageDialog extends JDialog {
 	private JButton reminderButton;
 
 	private JTextArea messageTextField;
+	private File[] attachementFiles;
 
 	public MessageDialog(String messageType) {
 		this.guiManager = new GridBagManager(this);
@@ -65,18 +68,22 @@ public class MessageDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
 				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				
-				if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-					attachementField.setText(attachementField.getText()+fc.getSelectedFile()+";");
-				}
+				fc.setMultiSelectionEnabled(true);
 
+				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					attachementFiles = fc.getSelectedFiles();
+
+					for (File file : attachementFiles) {
+						attachementField.setText(attachementField.getText() + file.getPath() + ";");
+					}
+
+				}
 
 			}
 		});
 
 		messageTextField.setSize(100, 100);
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
-		
 
 		guiManager.setX(0).setY(0).setWidth(1).setWeightX(1).setComp(new JLabel("An"));
 		guiManager.setX(1).setY(0).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
@@ -101,5 +108,4 @@ public class MessageDialog extends JDialog {
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
-
 }

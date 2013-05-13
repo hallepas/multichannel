@@ -1,4 +1,3 @@
-package message; 	
 import message.Message;
 
 public interface SubmissionAgent {

@@ -1,11 +1,12 @@
-package device;
 import java.util.ArrayList;
+
+import device.Device;
  
 
 
 public class User {
 	ArrayList<Account> accounts = new ArrayList<Account>();
-	ArryList<Device> devices = new ArrayList<Device>();
+	ArrayList<Device> devices = new ArrayList<Device>();
 	
 	public void sendSMSTo() {
 		

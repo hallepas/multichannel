@@ -1,5 +1,7 @@
 package gui.main;
 
+import java.util.ArrayList;
+
 import gui.components.MessageBoxFrame;
 
 import javax.swing.UIManager;
@@ -16,6 +18,8 @@ public class GuiMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 		MessageBoxFrame mf = new MessageBoxFrame("Email");
 		mf.setVisible(true);

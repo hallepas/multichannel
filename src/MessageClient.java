@@ -1,16 +1,20 @@
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+
 import userAg.UserAgent;
 
+import message.Message;
+
 public class MessageClient {
-	private MessageType type; 
-	Map<MessageType, UserAgent> handlers = new Map<MessageType, UserAgent>();
-	private Mailbox inbox; 
-	private Mailbox outbox; 
-	private Mailbox draft; 
+	MessageClient messageClient = new MessageClient();
+	ArrayList<UserAgent> handlers = new ArrayList<UserAgent>();
+	Message newMessage = new Message();
+	Mailbox inbox = new Mailbox();
+	Mailbox outbox = new Mailbox();
+	Mailbox drafts;
 	
-	public void newMessage() {
-	
-		
+	public void newMessage(MessageFormat format) {
+		// eine Message wird mit einem entsprechenden Format verfasst
 	}
 	
 	public void getNextNewMessage() {
@@ -24,7 +28,5 @@ public class MessageClient {
 	public void changeMessageType() {
 		
 	}
-	
-	
 	
 }
