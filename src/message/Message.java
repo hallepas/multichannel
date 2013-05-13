@@ -1,15 +1,23 @@
 package message;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.omg.IOP.Encoding;
 
-public class Message {
+/**
+ * Die Message-Hauptklasse
+ * 
+ *
+ */
+
+public abstract class Message implements Comparable<Message>, Serializable {
 	private String message; 
 	private String from; 
 	private String subject; 
 	private Date date; 
-	ArrayList<String> to = new ArrayList<String>();
+	private Date reminder;
+	private ArrayList<String> to = new ArrayList<String>();
 	private Encoding encoding;
 
 	public String getMessage() {
@@ -52,19 +60,15 @@ public class Message {
 		this.encoding = encoding;
 	}
 	
-	public void deliverStatus() {
-		
+	
+	public Date getReminder() {
+		return reminder;
 	}
 	
-	public void encoding() {
-		
+	@Override
+	public int compareTo(Message other) {
+		return this.date.compareTo(other.getDate());
 	}
+
 	
-	public void setDateTimeReminder() {
-		
-	}
-	
-	public void getdateTimeReminder() {
-		
-	}
 }

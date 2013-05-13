@@ -1,4 +1,4 @@
-package device;
+package devices;
 
 public class FeaturePhone extends Device<Object> {
 	private FeaturePhone featurePhone;

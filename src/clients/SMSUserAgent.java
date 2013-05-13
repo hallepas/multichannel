@@ -1,4 +1,4 @@
-package userAg;
+package clients;
 
 
 public class SMSUserAgent<Account> extends UserAgent{

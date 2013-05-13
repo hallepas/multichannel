@@ -1,6 +1,6 @@
-package device;
+package devices;
 
-public abstract class Device<MessageClient> {
+public abstract class Device {
 	private MessageClient messageclient; 
 	
 	public void newSMS() {

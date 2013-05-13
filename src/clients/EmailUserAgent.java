@@ -1,4 +1,4 @@
-package userAg;
+package clients;
 
 
 public class EmailUserAgent<Account> extends UserAgent{

@@ -1,4 +1,4 @@
-package userAg;
+package clients;
 
 
 public class MMSUserAgent<Account> extends UserAgent{

@@ -1,4 +1,4 @@
-package message; 	
+package clients; 	
 import message.Message;
 
 public interface SubmissionAgent {

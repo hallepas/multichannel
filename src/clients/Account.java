@@ -1,8 +1,10 @@
+package clients;
+
 
 public class Account {
 	private String address; 
 	private MessageServer server; 
-	private Object loginCredentials;
+	private Credentials loginCredentials;
 	
 	public String getAddress() {
 		return address;
@@ -16,10 +18,10 @@ public class Account {
 	public void setServer(MessageServer server) {
 		this.server = server;
 	}
-	public Object getLoginCredentials() {
+	public Credentials getLoginCredentials() {
 		return loginCredentials;
 	}
-	public void setLoginCredentials(Object loginCredentials) {
+	public void setLoginCredentials(Credentials loginCredentials) {
 		this.loginCredentials = loginCredentials;
 	} 
 }
