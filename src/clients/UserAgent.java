@@ -1,5 +1,7 @@
 package clients;
 import java.util.*;
+
+import exceptions.NoAccountException;
 import message.Message;
 import message.Status;
  
@@ -10,18 +12,35 @@ import message.Status;
  *
  */
 public abstract class UserAgent implements MessageHandler {
+	private Account account;
+	
 	ArrayList<Message> recieveMessage = new ArrayList<Message>(); 
 	ArrayList<Message> syncMessage = new ArrayList<Message>();
 	
-	public abstract Status sendMessages();
+
+	public abstract Status sendMessages() throws NoAccountException;
 	
-	public abstract Status receiveMessages();
+	public abstract Status receiveMessages() throws NoAccountException;
 	
-	public List<Status> syncMessages() {
+	protected void checkForAccount() throws NoAccountException{
+		if (!(account instanceof Account)){
+			throw new NoAccountException("Class " + this + "has no account.");
+		}
+	}
+	
+	public List<Status> syncMessages() throws NoAccountException {
 		List<Status> status = new ArrayList<Status>();
 		status.add(this.sendMessages());
 		status.add(this.receiveMessages());
 		return status;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 }

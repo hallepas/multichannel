@@ -1,16 +1,22 @@
 package clients;
 
-import exceptions.NoAccountException;
-import message.EmailMessage;
 import message.Message;
+import message.PrintJobMessage;
 import message.Status;
+import exceptions.NoAccountException;
 
 
-public class EmailUserAgent extends UserAgent{
+/**
+ * Diese Klasse ist etwas spezieller. Der Account führt direkt zu
+ * einer Printer Instanz. ReceiveMessages macht hier keinen Sinn.
+ * 
+ */
+
+public class PrintJobUserAgent extends UserAgent{
 
 	@Override
 	public Message newMessage() {
-		return new EmailMessage();
+		return new PrintJobMessage();
 	}
 
 	@Override
@@ -29,7 +35,6 @@ public class EmailUserAgent extends UserAgent{
 	@Override
 	public Status receiveMessages() throws NoAccountException {
 		checkForAccount();
-		// TODO Auto-generated method stub
 		return null;
-	} 
+	}
 }

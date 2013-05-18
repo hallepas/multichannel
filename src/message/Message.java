@@ -12,12 +12,13 @@ import org.omg.IOP.Encoding;
  */
 
 public abstract class Message implements Comparable<Message>, Serializable {
-	private String message; 
 	private String from; 
+	private ArrayList<String> to = new ArrayList<String>();
 	private String subject; 
+	private String message; 
 	private Date date; 
 	private Date reminder;
-	private ArrayList<String> to = new ArrayList<String>();
+
 	private Encoding encoding;
 
 	public String getMessage() {
