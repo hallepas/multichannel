@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import exceptions.NoAccountException;
+
 import message.Message;
 import message.MessageType;
 import message.Status;
+import message.UserAgent;
 
 public class MessageClient {
 	private HashMap<MessageType, UserAgent> handlers;
@@ -18,10 +21,19 @@ public class MessageClient {
 	public MessageClient(HashMap<MessageType, UserAgent> handlers) {
 		this.handlers = handlers;
 	}
-	
-	public MessageClient() {
-		this.handlers = new HashMap<MessageType, UserAgent>();
+	/**
+	 * Dieser Konstruktor akzeptiert ein Array von Typen und 
+	 * erstellt einen MessageClient, der diese Typen verarbeiten
+	 * kann.
+	 * @param types Array aus MessageType
+	 */
+	public MessageClient(MessageType[] types) {
+		handlers = new HashMap<MessageType, UserAgent>();
+		for(MessageType type : types) {
+			handlers.put(type, type.agent());
+		}
 	}
+	
 	
 	/**
 	 * Um zu überprüfen, welche Nachrichtenformate unterstützt werden:
@@ -45,7 +57,7 @@ public class MessageClient {
 	}
 	
 
-	public List<Status> synchronize() {
+	public List<Status> synchronize() throws NoAccountException {
 		List<Status> status = new ArrayList<Status>();
 		for (UserAgent agent: handlers.values()) {
 			status.addAll(agent.syncMessages());

@@ -1,5 +1,7 @@
 package clients;
 
+import message.UserAgent;
+
 
 public class SMSUserAgent<Account> extends UserAgent{
 	private Account mmsAccount;

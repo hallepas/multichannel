@@ -1,5 +1,5 @@
 package message;
 
-public class MMSMessage extends Message{
+public class MMSMessage extends MessageWithSubjectAndAttachment {
 	
 }

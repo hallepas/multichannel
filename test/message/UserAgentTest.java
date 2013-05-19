@@ -1,4 +1,4 @@
-package clients;
+package message;
 
 import static org.junit.Assert.*;
 

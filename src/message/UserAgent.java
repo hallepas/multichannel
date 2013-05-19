@@ -1,9 +1,10 @@
-package clients;
+package message;
 import java.util.*;
 
+import clients.Account;
+import clients.MessageHandler;
+
 import exceptions.NoAccountException;
-import message.Message;
-import message.Status;
  
 /**
  * Der User Agent kümmert sich um das schicken und Empfangen
@@ -21,7 +22,7 @@ public abstract class UserAgent implements MessageHandler {
 	public abstract Status sendMessages() throws NoAccountException;
 	
 	public abstract Status receiveMessages() throws NoAccountException;
-	
+		
 	protected void checkForAccount() throws NoAccountException{
 		if (!(account instanceof Account)){
 			throw new NoAccountException("Class " + this + "has no account.");
@@ -42,5 +43,6 @@ public abstract class UserAgent implements MessageHandler {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	
 	
 }
