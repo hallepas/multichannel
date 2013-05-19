@@ -1,17 +1,35 @@
 package clients;
 
+import exceptions.NoAccountException;
+import message.Message;
+import message.Status;
 import message.UserAgent;
 
 
-public class SMSUserAgent<Account> extends UserAgent{
-	private Account mmsAccount;
+public class SMSUserAgent extends UserAgent{
 
-	public Account getMmsAccount() {
-		return mmsAccount;
+	@Override
+	public Message newMessage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setMmsAccount(Account mmsAccount) {
-		this.mmsAccount = mmsAccount;
-	} 
-	
+	@Override
+	public void validateMessage(Message message) throws ValidationError {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Status sendMessages() throws NoAccountException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Status receiveMessages() throws NoAccountException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
+	

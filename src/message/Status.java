@@ -1,5 +1,11 @@
 package message;
 		
+/**
+ * Der Status dient zur Meldung, ob ein Vorgang erfolgreich war
+ * oder nicht. Er bezieht sich immer nur auf den direkt nachfolgenden
+ * Schritt.
+ *
+ */
 public class Status {
 	private final int code; 
 	private final String description;
@@ -14,5 +20,9 @@ public class Status {
 	}
 	public String getDescription() {
 		return description;
+	}
+	@Override
+	public String toString() {
+		return "" + code + " " + description;
 	}
 }

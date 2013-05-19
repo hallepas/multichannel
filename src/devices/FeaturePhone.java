@@ -1,13 +1,12 @@
 package devices;
 
-public class FeaturePhone extends Device<Object> {
-	private FeaturePhone featurePhone;
+import clients.MessageClient;
 
-	public FeaturePhone getFeaturePhone() {
-		return featurePhone;
+public class FeaturePhone extends Device {
+
+	protected FeaturePhone(MessageClient client) {
+		super(client);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setFeaturePhone(FeaturePhone featurePhone) {
-		this.featurePhone = featurePhone;
-	} 
 }

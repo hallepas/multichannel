@@ -10,16 +10,14 @@ import org.omg.IOP.Encoding;
  * 
  *
  */
-
 public abstract class Message implements Comparable<Message>, Serializable {
+	private static final long serialVersionUID = 1L;
 	private String from; 
 	private ArrayList<String> to = new ArrayList<String>();
 	private String subject; 
 	private String message; 
 	private Date date; 
 	private Date reminder;
-
-	private Encoding encoding;
 
 	public String getMessage() {
 		return message;
@@ -32,9 +30,17 @@ public abstract class Message implements Comparable<Message>, Serializable {
 	public String getFrom() {
 		return from;
 	}
-
 	public void setFrom(String from) {
 		this.from = from;
+	}
+	public ArrayList<String> getTo() {
+		return to;
+	}
+	public void setTo(ArrayList<String> to) {
+		this.to = to;
+	}
+	public void addRecipient (String recipient) {
+		this.to.add(recipient);
 	}
 
 	public String getSubject() {
@@ -51,14 +57,6 @@ public abstract class Message implements Comparable<Message>, Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public Encoding getEncoding() {
-		return encoding;
-	}
-
-	public void setEncoding(Encoding encoding) {
-		this.encoding = encoding;
 	}
 	
 	

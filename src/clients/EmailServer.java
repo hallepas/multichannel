@@ -1,17 +1,18 @@
 package clients;
 
+public class EmailServer extends MessageServer {
 
-public class MobileMessageServer extends MessageServer {
+	public EmailServer() {
+		super();
+	}
 
 	@Override
 	public String getDomainForAddress(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return name.split("@")[0];
 	}
 
 	@Override
 	protected ServerProxy findServerForDomain(String domain) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

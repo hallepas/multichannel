@@ -1,5 +1,7 @@
 package clients;
 
+import client.credentials.Credentials;
+
 
 public class Account {
 	private String address; 
@@ -23,5 +25,5 @@ public class Account {
 	}
 	public void setLoginCredentials(Credentials loginCredentials) {
 		this.loginCredentials = loginCredentials;
-	} 
+	}
 }

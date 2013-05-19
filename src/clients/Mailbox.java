@@ -3,6 +3,12 @@ import java.io.Serializable;
 import java.util.*;
 import message.Message;
 
+/**
+ * Die Mailbox enthält Nachrichten. Sie wird sowohl im MessageClient
+ * als auch im MessageServer verwendet.
+ * Ausserdem ist sie serialisierbar, so dass Nachrichten persistent sind.
+ *
+ */
 public class Mailbox implements Serializable {
 	private List<Message> messages = new ArrayList<Message>();
 
@@ -21,7 +27,7 @@ public class Mailbox implements Serializable {
 	public void sort() {
 		Collections.sort(messages);
 	}
-	public double messageCount() {
+	public long messageCount() {
 		return this.messages.size();
 	}
 	
