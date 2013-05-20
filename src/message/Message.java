@@ -11,6 +11,15 @@ public class Message {
 	private Date date; 
 	ArrayList<String> to = new ArrayList<String>();
 	private Encoding encoding;
+	
+	public Message(String message, String from, String subject, Date date, ArrayList<String> to, Encoding encoding) {
+		this.message = message;
+		this.from = from;
+		this.subject = subject;
+		this.date = date;
+		this.to = to;
+		this.encoding = encoding;
+	}
 
 	public String getMessage() {
 		return message;

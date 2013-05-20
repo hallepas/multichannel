@@ -6,12 +6,12 @@ import userAg.UserAgent;
 import message.Message;
 
 public class MessageClient {
-	MessageClient messageClient = new MessageClient();
-	ArrayList<UserAgent> handlers = new ArrayList<UserAgent>();
-	Message newMessage = new Message();
-	Mailbox inbox = new Mailbox();
-	Mailbox outbox = new Mailbox();
-	Mailbox drafts;
+	private MessageClient messageClient = new MessageClient();
+	private ArrayList<UserAgent> handlers = new ArrayList<UserAgent>();
+	private Message newMessage;
+	private Mailbox inbox = new Mailbox();
+	private Mailbox outbox = new Mailbox();
+	private Mailbox drafts;
 	
 	public void newMessage(MessageFormat format) {
 		// eine Message wird mit einem entsprechenden Format verfasst
