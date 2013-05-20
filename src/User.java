@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
-import device.Device;
- 
 
+import devices.Device;
+import clients.Account;
 
 public class User {
 	ArrayList<Account> accounts = new ArrayList<Account>();

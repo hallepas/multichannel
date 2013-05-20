@@ -1,25 +1,24 @@
 package message;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.omg.IOP.Encoding;
 
-public class Message {
-	private String message; 
-	private String from; 
-	private String subject; 
-	private Date date; 
-	ArrayList<String> to = new ArrayList<String>();
-	private Encoding encoding;
-	
-	public Message(String message, String from, String subject, Date date, ArrayList<String> to, Encoding encoding) {
-		this.message = message;
-		this.from = from;
-		this.subject = subject;
-		this.date = date;
-		this.to = to;
-		this.encoding = encoding;
-	}
+/**
+ * Die Message-Hauptklasse
+ * 
+ * 
+ */
+public abstract class Message implements Comparable<Message>, Serializable {
+	private static final long serialVersionUID = 1L;
+	private String from;
+	private ArrayList<String> to = new ArrayList<String>();
+	private String subject;
+	private String message;
+	private Date date;
+	private Date reminder;
 
 	public String getMessage() {
 		return message;
@@ -35,6 +34,18 @@ public class Message {
 
 	public void setFrom(String from) {
 		this.from = from;
+	}
+
+	public ArrayList<String> getTo() {
+		return to;
+	}
+
+	public void setTo(ArrayList<String> to) {
+		this.to = to;
+	}
+
+	public void addRecipient(String recipient) {
+		this.to.add(recipient);
 	}
 
 	public String getSubject() {
@@ -53,27 +64,13 @@ public class Message {
 		this.date = date;
 	}
 
-	public Encoding getEncoding() {
-		return encoding;
+	public Date getReminder() {
+		return reminder;
 	}
 
-	public void setEncoding(Encoding encoding) {
-		this.encoding = encoding;
+	@Override
+	public int compareTo(Message other) {
+		return this.date.compareTo(other.getDate());
 	}
-	
-	public void deliverStatus() {
-		
-	}
-	
-	public void encoding() {
-		
-	}
-	
-	public void setDateTimeReminder() {
-		
-	}
-	
-	public void getdateTimeReminder() {
-		
-	}
+
 }
