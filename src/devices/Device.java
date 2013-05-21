@@ -2,6 +2,7 @@ package devices;
 
 import message.Message;
 import message.MessageType;
+import message.UserAgent;
 import clients.MessageClient;
 
 /**
@@ -16,6 +17,11 @@ public abstract class Device {
 		messageclient = client;
 	}
 	
+	protected MessageClient getMessageClient() {
+		return messageclient;
+	}
+	
+	
 	protected Message newMessage(MessageType type){
 		try {
 			return messageclient.newMessage(type);
@@ -24,6 +30,10 @@ public abstract class Device {
 			return null;
 		}
 	}
+	protected UserAgent getUserAgentFor(MessageType type) {
+		return messageclient.getUserAgentFor(type);
+	}
+	
 }
 
 

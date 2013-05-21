@@ -10,6 +10,8 @@ import message.Message;
  *
  */
 public class Mailbox implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private List<Message> messages = new ArrayList<Message>();
 
 	public List<Message> getMessages() {
@@ -30,7 +32,11 @@ public class Mailbox implements Serializable {
 	public long messageCount() {
 		return this.messages.size();
 	}
-	
+	public void deleteMessage(Message message){
+		try {
+			messages.remove(message);
+		} catch (NullPointerException e) {}
+	}
 	
 	
 }
