@@ -1,5 +1,7 @@
 package message;
 
+import java.util.List;
+
 import clients.ValidationError;
 import exceptions.NoAccountException;
 
@@ -17,15 +19,13 @@ public class EmailUserAgent extends UserAgent {
 	}
 
 	@Override
-	public Status sendMessages() throws NoAccountException {
-		checkForAccount();
+	public Status sendMessages(List<Message> messages) throws NoAccountException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Status receiveMessages() throws NoAccountException {
-		checkForAccount();
+	public List<Message> receiveMessages() throws NoAccountException {
 		// TODO Auto-generated method stub
 		return null;
 	}

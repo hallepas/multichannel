@@ -62,8 +62,8 @@ public class MessageClient {
 					"Kann keine " + type + "-Nachricht erstellen.");
 		}
 		Message message = handlers.get(type).newMessage();
-		message.setDate(new Date());
-		message.setFrom(handlers.get(type).getFromAddress());
+		// message.setDate(new Date());
+		// message.setFrom(handlers.get(type).getFromAddress());
 		return message;
 	}
 	

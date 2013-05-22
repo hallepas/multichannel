@@ -43,7 +43,7 @@ public abstract class UserAgent implements MessageHandler {
 		}
 	}
 	public String getFromAddress() {
-		return account.getAddress();
+		return (account != null) ? account.getAddress() : "";
 	}
 	
 	public Account getAccount() {

@@ -50,12 +50,8 @@ public class UserAgentTest {
 				fail("recieveMessage should raise exception if no account");
 			} catch (NoAccountException e) {}
 			try{
-				userAgent.sendMessages();
+				userAgent.sendMessages(new ArrayList<Message>());
 				fail("sendMessages should raise exception if no account");
-			} catch (NoAccountException e) {}
-			try{
-				userAgent.syncMessages();
-				fail("syncMessages should raise exception if no account");
 			} catch (NoAccountException e) {}
 		}
 		assertTrue("NoAccountException raised", true);

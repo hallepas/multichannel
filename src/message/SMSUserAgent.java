@@ -9,8 +9,7 @@ public class SMSUserAgent extends UserAgent {
 
 	@Override
 	public Message newMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SMSMessage();
 	}
 
 	@Override
