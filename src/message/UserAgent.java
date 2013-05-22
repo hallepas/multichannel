@@ -20,6 +20,7 @@ public abstract class UserAgent implements MessageHandler {
 	
 	public abstract Status sendMessages(List<Message> messages) throws NoAccountException;
 	
+	// Maybe iplement this here.
 	public abstract List<Message> receiveMessages() throws NoAccountException;
 	
 	public static UserAgent getUserAgentForType(MessageType type) {
@@ -41,11 +42,13 @@ public abstract class UserAgent implements MessageHandler {
 			throw new NoAccountException("Class " + this + "has no account.");
 		}
 	}
-		
+	public String getFromAddress() {
+		return account.getAddress();
+	}
+	
 	public Account getAccount() {
 		return account;
 	}
-
 	public void setAccount(Account account) {
 		this.account = account;
 	}

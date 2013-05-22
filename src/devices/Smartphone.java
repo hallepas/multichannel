@@ -1,12 +1,30 @@
 package devices;
 
+import message.EmailMessage;
+import message.MMSMessage;
+import message.MessageType;
+import message.SMSMessage;
 import clients.MessageClient;
 
+/**
+ * Ein Smartphone kan SMS, MMS und EMails senden und empfangen.
+ * 
+ */
 public class Smartphone extends Device {
 
-	protected Smartphone(MessageClient client) {
-		super(client);
-		// TODO Auto-generated constructor stub
+	public Smartphone() {
+		super(new MessageClient(new MessageType[]{MessageType.EMAIL, MessageType.SMS,
+												  MessageType.MMS}));
+	}
+	
+	public EmailMessage newEmail(){
+		return (EmailMessage) newMessage(MessageType.EMAIL);
+	}
+	public MMSMessage newMMS(){
+		return (MMSMessage) newMessage(MessageType.MMS);
+	}
+	public SMSMessage newSMS(){
+		return (SMSMessage) newMessage(MessageType.SMS);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package clients;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class MessageClient {
 	}
 	
 	/**
-	 * Factory für Nachrichten
+	 * Factory für Nachrichten. Setzt gleich das Datum und das From-Feld.
 	 * @param type Nachrichtentyp
 	 * @return Nachricht im entsprechenden Typ.
 	 */
@@ -60,7 +61,10 @@ public class MessageClient {
 			throw new IllegalArgumentException(
 					"Kann keine " + type + "-Nachricht erstellen.");
 		}
-		return handlers.get(type).newMessage();
+		Message message = handlers.get(type).newMessage();
+		message.setDate(new Date());
+		message.setFrom(handlers.get(type).getFromAddress());
+		return message;
 	}
 	
 

@@ -9,11 +9,14 @@ import clients.ServerProxy;
 
 /**
  * Ein Drucker kann PrintJobMessages ausdrucken.
+ * Er kann aber keine Nachrichten speichern, um sie in einer Liste anzuzeigen.
  *
  */
 public class Printer {
 
-	public Printer() { }
+	public Printer() { 
+		super();
+	}
 	
 	public void print(Message message){
 		System.out.println(message);
