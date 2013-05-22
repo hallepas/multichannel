@@ -34,7 +34,7 @@ public class MessageClient {
 	public MessageClient(MessageType[] types) {
 		handlers = new HashMap<MessageType, UserAgent>();
 		for(MessageType type : types) {
-			handlers.put(type, type.agent());
+			handlers.put(type, UserAgent.getUserAgentForType(type));
 		}
 	}
 	public UserAgent getUserAgentFor(MessageType type) {

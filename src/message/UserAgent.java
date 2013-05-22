@@ -21,7 +21,21 @@ public abstract class UserAgent implements MessageHandler {
 	public abstract Status sendMessages(List<Message> messages) throws NoAccountException;
 	
 	public abstract List<Message> receiveMessages() throws NoAccountException;
-		
+	
+	public static UserAgent getUserAgentForType(MessageType type) {
+		switch(type) {
+		case SMS:
+			return new SMSUserAgent();
+		case MMS:
+			return new MMSUserAgent();
+		case EMAIL:
+			return new EmailUserAgent();
+		case PRINT:
+			return new PrintJobUserAgent();
+		}
+		return null;
+	}
+	
 	protected void checkForAccount() throws NoAccountException {
 		if (!(account instanceof Account)){
 			throw new NoAccountException("Class " + this + "has no account.");

@@ -34,7 +34,7 @@ public class Printer {
 			for (Message message:messages) {
 				print(message);
 			}
-			return new Status(200, "ok");
+			return new Status(200, "printed");
 		}
 		
 	}
