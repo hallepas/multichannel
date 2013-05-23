@@ -1,10 +1,10 @@
 package devices;
 
+import clients.MessageClient;
 import message.EmailMessage;
 import message.MMSMessage;
 import message.MessageType;
 import message.SMSMessage;
-import clients.MessageClient;
 
 /**
  * Ein Smartphone kan SMS, MMS und EMails senden und empfangen.

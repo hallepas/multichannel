@@ -7,5 +7,5 @@ import message.Status;
 
 public interface ServerProxy {
 	List<Message> poll();
-	Status put(List<Message> messages);
+	Status put(Message message);
 }

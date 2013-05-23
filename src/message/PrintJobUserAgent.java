@@ -3,9 +3,10 @@ package message;
 import java.util.List;
 
 import clients.ServerProxy;
-import clients.ValidationError;
 import devices.Printer;
 import exceptions.NoAccountException;
+import exceptions.NoDeviceException;
+import exceptions.ValidationError;
 
 /**
  * Diese Klasse ist etwas spezieller. sendMessages führt direkt zu einem Printer
@@ -18,7 +19,11 @@ public class PrintJobUserAgent extends UserAgent  {
 
 	@Override
 	public Message newMessage() {
-		return new PrintJobMessage();
+		if(printer != null) {
+			return new PrintJobMessage();
+		} else {
+			throw new NoDeviceException("Kein Drucker angeschlossen");
+		}
 	}
 
 	@Override
@@ -32,19 +37,19 @@ public class PrintJobUserAgent extends UserAgent  {
 	}
 
 	@Override
-	public Status sendMessages(List<Message> messages) throws NoAccountException {
+	public Status sendMessage(Message message) {
 		checkForAccount();
-		return printer.put(messages);
+		return printer.put(message);
 	}
 
 	@Override  // Unless this is a scanner as well.
-	public List<Message> receiveMessages() throws NoAccountException {
+	public List<Message> receiveMessages() {
 		return null;
 	}
 	
-	public void checkForAccount() throws NoAccountException{
+	public void checkForAccount() throws NoAccountException {
 		if (printer == null) {
-			throw new NoAccountException("No printer connected.");
+			throw new NoDeviceException("No printer connected.");
 		}
 	}
 
@@ -56,10 +61,9 @@ public class PrintJobUserAgent extends UserAgent  {
 		this.printer = printer;
 	}
 	
-	public void connect(Printer printer) {
+	public Status connect(Printer printer) {
 		this.printer = printer.getProxy();
+		return new Status(200, "printer connected");
 	}
-
-
-
+	
 }

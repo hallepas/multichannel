@@ -1,9 +1,9 @@
 package devices;
 
+import clients.MessageClient;
 import message.Message;
 import message.MessageType;
 import message.UserAgent;
-import clients.MessageClient;
 
 /**
  * Superklasse für alle Geräte.

@@ -1,6 +1,6 @@
-package clients;
+package message;
 
-import message.Message;
+import exceptions.ValidationError;
 
 public interface MessageHandler {
 	Message newMessage();

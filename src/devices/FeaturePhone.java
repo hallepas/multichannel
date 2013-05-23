@@ -1,9 +1,9 @@
 package devices;
 
+import clients.MessageClient;
 import message.MMSMessage;
 import message.MessageType;
 import message.SMSMessage;
-import clients.MessageClient;
 
 /**
  * Ein Feature Phone kann nur SMS und MMS senden und empfangen.

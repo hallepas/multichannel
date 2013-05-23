@@ -10,6 +10,8 @@ import message.MessageType;
 import message.UserAgent;
 
 
+
+
 /**
  * Der MessageClient verwaltet und speichert die Nachrichten.
  * Dafür hat er drei Mailboxen: Inbox, Outbox und Entwürfe.

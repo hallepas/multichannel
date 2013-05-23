@@ -2,7 +2,9 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import message.EmailMessage;
 import message.Message;
+import message.PrintJobMessage;
 import message.Status;
 
 import org.junit.Test;
@@ -19,6 +21,7 @@ import client.credentials.UsernamePassword;
 import clients.*;
 
 import devices.*;
+import exceptions.NoAccountException;
 
 
 public class IntegrationTest {
@@ -38,10 +41,10 @@ public class IntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		annasComputer = new Computer();
-		// annasIPhone = new Smartphone();
-		// annasDrucker = new Printer();
+		annasIPhone = new Smartphone();
+		annasDrucker = new Printer();
 		bertsComputer = new Computer();
-		// bertsNokia = new FeaturePhone();
+		bertsNokia = new FeaturePhone();
 		gmail = new EmailServer();
 		
 		annasEmailAccount = new Account();
@@ -73,7 +76,7 @@ public class IntegrationTest {
 		assertFalse("Benutzer ist nicht mehr eingeloggt", gmail.isUserLoggedIn(annasEmail));
 		List<Message> poll = proxy.poll();
 		assertNull("Ausgeloggte Benutzer dürfen nicht mehr Nachrichten empfangen", poll);
-		status = proxy.put(poll);
+		status = proxy.put(new EmailMessage());
 		assertTrue("Ausgeloggte Benutzer dürfen nicht mehr Nachrichten senden", status.getCode() != 200);
 		// Test using a different credentials object
 		proxy = gmail.login(annasEmail, new UsernamePassword(annasEmail, "a99a"));
@@ -88,6 +91,23 @@ public class IntegrationTest {
 	@Test
 	public void testSendMessageWithoutReminder() {
 		
+	}
+	
+	@Test
+	public void testPrintMessage() {
+		assertTrue(annasDrucker instanceof Printer);
+		assertTrue(annasComputer instanceof Computer);
+		try {
+			annasComputer.newPrintJob();
+			fail("Kein Drucker definiert. Sollte keinen PrintJob erstellen können");
+		} catch (NoAccountException e) {};
+		Status status = annasComputer.connectPrinter(annasDrucker);
+		assertEquals("Drucker angeschlossen", status.getCode(), 200);
+		PrintJobMessage message = annasComputer.newPrintJob();
+		message.setMessage("Dies ist ein Print Test");
+		status = annasComputer.print(message);
+		assertEquals("Nachricht ausgedruckt", status.getCode(), 200);
+		assertEquals(status.getDescription(), "printed");
 	}
 
 }

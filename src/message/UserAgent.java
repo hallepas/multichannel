@@ -3,7 +3,6 @@ import java.util.*;
 
 import clients.Account;
 import clients.ClientProxy;
-import clients.MessageHandler;
 import clients.ServerProxy;
 
 import exceptions.NoAccountException;
@@ -18,10 +17,10 @@ public abstract class UserAgent implements MessageHandler {
 	private Account account;
 
 	
-	public abstract Status sendMessages(List<Message> messages) throws NoAccountException;
+	public abstract Status sendMessage(Message message);
 	
 	// Maybe iplement this here.
-	public abstract List<Message> receiveMessages() throws NoAccountException;
+	public abstract List<Message> receiveMessages();
 	
 	public static UserAgent getUserAgentForType(MessageType type) {
 		switch(type) {
@@ -52,11 +51,11 @@ public abstract class UserAgent implements MessageHandler {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	public ServerProxy login() throws NoAccountException {
+	public ServerProxy login() {
 		checkForAccount();
 		return account.getServer().login(account.getAddress(), account.getLoginCredentials());
 	}
-	public ServerProxy login(ClientProxy client) throws NoAccountException {
+	public ServerProxy login(ClientProxy client) {
 		checkForAccount();
 		return account.getServer().login(account.getAddress(), account.getLoginCredentials(), client);
 	}

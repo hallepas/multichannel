@@ -141,9 +141,7 @@ public abstract class MessageServer {
 				}
 			}
 			for (String domain: servers.keySet()) {
-				List<Message> messages = new ArrayList<Message>(1);
-				messages.add(forwards.get(domain));
-				servers.get(domain).put(messages);
+				servers.get(domain).put(forwards.get(domain));
 			}
 		}
 	}
@@ -161,19 +159,12 @@ public abstract class MessageServer {
 		}
 
 		@Override
-		public Status put(List<Message> messageList) {
-			Status status = new Status(200, "Messages delivered");
+		public Status put(Message message) {
 			if(!accountsOnline.containsKey(name)) {
 				return new Status(403, "User " + name + "is not logged in.");
 			} else {
-				for (Message message:messageList){
-					Status deliveryStatus = deliver(name, message);
-					if (deliveryStatus.getCode() != 200) {
-						status = new Status(500, "At least one message could not be delivered: " + deliveryStatus.getDescription());
-					}
-				}
+				return deliver(name, message);
 			}
-			return status;
 		}
 		
 	}

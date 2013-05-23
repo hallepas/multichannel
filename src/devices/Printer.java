@@ -33,10 +33,8 @@ public class Printer {
 		}
 
 		@Override
-		public Status put(List<Message> messages) {
-			for (Message message:messages) {
-				print(message);
-			}
+		public Status put(Message message) {
+			print(message);
 			return new Status(200, "printed");
 		}
 		

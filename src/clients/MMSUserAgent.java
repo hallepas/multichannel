@@ -3,6 +3,7 @@ package clients;
 import java.util.List;
 
 import exceptions.NoAccountException;
+import exceptions.ValidationError;
 import message.Message;
 import message.Status;
 import message.UserAgent;
@@ -32,7 +33,7 @@ public class MMSUserAgent extends UserAgent{
 	}
 
 	@Override
-	public Status sendMessages(List<Message> messages) throws NoAccountException {
+	public Status sendMessage(Message message) throws NoAccountException {
 		// TODO Auto-generated method stub
 		return null;
 	}

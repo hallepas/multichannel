@@ -48,8 +48,8 @@ public class GuiMain {
 //		messages.add(new SMSMessage("Herzliche Glückwunsch", "from@from.fro2m", "Betreff", new Date(), to, null));
 //		messages.add(new SMSMessage("Hallo ich wollte nur fragen...", "from@from.from", "Betreff", new Date(), to, null));
 //		messages.add(new SMSMessage("Einladung zur", "from@from.fro2m", "Betreff", new Date(), to, null));
-
+//
 //		MessageBoxFrame mf = new MessageBoxFrame("Email", messages);
 //		mf.setVisible(true);
-	}
+//	}
 }
