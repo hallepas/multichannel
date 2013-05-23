@@ -1,5 +1,9 @@
 package main;
 
+import javax.swing.UIManager;
+
+import contoller.multichannel.MultichannelController;
+
 
 public class MultiChannel {
 
@@ -7,8 +11,16 @@ public class MultiChannel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		//Look and Feel vom System übernehmen
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		MultichannelController mc = new MultichannelController();
+		mc.start();
 	}
 
 }
