@@ -1,7 +1,5 @@
 package client.credentials;
 
-import java.security.MessageDigest;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -11,6 +9,8 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 
 public class UsernamePassword implements Credentials {
+
+	private static final long serialVersionUID = 1L;
 	private final String username;
 	private final String password;
 	

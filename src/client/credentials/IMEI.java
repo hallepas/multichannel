@@ -5,6 +5,7 @@ package client.credentials;
  *
  */
 public class IMEI implements Credentials {
+	private static final long serialVersionUID = 1L;
 	private long imei;
 	
 	public IMEI(long imei) {

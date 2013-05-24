@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class SMSMessage extends Message {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public SMSMessage(){
 		super();
 	}
