@@ -45,7 +45,7 @@ public class IntegrationTest {
 		annasDrucker = new Printer();
 		bertsComputer = new Computer();
 		bertsNokia = new FeaturePhone();
-		gmail = new EmailServer();
+		gmail = new EmailServer("GMail", "gmail.com");
 		
 		annasEmailAccount = new Account();
 		

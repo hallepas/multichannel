@@ -37,6 +37,16 @@ public class Printer {
 			print(message);
 			return new Status(200, "printed");
 		}
+
+		@Override
+		public String getServerName() {
+			return "Printer@localhost";
+		}
+
+		@Override
+		public Status logout() {
+			return new Status(501, "Disconnect at the computer.");
+		}
 		
 	}
 	

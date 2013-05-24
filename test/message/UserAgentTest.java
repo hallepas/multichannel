@@ -5,8 +5,9 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import message.*;
+import devices.Printer;
 import exceptions.NoAccountException;
+import exceptions.NoDeviceException;
 
 import org.junit.Test;
 
@@ -32,9 +33,16 @@ public class UserAgentTest {
 	@Test
 	public void testPrint() {
 		PrintJobUserAgent userAgent = new PrintJobUserAgent();
+		try {
+			userAgent.newMessage();
+			fail("No printer connected yet.");
+		} catch (NoDeviceException e) {}
+		
+		Printer printer = new Printer();
+		userAgent.connect(printer);
 		Message message = userAgent.newMessage();
 		assertTrue("Print Job message", message instanceof PrintJobMessage);
-		
+
 	}
 	
 	/**
@@ -50,7 +58,7 @@ public class UserAgentTest {
 				fail("recieveMessage should raise exception if no account");
 			} catch (NoAccountException e) {}
 			try{
-				userAgent.sendMessage(new ArrayList<Message>());
+				userAgent.sendMessage(new EmailMessage());
 				fail("sendMessages should raise exception if no account");
 			} catch (NoAccountException e) {}
 		}

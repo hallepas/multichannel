@@ -1,8 +1,5 @@
 package message;
 
-import java.util.List;
-
-import exceptions.NoAccountException;
 import exceptions.ValidationError;
 
 public class SMSUserAgent extends UserAgent {
@@ -14,20 +11,7 @@ public class SMSUserAgent extends UserAgent {
 
 	@Override
 	public void validateMessage(Message message) throws ValidationError {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Status sendMessage(Message message) throws NoAccountException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Message> receiveMessages() throws NoAccountException {
-		// TODO Auto-generated method stub
-		return null;
+		super.validateMessage(message);
 	}
 	
 }

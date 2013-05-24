@@ -12,18 +12,29 @@ public abstract class MessageServer {
 	private Map<String, ClientProxy> accountsOnline;
 	private Map<String, Credentials> accounts;
 	private Map<String, Mailbox> messages;
+	private final String domain;
+	private final String serverName;
 	
-	protected MessageServer(){
+	protected MessageServer(String name, String domain){
+		this.domain = domain;
+		this.serverName = name;
 		accountsOnline = new HashMap<String, ClientProxy>();
 		accounts = new HashMap<String, Credentials>();
 		messages = new HashMap<String, Mailbox>();
+	}
+	
+	public String getDomain(){
+		return domain;
+	}
+	public String getName(){
+		return serverName;
 	}
 	
 	public Status register(String name, Credentials credentials) {
 		if(!accounts.containsKey(name)) {
 			accounts.put(name, credentials);
 			messages.put(name, new Mailbox());
-			return new Status(200, "Account " + name + " registered successfully.");
+			return new Status(200, "Account " + name + " registered successfully with " + name +".");
 		} else {
 			if(accounts.get(name).equals(credentials)) {
 				return new Status(500, "Account " + name + " already registered.");
@@ -71,8 +82,13 @@ public abstract class MessageServer {
 		}
 	}
 	
-	public abstract String getDomainForAddress(String name);
-	protected abstract ServerProxy findServerForDomain(String domain);
+	protected abstract String getDomainForAddress(String name);
+	
+	protected ServerProxy findServerForDomain(String domain){
+		String domainname = getDomainForAddress(domain);
+		// TODO: a lot
+		return null;
+	};
 	
 
 	
@@ -166,6 +182,16 @@ public abstract class MessageServer {
 				return deliver(name, message);
 			}
 		}
+		@Override
+		public String getServerName(){
+			return serverName;
+		}
+
+		@Override
+		public Status logout() {
+			return MessageServer.this.logout(name);
+		}
+		
 		
 	}
 	

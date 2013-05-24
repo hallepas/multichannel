@@ -1,18 +1,40 @@
 package clients;
 
+import message.Status;
+import client.credentials.Credentials;
+import client.credentials.IMEI;
+
 
 public class MobileMessageServer extends MessageServer {
-
-	@Override
-	public String getDomainForAddress(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public MobileMessageServer(String networkName, String networkCode){
+		super(networkName, networkCode);
 	}
 
+	/**
+	 * Der Domain für ein mobiles Netzwerk ist die Kombination aus 
+	 * internationaler Vorwahl und nationaler Vorwahl. Z.B. 4179.
+	 */
 	@Override
-	protected ServerProxy findServerForDomain(String domain) {
-		// TODO Auto-generated method stub
-		return null;
+	protected String getDomainForAddress(String number) {
+		if(number.length() == 11) {
+			// internationale Nummer
+			return number.substring(0,4);
+		} 
+		else if (number.length() == 9){
+			// nationale Nummer
+			return getDomain().substring(0, 2) + number.substring(0,2);
+		} else {
+			return "";
+		}
+	}
+
+	
+	public Status register(String name, Credentials credentials) {
+		if (!(credentials instanceof IMEI)) {
+			return new Status(403, "You can only connect using IMEI");
+		}
+		return super.register(name, credentials);
 	}
 
 }

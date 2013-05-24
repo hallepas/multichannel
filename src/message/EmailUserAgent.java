@@ -1,8 +1,5 @@
 package message;
 
-import java.util.List;
-
-import exceptions.NoAccountException;
 import exceptions.ValidationError;
 
 public class EmailUserAgent extends UserAgent {
@@ -11,22 +8,22 @@ public class EmailUserAgent extends UserAgent {
 	public Message newMessage() {
 		return new EmailMessage();
 	}
+	
+	private void checkValidEmail(String address) throws ValidationError {
+		if (!(address.indexOf('@') > 0 )) {
+			throw new ValidationError("Email Adresse <" + address + "> hat kein @ Symbol.");
+		} else if (address.split("@").length != 2) {
+			throw new ValidationError("Email Adresse <" + address + "> hat falsches Format.");
+		}
+	}
 
 	@Override
 	public void validateMessage(Message message) throws ValidationError {
-		// TODO Auto-generated method stub
-
+		super.validateMessage(message);
+		for (String to : message.getTo()) {
+			checkValidEmail(to);
+		}
+		checkValidEmail(message.getFrom());
 	}
 
-	@Override
-	public Status sendMessage(Message message) throws NoAccountException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Message> receiveMessages() throws NoAccountException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

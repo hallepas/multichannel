@@ -13,7 +13,6 @@ public abstract class Message implements Comparable<Message>, Serializable {
 	private static final long serialVersionUID = 1L;
 	private String from;
 	private ArrayList<String> to = new ArrayList<String>();
-	private String subject;
 	private String message;
 	private Date date;
 	private Date reminder;
@@ -44,14 +43,6 @@ public abstract class Message implements Comparable<Message>, Serializable {
 
 	public void addRecipient(String recipient) {
 		this.to.add(recipient);
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
 	}
 
 	public Date getDate() {
