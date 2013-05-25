@@ -1,6 +1,8 @@
 package clients;
 
-import java.util.Date;
+import handlers.MessageHandler;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -20,14 +22,15 @@ import message.UserAgent;
  * der initialisierung festgelegt.
  */
 public class MessageClient {
-	private HashMap<MessageType, UserAgent> handlers;
+	// Der Handler kümmert sich um den Versand und Empfang
+	private HashMap<MessageType, MessageHandler> handlers;
+	// Der User Agent kümmert sich um die Erstellung und Validierung
+	private HashMap<MessageType, UserAgent> agents;
+	
 	private MarkerMailbox inbox = new MarkerMailbox(); 
 	private Mailbox outbox = new Mailbox(); 
 	private Mailbox drafts = new Mailbox(); 
 	
-	public MessageClient(HashMap<MessageType, UserAgent> handlers) {
-		this.handlers = handlers;
-	}
 	/**
 	 * Dieser Konstruktor akzeptiert ein Array von Typen und 
 	 * erstellt einen MessageClient, der diese Typen verarbeiten
@@ -35,13 +38,15 @@ public class MessageClient {
 	 * @param types Array aus MessageType
 	 */
 	public MessageClient(MessageType[] types) {
-		handlers = new HashMap<MessageType, UserAgent>();
+		handlers = new HashMap<MessageType, MessageHandler>();
+		agents = new HashMap<MessageType, UserAgent>();
 		for(MessageType type : types) {
-			handlers.put(type, UserAgent.getUserAgentForType(type));
+			agents.put(type, UserAgent.getUserAgentForType(type));
+			handlers.put(type, MessageHandler.getHandlerForType(type));
 		}
 	}
 	public UserAgent getUserAgentFor(MessageType type) {
-		return handlers.get(type);
+		return agents.get(type);
 	}
 	
 	
@@ -54,7 +59,7 @@ public class MessageClient {
 	}
 	
 	/**
-	 * Factory für Nachrichten. Setzt gleich das Datum und das From-Feld.
+	 * Factory für Nachrichten. Setzt gleich das From-Feld.
 	 * @param type Nachrichtentyp
 	 * @return Nachricht im entsprechenden Typ.
 	 */
@@ -64,7 +69,6 @@ public class MessageClient {
 					"Kann keine " + type + "-Nachricht erstellen.");
 		}
 		Message message = handlers.get(type).newMessage();
-		// message.setDate(new Date());
 		// message.setFrom(handlers.get(type).getFromAddress());
 		return message;
 	}
@@ -94,9 +98,25 @@ public class MessageClient {
 	public void saveDraft(Message message) {
 		this.drafts.add(message);
 	}
-	public void addToOutbox(Message message) {
+	public void send(Message message) {
 		this.outbox.add(message);
 	}
 	
+	/**
+	 * Diese Funktion filtert die Nachrichten nach Typ.
+	 * @param messages Liste von Messages
+	 * @param type MessageType. Z.B. MessageType.EMAIL
+	 * @return Liste von Messages eines bestimmten Typs.
+	 */
+	public static List<Message> getOnlyType(List<Message> messages, MessageType type){
+		List<Message> messageList = new ArrayList<Message>();
+		for (Message message : messages){
+			if(message.getType() == type){
+				messageList.add(message);
+			}
+		}
+		return messageList;
+	}
+
 	
 }

@@ -17,6 +17,8 @@ public abstract class Message implements Comparable<Message>, Serializable {
 	private Date date;
 	private Date reminder;
 
+	public abstract MessageType getType();
+	
 	public String getMessage() {
 		return message;
 	}

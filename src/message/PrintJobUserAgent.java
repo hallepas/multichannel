@@ -6,7 +6,6 @@ import clients.ServerProxy;
 import devices.Printer;
 import exceptions.NoAccountException;
 import exceptions.NoDeviceException;
-import exceptions.ValidationError;
 
 /**
  * Diese Klasse ist etwas spezieller. sendMessages führt direkt zu einem Printer
@@ -16,25 +15,6 @@ import exceptions.ValidationError;
 
 public class PrintJobUserAgent extends UserAgent  {
 	private ServerProxy printer;
-
-	@Override
-	public Message newMessage() {
-		if(printer != null) {
-			return new PrintJobMessage();
-		} else {
-			throw new NoDeviceException("Kein Drucker angeschlossen");
-		}
-	}
-
-	@Override
-	public void validateMessage(Message message) throws ValidationError {
-		if(message.getMessage() == "") {
-			throw new ValidationError("Message Text empty");
-		} 
-		if (!(message instanceof PrintJobMessage)){
-			throw new ValidationError("Message is not a print message.");
-		}
-	}
 
 	@Override
 	public Status sendMessage(Message message) {

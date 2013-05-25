@@ -6,15 +6,13 @@ import clients.ClientProxy;
 import clients.ServerProxy;
 
 import exceptions.NoAccountException;
-import exceptions.ValidationError;
  
 /**
  * Der User Agent kümmert sich um das Einloggen am Server sowie das schicken 
  * und Empfangen der Nachrichten.
- * Vorläufig auch um das Erstellen und Validieren.
  *
  */
-public abstract class UserAgent implements MessageHandler {
+public abstract class UserAgent {
 	private Account account;
 	private ServerProxy server;
 
@@ -22,7 +20,7 @@ public abstract class UserAgent implements MessageHandler {
 		// No magic here.
 		return server;
 	}
-	
+		
 	public Account getAccount() {
 		return account;
 	}
@@ -116,15 +114,6 @@ public abstract class UserAgent implements MessageHandler {
 			return getServer().poll();
 		}
 		return null;
-	}
-	
-	public void validateMessage(Message message) throws ValidationError {
-		if (!(message.getDate() instanceof Date)) {
-			throw new ValidationError("No date specified");
-		}
-		if (message.getReminder().before(message.getDate()) ){
-			throw new ValidationError("Reminder cannot be in the past.");
-		}
 	}
 	
 }

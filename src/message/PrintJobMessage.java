@@ -8,5 +8,10 @@ public class PrintJobMessage extends Message {
 	public String toString(){
 		return getMessage();
 	}
+
+	@Override
+	public MessageType getType() {
+		return MessageType.PRINT;
+	}
 	
 }
