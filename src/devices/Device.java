@@ -19,10 +19,9 @@ public abstract class Device {
 		messageclient = client;
 	}
 	
-	public  MessageClient getMessageClient() {
+	public MessageClient getMessageClient() {
 		return messageclient;
 	}
-	
 	
 	protected Message newMessage(MessageType type){
 		try {
