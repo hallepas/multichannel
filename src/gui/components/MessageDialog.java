@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,12 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import message.MessageType;
+import message.MessageWithSubjectAndAttachment;
+
 public class MessageDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private GridBagManager guiManager;
 
-	private String messageType;
+	private MessageType messageType;
 
 	private JTextField toField;
 	private JTextField subjectField;
@@ -36,7 +38,7 @@ public class MessageDialog extends JDialog {
 	private JTextArea messageTextField;
 	private File[] attachementFiles;
 
-	public MessageDialog(String messageType) {
+	public MessageDialog(MessageType messageType) {
 		this.guiManager = new GridBagManager(this);
 		this.messageType = messageType;
 		this.toField = new JTextField();
@@ -88,12 +90,14 @@ public class MessageDialog extends JDialog {
 		guiManager.setX(0).setY(0).setWidth(1).setWeightX(1).setComp(new JLabel("An"));
 		guiManager.setX(1).setY(0).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
 
-		guiManager.setX(0).setY(1).setWidth(1).setWeightX(1).setComp(new JLabel("Betreff"));
-		guiManager.setX(1).setY(1).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectField);
+		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
+			guiManager.setX(0).setY(1).setWidth(1).setWeightX(1).setComp(new JLabel("Betreff"));
+			guiManager.setX(1).setY(1).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectField);
 
-		guiManager.setX(0).setY(2).setWidth(1).setWeightX(1).setComp(new JLabel("Anhang"));
-		guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementField);
-		guiManager.setX(7).setY(2).setWeightX(1).setHeight(1).setFill(GridBagConstraints.HORIZONTAL).setComp(searchButton);
+			guiManager.setX(0).setY(2).setWidth(1).setWeightX(1).setComp(new JLabel("Anhang"));
+			guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementField);
+			guiManager.setX(7).setY(2).setWeightX(1).setHeight(1).setFill(GridBagConstraints.HORIZONTAL).setComp(searchButton);
+		}
 
 		guiManager.setX(0).setY(3).setWidth(8).setWeightX(8).setWeightY(25).setHeight(5).setScrollPanel().setComp(messageTextField);
 
@@ -102,7 +106,7 @@ public class MessageDialog extends JDialog {
 		guiManager.setX(4).setY(8).setWidth(2).setWeightX(2).setFill(GridBagConstraints.HORIZONTAL).setComp(saveButton);
 		guiManager.setX(6).setY(8).setWidth(2).setWeightX(2).setFill(GridBagConstraints.HORIZONTAL).setComp(reminderButton);
 
-		setTitle(messageType + " erfassen");
+		setTitle(messageType.getTypeName() + " erfassen");
 		setSize(700, 500);
 		setLocationRelativeTo(null);
 		setModal(true);

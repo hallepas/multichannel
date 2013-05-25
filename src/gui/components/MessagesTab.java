@@ -3,34 +3,24 @@ package gui.components;
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
 
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.SimpleFormatter;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.jdesktop.swingx.JXTaskPane;
-
 import message.Message;
 import message.MessageType;
-import message.SMSMessage;
 import table.model.MessageTableModel;
 
-public class MessageBoxFrame extends JFrame {
+public class MessagesTab extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,13 +31,12 @@ public class MessageBoxFrame extends JFrame {
 
 	private JButton createButton;
 	private JButton deleteButton;
-	private JButton closeButton;
+	private JButton printButton;
 	private JButton seeMessagesButton;
 	private ArrayList<Message> messages;
-	private SimpleFormatter dateFormat;
+	private String tabTitle;
 
-
-	public MessageBoxFrame(MessageType messageType, ArrayList<Message> messages) {
+	public MessagesTab(MessageType messageType, ArrayList<Message> messages) {
 		this.messageType = messageType;
 		this.guiManager = new GridBagManager(this);
 		this.messageTextField = new JTextPane();
@@ -56,8 +45,9 @@ public class MessageBoxFrame extends JFrame {
 
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
-		this.closeButton = new JButton("Schliessen");
+		this.printButton = new JButton(this.messageType.getTypeName() +" drucken");
 		this.seeMessagesButton = new JButton("Entwürfe anschauen");
+		this.tabTitle = messageType.getTypeName();
 
 		// Um den Text schön darzustellen (Fett, Kursiv, Abbruch etc.)
 		HTMLEditorKit eKit = new HTMLEditorKit();
@@ -81,7 +71,7 @@ public class MessageBoxFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				MessageDialog mf = new MessageDialog(messageType.getTypeName());
+				MessageDialog mf = new MessageDialog(messageType);
 				mf.setVisible(true);
 			}
 		});
@@ -89,18 +79,18 @@ public class MessageBoxFrame extends JFrame {
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(6).setScrollPanel().setComp(messagesTable);
-		guiManager.setX(6).setY(0).setWidth(6).setWeightX(20).setScrollPanel().setComp(messageTextField);
+		guiManager.setX(6).setY(0).setWidth(6).setWeightX(10).setScrollPanel().setComp(messageTextField);
 
 		guiManager.setX(0).setY(1).setWidth(3).setFill(GridBagConstraints.HORIZONTAL).setComp(createButton);
 		guiManager.setX(3).setY(1).setWidth(3).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteButton);
 		guiManager.setX(6).setY(1).setWidth(3).setFill(GridBagConstraints.HORIZONTAL).setComp(seeMessagesButton);
 
-		guiManager.setX(9).setY(1).setWidth(3).setFill(GridBagConstraints.HORIZONTAL).setComp(closeButton);
+		guiManager.setX(9).setY(1).setWidth(3).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
 
-		setTitle(messageType + " erfassen");
-		setSize(950, 650);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public String getTabTitle(){
+		return tabTitle;
+	}
+	
 }

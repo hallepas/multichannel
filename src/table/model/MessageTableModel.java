@@ -10,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
-import message.SMSMessage;
 
 public class MessageTableModel extends AbstractTableModel {
 
@@ -64,7 +63,7 @@ public class MessageTableModel extends AbstractTableModel {
 			}
 		case 3:
 			if (m instanceof MessageWithSubjectAndAttachment) {
-				 return ((MessageWithSubjectAndAttachment) m).hasAttachments();
+				 return ((MessageWithSubjectAndAttachment) m).hasAttachment();
 			}
 		default:
 			return "";
