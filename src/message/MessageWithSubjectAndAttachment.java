@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class MessageWithSubjectAndAttachment extends Message {
@@ -13,6 +14,7 @@ public abstract class MessageWithSubjectAndAttachment extends Message {
 
 	private List<Attachment> attachments = new ArrayList<Attachment>();
 	private String subject;
+
 
 	public void addAttachment(String path) throws IOException {
 		attachments.add(new Attachment(path));
@@ -29,8 +31,8 @@ public abstract class MessageWithSubjectAndAttachment extends Message {
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
-	
-	public boolean hasAttachments(){
+
+	public boolean hasAttachments() {
 		return attachments.isEmpty();
 	}
 

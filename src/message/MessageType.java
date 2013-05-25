@@ -8,8 +8,8 @@ package message;
 public enum MessageType {
 	SMS ("SMS", SMSMessage.class), 
 	MMS ("MMS", MMSMessage.class), 
-	EMAIL ("EMAIL", EmailMessage.class), 
-	PRINT ("", PrintJobMessage.class);
+	EMAIL ("Email", EmailMessage.class), 
+	PRINT ("Print", PrintJobMessage.class);
 	
 	private final Class<Message> type;
 	private final String typeName;
@@ -18,7 +18,6 @@ public enum MessageType {
 		this.type = messageCls;
 		this.typeName = typeName;
 	}
-	
 
 	public String getTypeName() {
 		return typeName;

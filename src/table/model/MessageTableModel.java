@@ -10,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
-import message.SMSMessage;
 
 public class MessageTableModel extends AbstractTableModel {
 
