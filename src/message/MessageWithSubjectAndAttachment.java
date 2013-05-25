@@ -29,6 +29,10 @@ public abstract class MessageWithSubjectAndAttachment extends Message {
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
+	
+	public boolean hasAttachments(){
+		return attachments.isEmpty();
+	}
 
 	public void saveAttachments(String path) throws IOException {
 		if (!Files.isDirectory(Paths.get(path))) {

@@ -6,15 +6,22 @@ package message;
  */
 
 public enum MessageType {
-	SMS (SMSMessage.class), 
-	MMS (MMSMessage.class), 
-	EMAIL (EmailMessage.class), 
-	PRINT (PrintJobMessage.class);
+	SMS ("SMS", SMSMessage.class), 
+	MMS ("MMS", MMSMessage.class), 
+	EMAIL ("EMAIL", EmailMessage.class), 
+	PRINT ("", PrintJobMessage.class);
 	
 	private final Class<Message> type;
+	private final String typeName;
 	
-	MessageType(Class messageCls) {
+	MessageType(String typeName, Class messageCls) {
 		this.type = messageCls;
+		this.typeName = typeName;
+	}
+	
+
+	public String getTypeName() {
+		return typeName;
 	}
 	
 	public Message instance(){

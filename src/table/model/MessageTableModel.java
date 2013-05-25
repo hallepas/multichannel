@@ -3,25 +3,45 @@ package table.model;
 import gui.helper.MessageProperties;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
 import message.Message;
+import message.MessageType;
+import message.MessageWithSubjectAndAttachment;
 import message.SMSMessage;
 
 public class MessageTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private static final String[] COLUMN_NAMES = { "Datum", "Von", "Betreff", "Anhang" };
-	private ArrayList<SMSMessage> messages;
+	private Vector<String> columnNames;
+	private ArrayList<Message> messages;
+	private MessageType mt;
 
-	public MessageTableModel(ArrayList<SMSMessage> messages) {
+	public MessageTableModel(MessageType mt, ArrayList<Message> messages) {
 		this.messages = messages;
+		this.mt = mt;
+		fillColumnNames();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return COLUMN_NAMES.length;
+		return columnNames.size();
+	}
+
+	private void fillColumnNames() {
+		if (mt.instance() instanceof MessageWithSubjectAndAttachment) {
+			columnNames = new Vector<String>();
+			columnNames.add("Datum");
+			columnNames.add("Von");
+			columnNames.add("Betreff");
+			columnNames.add("Anhang");
+		} else {
+			columnNames = new Vector<String>();
+			columnNames.add("Datum");
+			columnNames.add("Von");
+		}
 	}
 
 	@Override
@@ -39,10 +59,13 @@ public class MessageTableModel extends AbstractTableModel {
 		case 1:
 			return m.getFrom();
 		case 2:
-			return m.getSubject();
+			if (m instanceof MessageWithSubjectAndAttachment) {
+				 return ((MessageWithSubjectAndAttachment) m).getSubject();
+			}
 		case 3:
-			// TODO getAttechement: oder hasAttachement
-			return "true";
+			if (m instanceof MessageWithSubjectAndAttachment) {
+				 return ((MessageWithSubjectAndAttachment) m).hasAttachments();
+			}
 		default:
 			return "";
 		}
@@ -51,7 +74,7 @@ public class MessageTableModel extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return COLUMN_NAMES[column];
+		return columnNames.get(column);
 	}
 
 }

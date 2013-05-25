@@ -26,6 +26,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.jdesktop.swingx.JXTaskPane;
 
 import message.Message;
+import message.MessageType;
 import message.SMSMessage;
 import table.model.MessageTableModel;
 
@@ -33,7 +34,7 @@ public class MessageBoxFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private String messageType;
+	private MessageType messageType;
 	private GridBagManager guiManager;
 	private JTextPane messageTextField;
 	private JTable messagesTable;
@@ -42,24 +43,21 @@ public class MessageBoxFrame extends JFrame {
 	private JButton deleteButton;
 	private JButton closeButton;
 	private JButton seeMessagesButton;
-	private ArrayList<SMSMessage> messages;
+	private ArrayList<Message> messages;
 	private SimpleFormatter dateFormat;
 
-	// TODO
-	private JXTaskPane pane;
 
-	public MessageBoxFrame(String messageType, ArrayList<SMSMessage> messages2) {
+	public MessageBoxFrame(MessageType messageType, ArrayList<Message> messages) {
 		this.messageType = messageType;
 		this.guiManager = new GridBagManager(this);
 		this.messageTextField = new JTextPane();
-		this.messages = messages2;
-		this.messagesTable = new JTable(new MessageTableModel(messages2));
+		this.messages = messages;
+		this.messagesTable = new JTable(new MessageTableModel(messageType, messages));
 
-		this.createButton = new JButton(this.messageType + " erstellen");
-		this.deleteButton = new JButton(this.messageType + " löschen");
+		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
+		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
 		this.closeButton = new JButton("Schliessen");
 		this.seeMessagesButton = new JButton("Entwürfe anschauen");
-		this.pane = new JXTaskPane();
 
 		// Um den Text schön darzustellen (Fett, Kursiv, Abbruch etc.)
 		HTMLEditorKit eKit = new HTMLEditorKit();
@@ -74,7 +72,8 @@ public class MessageBoxFrame extends JFrame {
 		messagesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				Message m = messages.get(messagesTable.getSelectedRow());
-				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + "<br><b>Betreff:</b>" + m.getSubject() + "<br><br><br>" + m.getMessage() + "</html>");
+				//TODO überprüfen ob Betreff vorhanden ist
+				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + "<br><b>Betreff:</b>"  + "<br><br><br>" + m.getMessage() + "</html>");
 			}
 		});
 
@@ -82,7 +81,7 @@ public class MessageBoxFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				MessageDialog mf = new MessageDialog(messageType);
+				MessageDialog mf = new MessageDialog(messageType.getTypeName());
 				mf.setVisible(true);
 			}
 		});
