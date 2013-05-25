@@ -35,6 +35,8 @@ public abstract class Message implements Comparable<Message>, Serializable {
 		this.reminder = reminder;
 	}
 
+	public abstract MessageType getType();
+	
 	public String getMessage() {
 		return message;
 	}

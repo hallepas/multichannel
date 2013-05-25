@@ -19,5 +19,10 @@ public class SMSMessage extends Message {
 		setDate(datum);
 		setTo(to);
 	}
+
+	@Override
+	public MessageType getType() {
+		return MessageType.SMS;
+	}
 	
 }

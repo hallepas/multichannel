@@ -97,10 +97,7 @@ public class IntegrationTest {
 	public void testPrintMessage() {
 		assertTrue(annasDrucker instanceof Printer);
 		assertTrue(annasComputer instanceof Computer);
-		try {
-			annasComputer.newPrintJob();
-			fail("Kein Drucker definiert. Sollte keinen PrintJob erstellen können");
-		} catch (NoAccountException e) {};
+
 		Status status = annasComputer.connectPrinter(annasDrucker);
 		assertEquals("Drucker angeschlossen", status.getCode(), 200);
 		PrintJobMessage message = annasComputer.newPrintJob();
