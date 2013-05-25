@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -33,15 +34,15 @@ public class MessagesTab extends JComponent{
 	private JButton deleteButton;
 	private JButton printButton;
 	private JButton seeMessagesButton;
-	private ArrayList<Message> messages;
 	private String tabTitle;
-
-	public MessagesTab(MessageType messageType, ArrayList<Message> messages) {
+	private List<Message> messages;
+		
+	public MessagesTab(List<Message> messages, MessageType messageType) {
+		this.messages = messages;
 		this.messageType = messageType;
 		this.guiManager = new GridBagManager(this);
 		this.messageTextField = new JTextPane();
-		this.messages = messages;
-		this.messagesTable = new JTable(new MessageTableModel(messageType, messages));
+		this.messagesTable = new JTable(new MessageTableModel(messages, messageType));
 
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -37,6 +38,7 @@ public class MessageDialog extends JDialog {
 
 	private JTextArea messageTextField;
 	private File[] attachementFiles;
+	private JPanel panel;
 
 	public MessageDialog(MessageType messageType) {
 		this.guiManager = new GridBagManager(this);
@@ -50,6 +52,7 @@ public class MessageDialog extends JDialog {
 		this.saveButton = new JButton("Speichern");
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
+		this.panel = new JPanel();
 		configureFrame();
 	}
 
@@ -84,6 +87,7 @@ public class MessageDialog extends JDialog {
 			}
 		});
 
+		
 		messageTextField.setSize(100, 100);
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 

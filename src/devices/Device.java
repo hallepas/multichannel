@@ -19,7 +19,7 @@ public abstract class Device {
 		messageclient = client;
 	}
 	
-	protected MessageClient getMessageClient() {
+	public  MessageClient getMessageClient() {
 		return messageclient;
 	}
 	

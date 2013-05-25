@@ -3,6 +3,7 @@ package table.model;
 import gui.helper.MessageProperties;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -18,9 +19,9 @@ public class MessageTableModel extends AbstractTableModel {
 	private ArrayList<Message> messages;
 	private MessageType mt;
 
-	public MessageTableModel(MessageType mt, ArrayList<Message> messages) {
-		this.messages = messages;
-		this.mt = mt;
+	public MessageTableModel(List<Message> messages, MessageType messageType) {
+		this.messages = (ArrayList<Message>) messages;
+		this.mt = messageType;
 		fillColumnNames();
 	}
 
