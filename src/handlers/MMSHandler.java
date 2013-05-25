@@ -1,24 +1,18 @@
 package handlers;
 
-import exceptions.ValidationError;
+import handlers.validators.MMSValidator;
 import message.MMSMessage;
 import message.Message;
 
 public class MMSHandler extends MessageWithAttachmentsHandler {
 
 	public MMSHandler() {
-		super();
+		super(new MMSValidator());
 	}
 
 	@Override
 	public Message newMessage() {
 		return new MMSMessage();
-	}
-
-	@Override
-	public void validateMessage(Message message) throws ValidationError {
-		super.validateMessage(message);
-
 	}
 
 }

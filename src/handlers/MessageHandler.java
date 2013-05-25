@@ -1,6 +1,7 @@
 package handlers;
 
-import java.util.Date;
+import handlers.validators.Validator;
+
 import message.Message;
 import message.MessageType;
 import exceptions.ValidationError;
@@ -10,22 +11,14 @@ import exceptions.ValidationError;
  */
 public abstract class MessageHandler {
 	
+	private final Validator validator;
+	
+	protected MessageHandler(Validator validator) {
+		this.validator = validator;
+	}
+	
 	public abstract Message newMessage();
 	
-	/**
-	 * Diese Methode stellt sicher, dass die Nachricht den Standards entspricht und
-	 * versendet werden kann.
-	 * @param message
-	 * @throws ValidationError
-	 */
-	public void validateMessage(Message message) throws ValidationError {
-		if (!(message.getDate() instanceof Date)) {
-			throw new ValidationError("No date specified");
-		}
-		if (message.getReminder() != null && message.getDate().before(message.getReminder()) ){
-			throw new ValidationError("Reminder cannot be set on a message that has already been sent.");
-		}
-	}
 	/**
 	 * Factory Methode um konkrete MessageHandlers für die entsprechenden
 	 * Message-Typen zu erstellen.
@@ -44,6 +37,15 @@ public abstract class MessageHandler {
 			return new PrintJobHandler();
 		}
 		return null;
+	}
+	
+	/**
+	 * Wir können auch Strategy Pattern.
+	 * @param message
+	 * @throws ValidationError
+	 */
+	public void validateMessage(Message message) throws ValidationError {
+		this.validator.validateMessage(message);
 	}
 
 }

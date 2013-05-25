@@ -1,5 +1,7 @@
 package handlers;
 
+import handlers.validators.Validator;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +14,10 @@ import message.Message;
 import message.MessageWithSubjectAndAttachment;
 
 public abstract class MessageWithAttachmentsHandler extends MessageHandler {
+	
+	protected MessageWithAttachmentsHandler(Validator validator) {
+		super(validator);
+	}
 
 	public void saveAttachments(MessageWithSubjectAndAttachment message, String path) throws IOException {
 		if (!Files.isDirectory(Paths.get(path))) {
