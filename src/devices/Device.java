@@ -1,5 +1,7 @@
 package devices;
 
+import java.util.Set;
+
 import clients.MessageClient;
 import message.Message;
 import message.MessageType;
@@ -32,6 +34,14 @@ public abstract class Device {
 	}
 	protected UserAgent getUserAgentFor(MessageType type) {
 		return messageclient.getUserAgentFor(type);
+	}
+	
+	/**
+	 * Um zu überprüfen, welche Nachrichtenformate unterstützt werden:
+	 * @return Set mit den Typen der unterstützten Formate.
+	 */
+	public Set<MessageType> getSupportedMessageFormats(){
+		return messageclient.getSupportedMessageFormats();
 	}
 	
 }
