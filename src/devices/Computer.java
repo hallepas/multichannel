@@ -20,6 +20,7 @@ public class Computer extends Device {
     public EmailMessage newEmail(){
 	return (EmailMessage) newMessage(MessageType.EMAIL);
     }
+    
     public PrintJobMessage newPrintJob(){
 	return (PrintJobMessage) newMessage(MessageType.PRINT);
     }

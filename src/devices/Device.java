@@ -24,6 +24,10 @@ public abstract class Device {
     public MessageClient getMessageClient() {
 	return messageclient;
     }
+    // Verbose alternative
+    public MessageClient openMailProgram(){
+        return getMessageClient();
+    }
 
     public String getDeviceName() {
 	return deviceName;

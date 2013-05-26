@@ -4,6 +4,8 @@ package clients;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import clients.handlers.MessageHandler;
@@ -11,6 +13,7 @@ import clients.useragents.UserAgent;
 
 import message.Message;
 import message.MessageType;
+import message.Status;
 
 
 /**
@@ -43,9 +46,14 @@ public class MessageClient {
 	    agents.put(type, UserAgent.getUserAgentForType(type));
 	    handlers.put(type, MessageHandler.getHandlerForType(type));
 	}
+	// Observer hinzufügen, der Nachrichten weiter schickt.
+	outbox.addObserver(new OutboundListener());
     }
     public UserAgent getUserAgentFor(MessageType type) {
 	return agents.get(type);
+    }
+    public void setAccountFor(MessageType type, Account account){
+        agents.get(type).setAccount(account);
     }
 
 
@@ -68,7 +76,7 @@ public class MessageClient {
 		    "Kann keine " + type + "-Nachricht erstellen.");
 	}
 	Message message = handlers.get(type).newMessage();
-	// message.setFrom(handlers.get(type).getFromAddress());
+	message.setFrom(agents.get(type).getFromAddress());
 	return message;
     }
 
@@ -97,8 +105,23 @@ public class MessageClient {
     public void saveDraft(Message message) {
 	this.drafts.add(message);
     }
-    public void send(Message message) {
+    public void submit(Message message) {
 	this.outbox.add(message);
+    }
+    
+    /*
+     * Die Methode schickt alle Nachrichten aus der Outbox an
+     * den Server. Falls der Versand fehlschlägt, bleiben sie in
+     * der Outbox liegen.
+     */
+    public void sendMessagesToServer(){
+        for (Message message:outbox.getMessages()) {
+            UserAgent agent = getUserAgentFor(message.getType());
+            Status status = agent.sendMessage(message);
+            if (status.getCode() == 200) {
+                outbox.deleteMessage(message);
+            }
+        }
     }
 
     /**
@@ -115,6 +138,14 @@ public class MessageClient {
 	    }
 	}
 	return messageList;
+    }
+      
+    public class OutboundListener implements Observer {
+        @Override public void update(Observable o, Object arg) {
+            if(((String) arg).equals("added")) {
+                sendMessagesToServer();
+            }
+        }
     }
 
 

@@ -109,7 +109,12 @@ public abstract class UserAgent {
     public Status sendMessage(Message message) {
         checkForAccount();
         if (isLoggedIn()){
-            return getServer().put(message);
+            message.setDate(new Date());
+            Status status = getServer().put(message);
+            if (status.getCode() != 200) {
+                message.setDate(null);
+            }
+            return status;
         }		
         return new Status(400, "Not online");
     }

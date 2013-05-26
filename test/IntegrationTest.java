@@ -4,6 +4,7 @@ import java.util.List;
 
 import message.EmailMessage;
 import message.Message;
+import message.MessageType;
 import message.PrintJobMessage;
 import message.Status;
 
@@ -36,7 +37,9 @@ public class IntegrationTest {
     private FeaturePhone bertsNokia;
     private MessageServer gmail;
     private final String annasEmail = "anna@gmail.com";
+    private final String bertsEmail = "bert@gmail.com";
     private Account annasEmailAccount;
+    private Account bertsEmailAccount;
 
 
     @Rule 
@@ -52,15 +55,26 @@ public class IntegrationTest {
 	gmail = new EmailServer("GMail", "gmail.com");
 
 	annasEmailAccount = new Account();
-
 	annasEmailAccount.setAddress(annasEmail);
 	annasEmailAccount.setServer(gmail);
 	annasEmailAccount.setLoginCredentials(new UsernamePassword(annasEmail, "a99a"));
+	annasComputer.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
+	annasIPhone.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
+	gmail.register(annasEmail, annasEmailAccount.getLoginCredentials());
+	
+	bertsEmailAccount = new Account();
+	bertsEmailAccount.setAddress(bertsEmail);
+	bertsEmailAccount.setServer(gmail);
+	bertsEmailAccount.setLoginCredentials(new UsernamePassword(bertsEmail, "b11b"));
+	bertsComputer.openMailProgram().setAccountFor(MessageType.EMAIL, bertsEmailAccount);
+	gmail.register(bertsEmail, bertsEmailAccount.getLoginCredentials());
+
 
     }
 
     @Test
     public void testRegisterAtServer(){
+        gmail.unregister(annasEmail, annasEmailAccount.getLoginCredentials());
 	Status status = gmail.register(annasEmail, new UsernamePassword(annasEmail, "a99a"));
 	assertEquals("Register Anna", status.getCode(), 200);
 	assertTrue("Anna is registered at Google", gmail.doesAccountExist(annasEmail));
@@ -94,7 +108,20 @@ public class IntegrationTest {
 
     @Test
     public void testSendMessageWithoutReminder() {
-
+        MessageClient outlook = annasComputer.openMailProgram();
+        EmailMessage email = annasComputer.newEmail();
+        assertEquals("Email von ist gesetzt", email.getFrom(), annasEmailAccount.getAddress());
+        email.addRecipient(bertsEmail);
+        email.setSubject("Email Test");
+        email.setMessage("Dies ist ein Test");
+        outlook.submit(email);
+        assertTrue("Message ist auf dem Server", gmail.getMessagesForUser(bertsEmail).contains(email));
+//        MessageClient thunderbird = bertsComputer.openMailProgram();
+//        List<Message> messages = thunderbird.getMessagesFromInbox();
+//        assertTrue("Mail ist angekommen", messages.contains(email));
+//        messages = thunderbird.getUnreadMessages();
+//        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
+        // fail();  // TODO: Rest
     }
 
     @Test

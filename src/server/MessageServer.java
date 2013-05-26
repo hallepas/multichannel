@@ -48,6 +48,17 @@ public abstract class MessageServer {
             }
         }
     }
+    public Status unregister(String name, Credentials credentials) {
+        if (accounts.get(name).equals(credentials)) {
+            accounts.remove(name);
+            messages.remove(name);
+            accountsOnline.remove(name);
+            return new Status(200, "Account " + name + "Deleted.");
+        }
+        return new Status(500, "Error");
+    }
+    
+    
     public boolean doesAccountExist(String name) {
         return accounts.containsKey(name);
     }
@@ -112,6 +123,16 @@ public abstract class MessageServer {
         // delete Messages in Inbox
         box.setMessages(new ArrayList<Message>()); 
         return newMessages;
+    }
+    
+    /**
+     * Diese Methode ist nur für Tests und sollte sonst nicht aufgerufen werden.
+     * @param name
+     * @return
+     */
+    public List<Message> getMessagesForUser(String name) {
+        Mailbox box = messages.get(name);
+        return box.getMessages();
     }
 
     /**
