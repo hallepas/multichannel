@@ -12,9 +12,9 @@ import message.SMSMessage;
  */
 public class Smartphone extends Device {
 
-	public Smartphone() {
+	public Smartphone(String deviceName) {
 		super(new MessageClient(new MessageType[]{MessageType.EMAIL, MessageType.SMS,
-												  MessageType.MMS}));
+												  MessageType.MMS}), deviceName, "Smartphone");
 	}
 	
 	public EmailMessage newEmail(){

@@ -7,7 +7,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+
+import sun.security.util.DerValue;
 
 import clients.MessageClient;
 
@@ -35,7 +38,9 @@ public class MainFrame extends JFrame {
 
 	private void configureFrame() {
 		createTabs();
-		guiManager.setX(0).setY(0).setComp(pane);
+		//TODO Username anzeigen
+		guiManager.setX(0).setY(0).setComp(new JLabel("Angemeldet mit: "+device.getDeviceName()+" ("+device.getDeviceType()+")"));
+		guiManager.setX(0).setY(1).setComp(pane);
 
 		setTitle("Multichannel");
 		setSize(950, 650);
@@ -47,13 +52,18 @@ public class MainFrame extends JFrame {
 		MessageType messageType;
 		Iterator<MessageType> iterator = device.getSupportedMessageFormats().iterator();
 		MessageClient mc = device.getMessageClient();
-
+		
 		while (iterator.hasNext()) {
 			messageType = iterator.next();
+			
 			if (!messageType.equals(MessageType.PRINT)) {
-				MessagesTab mf = new MessagesTab(mc.getOnlyType(mc.getMessagesFromInbox(), messageType), messageType);
+				//wieder auskommentieren
+
+				MessagesTab mf = new MessagesTab(MessageClient.getOnlyType(messages, messageType), messageType);
+//				MessagesTab mf = new MessagesTab(MessageClient.getOnlyType(mc.getMessagesFromInbox(), messageType), messageType);
 				pane.addTab(mf.getTabTitle(), mf);
 			}
+			
 		}
 	}
 

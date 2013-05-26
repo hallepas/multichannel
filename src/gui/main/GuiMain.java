@@ -35,7 +35,7 @@ public class GuiMain {
 	}
 
 	public static void messagesTEst(){
-		Smartphone f = new Smartphone();
+		Smartphone f = new Smartphone("Iphone");
 
 		ArrayList<Message> messages = new ArrayList<Message>();
 		ArrayList<String> to = new ArrayList<>();
@@ -57,12 +57,20 @@ public class GuiMain {
 		messages.add(new SMSMessage("Hallo ich wollte nur fragen...", "from@from.from", "Betreff", new Date(), to, null));
 		messages.add(new SMSMessage("Einladung zur", "from@from.fro2m", "Betreff", new Date(), to, null));
 
+		EmailMessage em = new EmailMessage();
+		em.setDate(new Date());
+		em.setFrom("from");
+		em.setMessage("");
+		em.setSubject("Email");
+		em.setTo(to);
+		messages.add(em);
+		
 		MainFrame mainFrame = new MainFrame(MessageType.EMAIL, messages, f);
 		mainFrame.setVisible(true);
 	}
 	
 	public static void showSMSTab() { 
-		Smartphone f = new Smartphone();
+		Smartphone f = new Smartphone("IPhone");
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		ArrayList<String> to = new ArrayList<>();
@@ -97,7 +105,7 @@ public class GuiMain {
 	}
 
 	public static void showEMailTab() { 
-		Computer c = new Computer();
+		Computer c = new Computer("Mac Book");
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		ArrayList<String> to = new ArrayList<>();
