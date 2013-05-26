@@ -1,7 +1,7 @@
 package clients;
 
 import server.MessageServer;
-import client.credentials.Credentials;
+import clients.credentials.Credentials;
 
 
 public class Account {

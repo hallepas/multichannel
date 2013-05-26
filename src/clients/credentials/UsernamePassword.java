@@ -1,4 +1,4 @@
-package client.credentials;
+package clients.credentials;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

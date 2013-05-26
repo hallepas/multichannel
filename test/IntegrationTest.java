@@ -20,9 +20,9 @@ import server.EmailServer;
 import server.MessageServer;
 import server.ServerProxy;
 
-import client.credentials.Credentials;
-import client.credentials.UsernamePassword;
 import clients.*;
+import clients.credentials.Credentials;
+import clients.credentials.UsernamePassword;
 
 import devices.*;
 import exceptions.NoAccountException;

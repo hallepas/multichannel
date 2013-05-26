@@ -1,9 +1,9 @@
 package server;
 import java.util.*;
 
-import client.credentials.Credentials;
 import clients.ClientProxy;
 import clients.Mailbox;
+import clients.credentials.Credentials;
 
 import message.Message;
 import message.Status;

@@ -1,17 +1,16 @@
 package clients;
 
-import handlers.MessageHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import clients.handlers.MessageHandler;
+import clients.useragents.UserAgent;
+
 import message.Message;
 import message.MessageType;
-import message.UserAgent;
-
-
 
 
 /**

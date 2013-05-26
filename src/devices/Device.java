@@ -3,9 +3,9 @@ package devices;
 import java.util.Set;
 
 import clients.MessageClient;
+import clients.useragents.UserAgent;
 import message.Message;
 import message.MessageType;
-import message.UserAgent;
 
 /**
  * Superklasse für alle Geräte. Unterklassen müssen MessageClient definieren und

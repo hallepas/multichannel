@@ -1,7 +1,7 @@
 package server;
 
-import client.credentials.Credentials;
-import client.credentials.UsernamePassword;
+import clients.credentials.Credentials;
+import clients.credentials.UsernamePassword;
 import message.Status;
 
 public class EmailServer extends MessageServer {

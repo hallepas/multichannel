@@ -1,4 +1,4 @@
-package handlers;
+package clients.handlers;
 
 import handlers.validators.SMSValidator;
 import message.Message;

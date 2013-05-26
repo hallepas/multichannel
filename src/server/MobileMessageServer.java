@@ -1,8 +1,8 @@
 package server;
 
 import message.Status;
-import client.credentials.Credentials;
-import client.credentials.IMEI;
+import clients.credentials.Credentials;
+import clients.credentials.IMEI;
 
 
 public class MobileMessageServer extends MessageServer {

@@ -1,5 +1,9 @@
-package message;
+package clients.useragents;
 import java.util.*;
+
+import message.Message;
+import message.MessageType;
+import message.Status;
 
 import server.ServerProxy;
 

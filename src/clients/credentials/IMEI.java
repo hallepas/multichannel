@@ -1,4 +1,4 @@
-package client.credentials;
+package clients.credentials;
 
 /**
  * Login Credentials für SMS und MMS Server

@@ -9,6 +9,9 @@ import exceptions.NoAccountException;
 
 import org.junit.Test;
 
+import clients.useragents.EmailUserAgent;
+import clients.useragents.UserAgent;
+
 // http://www.vogella.com/articles/JUnit/article.html#juniteclipse
 
 
