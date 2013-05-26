@@ -16,7 +16,7 @@ public class FeaturePhoneTest {
 
 	@Test
 	public void test() {
-		FeaturePhone nokia = new FeaturePhone();
+		FeaturePhone nokia = new FeaturePhone("Nokia 6110");
 		assertTrue("FeaturePhone kann SMS schicken", nokia.newSMS() instanceof SMSMessage);
 		assertTrue("FeaturePhone kann MMS schicken", nokia.newMMS() instanceof MMSMessage);
 	}

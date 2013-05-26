@@ -40,11 +40,11 @@ public class IntegrationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		annasComputer = new Computer();
-		annasIPhone = new Smartphone();
-		annasDrucker = new Printer();
-		bertsComputer = new Computer();
-		bertsNokia = new FeaturePhone();
+		annasComputer = new Computer("Annas Computer");
+		annasIPhone = new Smartphone("Annas iPhone");
+		annasDrucker = new Printer("Annas Drucker");
+		bertsComputer = new Computer("Berts Computer");
+		bertsNokia = new FeaturePhone("Berts Nokia 6150");
 		gmail = new EmailServer("GMail", "gmail.com");
 		
 		annasEmailAccount = new Account();

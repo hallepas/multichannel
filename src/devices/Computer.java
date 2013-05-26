@@ -12,7 +12,9 @@ public class Computer extends Device {
 	 * Konstruktor weist Email und Print Funktion zu.
 	 */
 	public Computer(String deviceName) {
-		super(new MessageClient(new MessageType[]{MessageType.EMAIL, MessageType.PRINT}), deviceName, "Computer");
+		super(new MessageClient(new MessageType[]{MessageType.EMAIL, 
+							  MessageType.PRINT}),
+					 deviceName, "Computer");
 	}
 	
 	public EmailMessage newEmail(){

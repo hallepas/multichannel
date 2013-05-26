@@ -14,7 +14,7 @@ import message.UserAgent;
  */
 public abstract class Device {
 	private final MessageClient messageclient;
-	private String deviceName;
+	private final String deviceName;
 	private String deviceType;
 
 	protected Device(MessageClient client, String deviceName, String deviceType) {
@@ -34,12 +34,16 @@ public abstract class Device {
 	public String getDeviceType() {
 		return deviceType;
 	}
+	public String toString(){
+	    return this.getClass().getSimpleName() + " " + this.deviceName;
+	}
 
 	protected Message newMessage(MessageType type) {
 		try {
 			return messageclient.newMessage(type);
 		} catch (IllegalArgumentException e) {
-			System.out.println("Kann keine Nachricht vom Typ " + type + " erstellen.");
+			System.out.println("Kann keine Nachricht vom Typ " 
+						+ type + " erstellen.");
 			return null;
 		}
 	}

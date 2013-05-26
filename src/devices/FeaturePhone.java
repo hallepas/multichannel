@@ -12,7 +12,8 @@ import message.SMSMessage;
 public class FeaturePhone extends Device {
 
 	public FeaturePhone(String deviceName) {
-		super(new MessageClient(new MessageType[]{MessageType.SMS, MessageType.MMS}), deviceName, "FeaturePhone");
+		super(new MessageClient(new MessageType[]{MessageType.SMS, 
+			MessageType.MMS}), deviceName, "FeaturePhone");
 	}
 	
 	

@@ -13,9 +13,19 @@ import clients.ServerProxy;
  *
  */
 public class Printer {
+	private final String deviceName;
 
-	public Printer() { 
+	public Printer(String deviceName) { 
 		super();
+		this.deviceName = deviceName;
+	}
+	
+	public String getDeviceName(){
+	    return deviceName;
+	}
+	
+	public String toString(){
+	    return this.getClass().getSimpleName() + " " + this.deviceName;
 	}
 	
 	public void print(Message message){
