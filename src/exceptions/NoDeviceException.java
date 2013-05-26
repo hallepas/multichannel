@@ -6,9 +6,9 @@ package exceptions;
  */
 public class NoDeviceException extends NoAccountException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public NoDeviceException(String message) {
-		super(message);
-	}
+    public NoDeviceException(String message) {
+	super(message);
+    }
 }

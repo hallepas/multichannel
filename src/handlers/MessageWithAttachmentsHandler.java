@@ -14,29 +14,29 @@ import message.Message;
 import message.MessageWithSubjectAndAttachment;
 
 public abstract class MessageWithAttachmentsHandler extends MessageHandler {
-	
-	protected MessageWithAttachmentsHandler(Validator validator) {
-		super(validator);
-	}
 
-	public void saveAttachments(MessageWithSubjectAndAttachment message, String path) throws IOException {
-		if (!Files.isDirectory(Paths.get(path))) {
-			throw new IOException("Path " + path + " is not a directory.");
-		}
-		for (Attachment attachment : ((MessageWithSubjectAndAttachment) message).getAttachments()) {
-			FileOutputStream fos = new FileOutputStream(path + attachment.getFileName());
-			try {
-				fos.write(attachment.getContent());
-			} finally {
-				fos.close();
-			}
-		}
+    protected MessageWithAttachmentsHandler(Validator validator) {
+	super(validator);
+    }
+
+    public void saveAttachments(MessageWithSubjectAndAttachment message, String path) throws IOException {
+	if (!Files.isDirectory(Paths.get(path))) {
+	    throw new IOException("Path " + path + " is not a directory.");
 	}
-	
-	public void addAttachment(MessageWithSubjectAndAttachment message, String path) throws IOException {
-		message.addAttachment(new Attachment(path));
+	for (Attachment attachment : ((MessageWithSubjectAndAttachment) message).getAttachments()) {
+	    FileOutputStream fos = new FileOutputStream(path + attachment.getFileName());
+	    try {
+		fos.write(attachment.getContent());
+	    } finally {
+		fos.close();
+	    }
 	}
-	public void validateMessage(Message message) throws ValidationError {
-		super.validateMessage(message);
-	}
+    }
+
+    public void addAttachment(MessageWithSubjectAndAttachment message, String path) throws IOException {
+	message.addAttachment(new Attachment(path));
+    }
+    public void validateMessage(Message message) throws ValidationError {
+	super.validateMessage(message);
+    }
 }

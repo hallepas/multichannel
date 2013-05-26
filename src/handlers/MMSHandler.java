@@ -6,13 +6,13 @@ import message.Message;
 
 public class MMSHandler extends MessageWithAttachmentsHandler {
 
-	public MMSHandler() {
-		super(new MMSValidator());
-	}
+    public MMSHandler() {
+	super(new MMSValidator());
+    }
 
-	@Override
-	public Message newMessage() {
-		return new MMSMessage();
-	}
+    @Override
+    public Message newMessage() {
+	return new MMSMessage();
+    }
 
 }

@@ -10,33 +10,33 @@ import message.Message;
  *
  */
 public class Mailbox implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private List<Message> messages = new ArrayList<Message>();
+    private static final long serialVersionUID = 1L;
 
-	public List<Message> getMessages() {
-		return messages;
-	}
+    private List<Message> messages = new ArrayList<Message>();
 
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-	
-	public void add(Message message) {
-		messages.add(message);
-	}
-	
-	public void sort() {
-		Collections.sort(messages);
-	}
-	public long messageCount() {
-		return this.messages.size();
-	}
-	public void deleteMessage(Message message){
-		try {
-			messages.remove(message);
-		} catch (NullPointerException e) {}
-	}
-	
-	
+    public List<Message> getMessages() {
+	return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+	this.messages = messages;
+    }
+
+    public void add(Message message) {
+	messages.add(message);
+    }
+
+    public void sort() {
+	Collections.sort(messages);
+    }
+    public long messageCount() {
+	return this.messages.size();
+    }
+    public void deleteMessage(Message message){
+	try {
+	    messages.remove(message);
+	} catch (NullPointerException e) {}
+    }
+
+
 }

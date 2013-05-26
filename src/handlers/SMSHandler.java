@@ -6,13 +6,13 @@ import message.SMSMessage;
 
 public class SMSHandler extends MessageHandler {
 
-	public SMSHandler() {
-		super(new SMSValidator());
-	}
+    public SMSHandler() {
+	super(new SMSValidator());
+    }
 
-	@Override
-	public Message newMessage() {
-		return new SMSMessage();
-	}
+    @Override
+    public Message newMessage() {
+	return new SMSMessage();
+    }
 
 }

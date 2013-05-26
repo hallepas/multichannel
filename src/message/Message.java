@@ -10,77 +10,77 @@ import java.util.Date;
  * 
  */
 public abstract class Message implements Comparable<Message>, Serializable {
-	private static final long serialVersionUID = 1L;
-	private String from;
-	private ArrayList<String> to = new ArrayList<String>();
-	private String message;
-	private Date date;
-	private Date reminder;
-	
-	public Message() {
-		super();
-		this.from = "";
-		this.to = new ArrayList<String>();
-		this.message = "";
-		this.date = new Date();
-		this.reminder = new Date();
-	}
-	
-	public Message(String from, ArrayList<String> to, String message, 
-		       Date date, Date reminder) {
-		super();
-		this.from = from;
-		this.to = to;
-		this.message = message;
-		this.date = date;
-		this.reminder = reminder;
-	}
+    private static final long serialVersionUID = 1L;
+    private String from;
+    private ArrayList<String> to = new ArrayList<String>();
+    private String message;
+    private Date date;
+    private Date reminder;
 
-	public abstract MessageType getType();
-	
-	public String getMessage() {
-		return message;
-	}
+    public Message() {
+	super();
+	this.from = "";
+	this.to = new ArrayList<String>();
+	this.message = "";
+	this.date = new Date();
+	this.reminder = new Date();
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public Message(String from, ArrayList<String> to, String message, 
+	    Date date, Date reminder) {
+	super();
+	this.from = from;
+	this.to = to;
+	this.message = message;
+	this.date = date;
+	this.reminder = reminder;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public abstract MessageType getType();
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+    public String getMessage() {
+	return message;
+    }
 
-	public ArrayList<String> getTo() {
-		return to;
-	}
+    public void setMessage(String message) {
+	this.message = message;
+    }
 
-	public void setTo(ArrayList<String> to) {
-		this.to = to;
-	}
+    public String getFrom() {
+	return from;
+    }
 
-	public void addRecipient(String recipient) {
-		this.to.add(recipient);
-	}
+    public void setFrom(String from) {
+	this.from = from;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public ArrayList<String> getTo() {
+	return to;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setTo(ArrayList<String> to) {
+	this.to = to;
+    }
 
-	public Date getReminder() {
-		return reminder;
-	}
+    public void addRecipient(String recipient) {
+	this.to.add(recipient);
+    }
 
-	@Override
-	public int compareTo(Message other) {
-		return this.date.compareTo(other.getDate());
-	}
+    public Date getDate() {
+	return date;
+    }
+
+    public void setDate(Date date) {
+	this.date = date;
+    }
+
+    public Date getReminder() {
+	return reminder;
+    }
+
+    @Override
+    public int compareTo(Message other) {
+	return this.date.compareTo(other.getDate());
+    }
 
 }
