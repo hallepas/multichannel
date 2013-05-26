@@ -13,52 +13,51 @@ import message.UserAgent;
  * 
  */
 public abstract class Device {
-	private final MessageClient messageclient;
-	private final String deviceName;
-	private String deviceType;
+    private final MessageClient messageclient;
+    private final String deviceName;
 
-	protected Device(MessageClient client, String deviceName, String deviceType) {
-		messageclient = client;
-		this.deviceName = deviceName;
-		this.deviceType = deviceType;
-	}
+    protected Device(MessageClient client, String deviceName) {
+	messageclient = client;
+	this.deviceName = deviceName;
+    }
 
-	public MessageClient getMessageClient() {
-		return messageclient;
-	}
+    public MessageClient getMessageClient() {
+	return messageclient;
+    }
 
-	public String getDeviceName() {
-		return deviceName;
-	}
+    public String getDeviceName() {
+	return deviceName;
+    }
 
-	public String getDeviceType() {
-		return deviceType;
-	}
-	public String toString(){
-	    return this.getClass().getSimpleName() + " " + this.deviceName;
-	}
+    public String getDeviceType() {
+	return this.getClass().getSimpleName();
+    }
 
-	protected Message newMessage(MessageType type) {
-		try {
-			return messageclient.newMessage(type);
-		} catch (IllegalArgumentException e) {
-			System.out.println("Kann keine Nachricht vom Typ " 
-						+ type + " erstellen.");
-			return null;
-		}
-	}
+    public String toString(){
+	return this.getClass().getSimpleName() + " " + this.deviceName;
+    }
 
-	protected UserAgent getUserAgentFor(MessageType type) {
-		return messageclient.getUserAgentFor(type);
+    protected Message newMessage(MessageType type) {
+	try {
+	    return messageclient.newMessage(type);
+	} catch (IllegalArgumentException e) {
+	    System.out.println("Kann keine Nachricht vom Typ " 
+		    + type + " erstellen.");
+	    return null;
 	}
+    }
 
-	/**
-	 * Um zu überprüfen, welche Nachrichtenformate unterstützt werden:
-	 * 
-	 * @return Set mit den Typen der unterstützten Formate.
-	 */
-	public Set<MessageType> getSupportedMessageFormats() {
-		return messageclient.getSupportedMessageFormats();
-	}
+    protected UserAgent getUserAgentFor(MessageType type) {
+	return messageclient.getUserAgentFor(type);
+    }
+
+    /**
+     * Um zu überprüfen, welche Nachrichtenformate unterstützt werden:
+     * 
+     * @return Set mit den Typen der unterstützten Formate.
+     */
+    public Set<MessageType> getSupportedMessageFormats() {
+	return messageclient.getSupportedMessageFormats();
+    }
 
 }
