@@ -18,15 +18,19 @@ public class Computer extends Device {
 	public EmailMessage newEmail(){
 		return (EmailMessage) newMessage(MessageType.EMAIL);
 	}
+	
 	public PrintJobMessage newPrintJob(){
 		return (PrintJobMessage) newMessage(MessageType.PRINT);
 	}
+	
 	public Status connectPrinter(Printer printer) {
 		return ((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT)).connect(printer);
 	}
+	
 	public void disconnectPrinter() {
 		((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT)).setPrinter(null);
 	}
+	
 	public Status print(PrintJobMessage message) {
 		return getUserAgentFor(MessageType.PRINT).sendMessage(message);
 	}

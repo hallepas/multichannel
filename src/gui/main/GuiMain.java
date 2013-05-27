@@ -95,7 +95,7 @@ public class GuiMain {
 		EmailMessage em = new EmailMessage();
 		em.setDate(new Date());
 		em.setFrom("from");
-		em.setMessage("");
+		em.setMessage("Message");
 		em.setSubject("Email");
 		em.setTo(to);
 		messages.add(em);

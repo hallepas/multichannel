@@ -2,6 +2,7 @@ package table.model;
 
 import gui.helper.MessageProperties;
 
+import java.awt.Checkbox;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
