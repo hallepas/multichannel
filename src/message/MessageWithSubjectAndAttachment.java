@@ -7,28 +7,28 @@ import java.util.List;
 
 public abstract class MessageWithSubjectAndAttachment extends Message {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<Attachment> attachments = new ArrayList<Attachment>();
-	private String subject;
+    private List<Attachment> attachments = new ArrayList<Attachment>();
+    private String subject;
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public void setSubject(String subject) {
+	this.subject = subject;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public String getSubject() {
+	return subject;
+    }
 
-	public List<Attachment> getAttachments() {
-		return attachments;
-	}
-	
-	public boolean hasAttachment(){
-		return attachments.isEmpty();
-	}
+    public List<Attachment> getAttachments() {
+	return attachments;
+    }
 
-	public void addAttachment(Attachment attachment) {
-		this.attachments.add(attachment);
-	}
+    public boolean hasAttachment(){
+	return attachments.isEmpty();
+    }
+
+    public void addAttachment(Attachment attachment) {
+	this.attachments.add(attachment);
+    }
 }

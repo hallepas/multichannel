@@ -11,16 +11,17 @@ import message.SMSMessage;
  */
 public class FeaturePhone extends Device {
 
-	public FeaturePhone(String deviceName) {
-		super(new MessageClient(new MessageType[]{MessageType.SMS, MessageType.MMS}), deviceName, "FeaturePhone");
-	}
-	
-	
-	public MMSMessage newMMS(){
-		return (MMSMessage) newMessage(MessageType.MMS);
-	}
-	public SMSMessage newSMS(){
-		return (SMSMessage) newMessage(MessageType.SMS);
-	}
+    public FeaturePhone(String deviceName) {
+	super(new MessageClient(new MessageType[]{MessageType.SMS, 
+		MessageType.MMS}), deviceName);
+    }
+
+
+    public MMSMessage newMMS(){
+	return (MMSMessage) newMessage(MessageType.MMS);
+    }
+    public SMSMessage newSMS(){
+	return (SMSMessage) newMessage(MessageType.SMS);
+    }
 
 }

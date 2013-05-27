@@ -1,3 +1,3 @@
-package message;
+package clients.useragents;
 
 public class SMSUserAgent extends UserAgent { }

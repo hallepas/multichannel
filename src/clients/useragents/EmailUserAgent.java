@@ -1,4 +1,4 @@
-package message;
+package clients.useragents;
 
 
 public class EmailUserAgent extends UserAgent {}
