@@ -1,6 +1,11 @@
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import message.EmailMessage;
 import message.Message;
@@ -37,7 +42,15 @@ public class IntegrationTest {
     private final String bertsEmail = "bert@gmail.com";
     private Account annasEmailAccount;
     private Account bertsEmailAccount;
+    private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
 
+
+    public IntegrationTest() {
+        super();
+        System.setProperty( "java.util.logging.config.file", "logging.properties" );
+        try { LogManager.getLogManager().readConfiguration(); }
+        catch ( Exception e ) { e.printStackTrace(); }
+    }
 
     //@Rule 
     //public JUnitRuleMockery context = new JUnitRuleMockery();
@@ -68,6 +81,13 @@ public class IntegrationTest {
 
 
     }
+    
+//    @Test
+//    public void TestLogging(){
+//        log.fine("Test Logging");
+//        log.warning("Warning Test");
+//        log.info("Log Info");
+//    }
 
     @Test
     public void testRegisterAtServer(){
@@ -106,6 +126,7 @@ public class IntegrationTest {
     @Test
     public void testSendMessageWithoutReminder() {
         MessageClient outlook = annasComputer.openMailProgram();
+        outlook.login();
         EmailMessage email = annasComputer.newEmail();
         assertEquals("Email von ist gesetzt", email.getFrom(), annasEmailAccount.getAddress());
         email.addRecipient(bertsEmail);
@@ -113,11 +134,13 @@ public class IntegrationTest {
         email.setMessage("Dies ist ein Test");
         outlook.submit(email);
         assertTrue("Message ist auf dem Server", gmail.getMessagesForUser(bertsEmail).contains(email));
-//        MessageClient thunderbird = bertsComputer.openMailProgram();
-//        List<Message> messages = thunderbird.getMessagesFromInbox();
-//        assertTrue("Mail ist angekommen", messages.contains(email));
-//        messages = thunderbird.getUnreadMessages();
-//        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
+    
+        MessageClient thunderbird = bertsComputer.openMailProgram();
+        thunderbird.login();
+        List<Message> messages = thunderbird.getMessagesFromInbox();
+        assertTrue("Mail ist angekommen", messages.contains(email));
+        messages = thunderbird.getUnreadMessages();
+        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
         // fail();  // TODO: Rest
     }
 

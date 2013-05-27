@@ -82,5 +82,9 @@ public abstract class Message implements Comparable<Message>, Serializable {
     public int compareTo(Message other) {
 	return this.date.compareTo(other.getDate());
     }
+    @Override
+    public String toString(){
+        return "Message from " + from + "to " + to;
+    }
 
 }

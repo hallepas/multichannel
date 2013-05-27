@@ -1,5 +1,7 @@
 package server;
+import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Logger;
 
 import clients.ClientProxy;
 import clients.Mailbox;
@@ -10,12 +12,14 @@ import message.Status;
 
 
 
-public abstract class MessageServer {
+public abstract class MessageServer implements Serializable {
+    private static final long serialVersionUID = -4829470063770721056L;
     private Map<String, ClientProxy> accountsOnline;
     private Map<String, Credentials> accounts;
     private Map<String, Mailbox> messages;
     private final String domain;
     private final String serverName;
+    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
 
     protected MessageServer(String name, String domain){
         this.domain = domain;
@@ -70,7 +74,7 @@ public abstract class MessageServer {
      */
     public ServerProxy login(String name, Credentials credentials) {
         if(!doesAccountExist(name)) return null;
-
+        log.fine("Login: " + name);
         if(accounts.get(name).equals(credentials)) {
             accountsOnline.put(name, null);
             return new Proxy(name);
@@ -144,6 +148,7 @@ public abstract class MessageServer {
      */
     protected Status deliver(String name, Message message){
         // Sort messages for local and external users.
+        log.fine("Delivering message to " + name);
         Map<String, Message> external = new HashMap<String, Message>();
         for(String receiver : message.getTo()) {
             if(accounts.containsKey(name)) {
@@ -179,6 +184,7 @@ public abstract class MessageServer {
             this.forwards = forwards;
         }
         public void run() {
+            log.fine("forwarder");
             for (String domain : forwards.keySet()) {
                 try {
                     servers.put(domain, findServerForDomain(domain));

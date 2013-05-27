@@ -7,9 +7,14 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.logging.Logger;
+
+import server.MessageServer;
+import server.ServerProxy;
 
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
+import exceptions.NoAccountException;
 
 import message.Message;
 import message.MessageType;
@@ -32,6 +37,8 @@ public class MessageClient {
     private MarkerMailbox inbox = new MarkerMailbox(); 
     private Mailbox outbox = new Mailbox(); 
     private Mailbox drafts = new Mailbox(); 
+    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
+
 
     /**
      * Dieser Konstruktor akzeptiert ein Array von Typen und 
@@ -54,6 +61,37 @@ public class MessageClient {
     }
     public void setAccountFor(MessageType type, Account account){
         agents.get(type).setAccount(account);
+    }
+    public void login(){
+        for (MessageType type:agents.keySet()) {
+            try {
+                Status status = agents.get(type).login(new MessageProxy());
+                if (status.getCode() != 200) {
+                    displayModal(status.getDescription());
+                } else {
+                    checkForNewMessages(type);
+                }
+            } catch (NoAccountException e) {
+                displayModal("No account for " + type.getTypeName() + "s.");
+            }
+        }
+    }
+    
+    /**
+     * Diese Methode schaut, ob neue Nachrichten auf dem Server liegen.
+     * Sie wird beim Login automatisch aufgerufen, danach über einen Timer
+     * oder einen Push-Aufruf.
+     * @param type
+     */
+    public void checkForNewMessages(MessageType type){
+        for(Message message : agents.get(type).receiveMessages()) {
+            inbox.add(message);
+        }
+    }
+    public void checkForNewMessages() {
+        for (MessageType type:getSupportedMessageFormats()) {
+            checkForNewMessages(type);
+        }
     }
 
 
@@ -120,8 +158,18 @@ public class MessageClient {
             Status status = agent.sendMessage(message);
             if (status.getCode() == 200) {
                 outbox.deleteMessage(message);
+            } else {
+                displayModal("Fehler: " + status.getDescription());
             }
         }
+    }
+    
+    /**
+     * Bei Fehlern usw. wird dem Benutzer eine Meldung angezeigt.
+     * @param message
+     */
+    public void displayModal(String message){
+        log.info(message);
     }
 
     /**
@@ -139,13 +187,30 @@ public class MessageClient {
 	}
 	return messageList;
     }
-      
+    
+    /**
+     * Sobald eine Nachricht der Outbox hinzugefügt wurde, 
+     * wird sie an den Server geschickt, falls online.
+     *
+     */
     public class OutboundListener implements Observer {
         @Override public void update(Observable o, Object arg) {
             if(((String) arg).equals("added")) {
                 sendMessagesToServer();
+                log.fine("Message added to outbox. Sending...");
             }
         }
+    }
+    
+    public class MessageProxy implements ClientProxy {
+
+        @Override
+        public void newMessages(ServerProxy server) {
+            // TODO: Filter nach dem richtigen Server.
+            log.fine("Callback from " + server +" checking messages...");
+            checkForNewMessages();
+        }
+        
     }
 
 
