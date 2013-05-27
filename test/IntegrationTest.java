@@ -13,9 +13,6 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnitRuleMockery;
 
 import server.EmailServer;
 import server.MessageServer;
@@ -42,8 +39,8 @@ public class IntegrationTest {
     private Account bertsEmailAccount;
 
 
-    @Rule 
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    //@Rule 
+    //public JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Before
     public void setUp() throws Exception {
