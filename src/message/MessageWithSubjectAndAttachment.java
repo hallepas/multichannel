@@ -25,7 +25,7 @@ public abstract class MessageWithSubjectAndAttachment extends Message {
     }
 
     public boolean hasAttachment(){
-	return attachments.isEmpty();
+	return !attachments.isEmpty();
     }
 
     public void addAttachment(Attachment attachment) {

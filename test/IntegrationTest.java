@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -125,6 +126,7 @@ public class IntegrationTest {
 
     @Test
     public void testSendMessageWithoutReminder() {
+        Date date = new Date();
         MessageClient outlook = annasComputer.openMailProgram();
         outlook.login();
         EmailMessage email = annasComputer.newEmail();
@@ -141,7 +143,10 @@ public class IntegrationTest {
         assertTrue("Mail ist angekommen", messages.contains(email));
         messages = thunderbird.getUnreadMessages();
         assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
-        // fail();  // TODO: Rest
+        assertTrue("Mail hat Datum", email.getDate() != null);
+        assertTrue("Mail Datum ist korrekt", email.getDate().after(date));
+        date = new Date();
+        assertTrue(email.getDate().before(date));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package message;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -21,6 +22,14 @@ public class Attachment implements Serializable {
     }
     public String getFileName() {
 	return name;
+    }
+    public void saveAttachment(String path) throws IOException {
+        if (!(new File(path).isDirectory())) {
+            throw new IOException("Path needs to be a directory");
+        }
+        FileOutputStream fos = new FileOutputStream(path+File.separator+name);
+        fos.write(content);
+        fos.close();        
     }
 
 }
