@@ -38,11 +38,15 @@ public class IntegrationTest {
     private Printer annasDrucker;
     private Computer bertsComputer;
     private FeaturePhone bertsNokia;
+    private Smartphone charliesBlackberry;
     private MessageServer gmail;
+    private MessageServer gmx;
     private final String annasEmail = "anna@gmail.com";
     private final String bertsEmail = "bert@gmail.com";
+    private final String charliesEmail = "charlie@gmx.ch";
     private Account annasEmailAccount;
     private Account bertsEmailAccount;
+    private Account charliesEmailAccount;
     private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
 
 
@@ -63,7 +67,9 @@ public class IntegrationTest {
 	annasDrucker = new Printer("Annas Drucker");
 	bertsComputer = new Computer("Berts Computer");
 	bertsNokia = new FeaturePhone("Berts Nokia 6150");
+	charliesBlackberry = new Smartphone("Charlies BlackBerry");
 	gmail = new EmailServer("GMail", "gmail.com");
+	gmx = new EmailServer("GMX", "gmx.ch");
 
 	annasEmailAccount = new Account();
 	annasEmailAccount.setAddress(annasEmail);
@@ -79,8 +85,13 @@ public class IntegrationTest {
 	bertsEmailAccount.setLoginCredentials(new UsernamePassword(bertsEmail, "b11b"));
 	bertsComputer.openMailProgram().setAccountFor(MessageType.EMAIL, bertsEmailAccount);
 	gmail.register(bertsEmail, bertsEmailAccount.getLoginCredentials());
-
-
+	
+	charliesEmailAccount = new Account();
+	charliesEmailAccount.setAddress(charliesEmail);
+	charliesEmailAccount.setServer(gmx);
+	charliesEmailAccount.setLoginCredentials(new UsernamePassword(charliesEmail, "bb10"));
+	charliesBlackberry.openMailProgram().setAccountFor(MessageType.EMAIL, charliesEmailAccount);
+	gmx.register(charliesEmail,  charliesEmailAccount.getLoginCredentials());
     }
     
 //    @Test

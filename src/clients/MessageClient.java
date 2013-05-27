@@ -72,7 +72,9 @@ public class MessageClient {
                     checkForNewMessages(type);
                 }
             } catch (NoAccountException e) {
-                displayModal("No account for " + type.getTypeName() + "s.");
+                if (type != MessageType.PRINT) {
+                    displayModal("No account for " + type.getTypeName() + "s.");
+                }
             }
         }
     }

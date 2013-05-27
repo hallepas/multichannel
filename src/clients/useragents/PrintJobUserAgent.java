@@ -49,5 +49,5 @@ public class PrintJobUserAgent extends UserAgent  {
 	this.printer = printer.getProxy();
 	return new Status(200, "printer connected");
     }
-
+    
 }
