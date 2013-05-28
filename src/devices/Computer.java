@@ -24,6 +24,20 @@ public class Computer extends Device {
     public PrintJobMessage newPrintJob(){
 	return (PrintJobMessage) newMessage(MessageType.PRINT);
     }
+    
+    public Status print(PrintJobMessage message) {
+        return getUserAgentFor(MessageType.PRINT).sendMessage(message);
+    }
+    
+    public Status printMessage(Message message){
+        PrintJobMessage printJob = newPrintJob();
+        printJob.setMessage(message.getMessage());
+        printJob.setFrom(message.getFrom());
+        printJob.setTo(message.getTo());
+        printJob.setDate(message.getDate());
+        return print(printJob);
+    }
+    
     public Status connectPrinter(Printer printer) {
 	return ((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT))
 		.connect(printer);
@@ -32,8 +46,6 @@ public class Computer extends Device {
 	((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT))
 	.setPrinter(null);
     }
-    public Status print(PrintJobMessage message) {
-	return getUserAgentFor(MessageType.PRINT).sendMessage(message);
-    }
+
 
 }
