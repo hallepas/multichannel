@@ -2,7 +2,6 @@ package table.model;
 
 import gui.helper.MessageProperties;
 
-import java.awt.Checkbox;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -61,16 +60,21 @@ public class MessageTableModel extends AbstractTableModel {
 			return m.getFrom();
 		case 2:
 			if (m instanceof MessageWithSubjectAndAttachment) {
-				 return ((MessageWithSubjectAndAttachment) m).getSubject();
+				return ((MessageWithSubjectAndAttachment) m).getSubject();
 			}
 		case 3:
 			if (m instanceof MessageWithSubjectAndAttachment) {
-				 return ((MessageWithSubjectAndAttachment) m).hasAttachment();
+				return ((MessageWithSubjectAndAttachment) m).hasAttachment();
 			}
 		default:
 			return "";
 		}
 
+	}
+
+	public void changeMessages(List<Message> messages) {
+		this.messages = (ArrayList<Message>) messages;
+		fireTableDataChanged();
 	}
 
 	@Override
