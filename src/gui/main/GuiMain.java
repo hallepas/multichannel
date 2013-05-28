@@ -8,8 +8,11 @@ import java.util.Set;
 
 import javax.swing.UIManager;
 
+import clients.Account;
 import clients.MessageClient;
+import clients.useragents.UserAgent;
 
+import message.Attachment;
 import message.EmailMessage;
 import message.Message;
 import message.MessageType;
@@ -36,7 +39,7 @@ public class GuiMain {
 		showSMSTab();
 	}
 
-	public static void messagesTEst(){
+	public static void messagesTEst() {
 		Smartphone f = new Smartphone("Iphone");
 		MessageClient mc = f.getMessageClient();
 
@@ -67,15 +70,15 @@ public class GuiMain {
 		em.setSubject("Email");
 		em.setTo(to);
 		mc.addToInbox(em);
-		
-		MainFrame mainFrame = new MainFrame(MessageType.EMAIL,  f);
+
+		MainFrame mainFrame = new MainFrame(MessageType.EMAIL, f);
 		mainFrame.setVisible(true);
 	}
-	
-	public static void showSMSTab() { 
+
+	public static void showSMSTab() {
 		Smartphone f = new Smartphone("IPhone");
 		MessageClient mc = f.getMessageClient();
-		
+
 		ArrayList<String> to = new ArrayList<>();
 		to.add("to@to.to");
 		mc.addToInbox(new SMSMessage("Hallo ich wollte nur fragen...", "from@from.from", "Betreff", new Date(), to, null));
@@ -103,14 +106,20 @@ public class GuiMain {
 		em.setTo(to);
 		mc.addToInbox(em);
 		
+		UserAgent ua1 = mc.getUserAgentFor(MessageType.SMS);
+		UserAgent ua2 = mc.getUserAgentFor(MessageType.EMAIL);
+		
+		ua1.setAccount(new Account());
+		ua2.setAccount(new Account());
+		
 		MainFrame mainFrame = new MainFrame(MessageType.EMAIL, f);
 		mainFrame.setVisible(true);
 	}
 
-	public static void showEMailTab() { 
+	public static void showEMailTab() {
 		Computer c = new Computer("Mac Book");
 		MessageClient mc = c.getMessageClient();
-		
+
 		ArrayList<String> to = new ArrayList<>();
 		to.add("to@to.to");
 
@@ -122,6 +131,24 @@ public class GuiMain {
 		em.setTo(to);
 		mc.addToInbox(em);
 
+		EmailMessage em2 = new EmailMessage();
+		em2.setDate(new Date());
+		em2.setFrom("from");
+		em2.setMessage("Entwurf");
+		em2.setSubject("Email");
+		em2.setTo(to);
+		try {
+			em2.addAttachment(new Attachment("D:\\example.txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mc.saveDraft(em2);
+
+
+		UserAgent ua2 = mc.getUserAgentFor(MessageType.EMAIL);
+		
+		ua2.setAccount(new Account());
+		
 		MainFrame mainFrame = new MainFrame(MessageType.SMS, c);
 		mainFrame.setVisible(true);
 	}

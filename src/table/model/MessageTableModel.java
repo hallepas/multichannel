@@ -77,6 +77,15 @@ public class MessageTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
+	public void refreshNewRow() {
+		fireTableRowsInserted(messages.size()-2, messages.size() - 1);
+		fireTableStructureChanged();
+	}
+
+	public void refresh() {
+		fireTableDataChanged();
+	}
+
 	@Override
 	public String getColumnName(int column) {
 		return columnNames.get(column);

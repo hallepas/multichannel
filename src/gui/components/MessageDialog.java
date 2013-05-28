@@ -2,11 +2,15 @@ package gui.components;
 
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
+import gui.helper.MessageProperties;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,8 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import clients.Account;
+import clients.MessageClient;
+import clients.useragents.UserAgent;
+
+import message.Attachment;
+import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
+import message.Status;
 
 public class MessageDialog extends JDialog {
 
@@ -38,9 +49,11 @@ public class MessageDialog extends JDialog {
 
 	private JTextArea messageTextField;
 	private File[] attachementFiles;
-	private JPanel panel;
+	private Message message;
+	private MessageClient messageClient;
 
-	public MessageDialog(MessageType messageType) {
+	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient) {
+		this.messageClient = messageClient;
 		this.guiManager = new GridBagManager(this);
 		this.messageType = messageType;
 		this.toField = new JTextField();
@@ -52,8 +65,25 @@ public class MessageDialog extends JDialog {
 		this.saveButton = new JButton("Speichern");
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
-		this.panel = new JPanel();
+		this.message = message;
+		fillComponentsWithMessageProperties();
 		configureFrame();
+	}
+
+	public void fillComponentsWithMessageProperties() {
+		String toListe = "";
+
+		for (String s : message.getTo()) {
+			toListe = toListe + s + "; ";
+		}
+
+		toField.setText(toListe);
+		messageTextField.setText(message.getMessage());
+
+		if (message instanceof MessageWithSubjectAndAttachment) {
+			subjectField.setText(((MessageWithSubjectAndAttachment) message).getSubject());
+			attachementField.setText(((MessageWithSubjectAndAttachment) message).getAttachments().toString());
+		}
 	}
 
 	private void configureFrame() {
@@ -87,7 +117,44 @@ public class MessageDialog extends JDialog {
 			}
 		});
 
+		sendButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				message = buildMessage();
+				UserAgent userAgent = messageClient.getUserAgentFor(messageType);
+				Status status = userAgent.sendMessage(message);
+				System.out.println("Senden: " + status);
+				
+				//TODO überprüfen ob es ein richtiger Code ist
+				if(status.getCode()==200){
+					//TODO falls ein Entwurf gesendet wurde muss dieser aus den Entwürfen gelösch werden
+					messageClient.getDrafts().remove(message);
+					dispose();
+				}else{
+					// TODO User benachrichtigen (JOptionpane)
+				}
+			}
+		});
+
+		saveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				message = buildMessage();
+				messageClient.saveDraft(message);
+				dispose();
+			}
+		});
 		
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+
 		messageTextField.setSize(100, 100);
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
@@ -115,5 +182,64 @@ public class MessageDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	}
+
+	private Message buildMessage() {
+		message.setDate(new Date());
+		// TODO
+		message.setFrom("TODO");
+		message.setMessage(messageTextField.getText());
+		message.setTo(getSeperatedList(toField.getText()));
+
+		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
+			((MessageWithSubjectAndAttachment) message).setSubject(subjectField.getText());
+			((MessageWithSubjectAndAttachment) message).fillAttachements(getSeparatedAttachement(attachementField.getText()));
+		}
+
+		return message;
+	}
+
+	// TODO überarbeiten
+	private ArrayList<Attachment> getSeparatedAttachement(String listText) {
+		ArrayList<String> attachementsListText = getSeperatedList(listText);
+		ArrayList<Attachment> attachementsList = new ArrayList<Attachment>();
+		String errorText = "";
+
+		if(attachementsListText==null){
+			return null;
+		}
+		
+		for (String s : attachementsListText) {
+			try {
+				Attachment at = new Attachment(s);
+				attachementsList.add(at);
+			} catch (Exception e) {
+				errorText = errorText + s + ";";
+				System.out.println("Datei fehlerhaft: " + s);
+			}
+		}
+
+		if (errorText.equals("")) {
+			return attachementsList;
+		}
+
+		return null;
+	}
+
+	private ArrayList<String> getSeperatedList(String listText) {
+		// Letztes Semikolon entfernen
+		if(listText==null || listText.length()<1){
+			return null;
+		}
+		
+		String text = listText.substring(0, listText.length() - 1);
+		ArrayList<String> tos = new ArrayList<String>();
+		String[] tolist = text.split(";");
+
+		for (String s : tolist) {
+			tos.add(s);
+		}
+
+		return tos;
 	}
 }
