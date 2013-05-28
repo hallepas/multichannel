@@ -51,8 +51,9 @@ public class MessageDialog extends JDialog {
 	private File[] attachementFiles;
 	private Message message;
 	private MessageClient messageClient;
+	private boolean draft;
 
-	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient) {
+	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
 		this.guiManager = new GridBagManager(this);
 		this.messageType = messageType;
@@ -66,6 +67,7 @@ public class MessageDialog extends JDialog {
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
 		this.message = message;
+		this.draft = draft;
 		fillComponentsWithMessageProperties();
 		configureFrame();
 	}
@@ -126,7 +128,7 @@ public class MessageDialog extends JDialog {
 				Status status = userAgent.sendMessage(message);
 				System.out.println("Senden: " + status);
 				
-				//TODO überprüfen ob es ein richtiger Code ist
+				//TODO überprüfen ob es der richtige Code ist
 				if(status.getCode()==200){
 					//TODO falls ein Entwurf gesendet wurde muss dieser aus den Entwürfen gelösch werden
 					messageClient.getDrafts().remove(message);
@@ -142,7 +144,9 @@ public class MessageDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				message = buildMessage();
-				messageClient.saveDraft(message);
+				if(draft==false){
+					messageClient.saveDraft(message);
+				}
 				dispose();
 			}
 		});

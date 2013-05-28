@@ -35,8 +35,8 @@ public class GuiMain {
 		}
 
 		// new LoginFrame().setVisible(true);
-		showEMailTab();
-		showSMSTab();
+//		computer();
+		smpartphone();
 	}
 
 	public static void messagesTEst() {
@@ -75,7 +75,7 @@ public class GuiMain {
 		mainFrame.setVisible(true);
 	}
 
-	public static void showSMSTab() {
+	public static void smpartphone() {
 		Smartphone f = new Smartphone("IPhone");
 		MessageClient mc = f.getMessageClient();
 
@@ -116,7 +116,7 @@ public class GuiMain {
 		mainFrame.setVisible(true);
 	}
 
-	public static void showEMailTab() {
+	public static void computer() {
 		Computer c = new Computer("Mac Book");
 		MessageClient mc = c.getMessageClient();
 
@@ -137,11 +137,11 @@ public class GuiMain {
 		em2.setMessage("Entwurf");
 		em2.setSubject("Email");
 		em2.setTo(to);
-		try {
-			em2.addAttachment(new Attachment("D:\\example.txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			em2.addAttachment(new Attachment("D:\\example.txt"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		mc.saveDraft(em2);
 
 

@@ -15,6 +15,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
@@ -29,12 +30,16 @@ import message.MessageWithSubjectAndAttachment;
 
 import org.jdesktop.swingx.JXHyperlink;
 
-import clients.MessageClient;
-import devices.Device;
-
 import table.model.MessageTableModel;
+import clients.MessageClient;
+import clients.useragents.PrintJobUserAgent;
+import clients.useragents.UserAgent;
 
 public class MessagesTab extends JComponent {
+
+	enum MessageBoxState {
+		DRAFTS, INBOX;
+	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,11 +59,10 @@ public class MessagesTab extends JComponent {
 	private JPanel panelProperties;
 	private MessageClient messageClient;
 	private MessageTableModel tableModel;
-	private boolean draftMessage;
+	private MessageBoxState boxState = MessageBoxState.INBOX;
 
 	public MessagesTab(MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
-		this.draftMessage = false;
 		this.panelProperties = new JPanel();
 		this.messageType = messageType;
 		this.messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
@@ -110,7 +114,7 @@ public class MessagesTab extends JComponent {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Nur Entwürfe darf man bearbeiten
-				if (!draftMessage) {
+				if (!boxState.equals(MessageBoxState.DRAFTS)) {
 					return;
 				}
 
@@ -119,9 +123,10 @@ public class MessagesTab extends JComponent {
 
 					if (selectedRow > -1) {
 						Message message = messages.get(selectedRow);
-						MessageDialog mf = new MessageDialog(message, messageType, messageClient);
+						MessageDialog mf = new MessageDialog(message, messageType, messageClient,true);
 						mf.setVisible(true);
-						tableModel.refreshNewRow();
+						updateMessageBoxes();
+						tableModel.refresh();
 						messagesTable.repaint();
 					}
 				}
@@ -151,14 +156,18 @@ public class MessagesTab extends JComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO überprüfen ob hier der Aufruf (messageClient.newMessage(messageType) eine gute Idee ist
-				MessageDialog mf = new MessageDialog(messageClient.newMessage(messageType), messageType, messageClient);
+				// TODO überprüfen ob hier der Aufruf
+				// (messageClient.newMessage(messageType) eine gute Idee ist
+				MessageDialog mf = new MessageDialog(messageClient.newMessage(messageType), messageType, messageClient, false);
 				mf.setVisible(true);
-				tableModel.refreshNewRow();
+				updateMessageBoxes();
+				tableModel.refresh();
 				messagesTable.repaint();
 			}
 		});
 
+		printButton.addActionListener(new PrintActionLIstener());
+		deleteButton.addActionListener(new DeleteActionListener());
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(6).setScrollPanel().setComp(messagesTable);
@@ -166,10 +175,84 @@ public class MessagesTab extends JComponent {
 		guiManager.setX(14).setY(0).setWidth(1).setScrollPanel().setComp(panelProperties);
 
 	}
-	
 
 	public String getTabTitle() {
 		return tabTitle;
+	}
+
+	class DeleteActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int[] selectedRows = messagesTable.getSelectedRows();
+
+			if (selectedRows.length < 1) {
+				return;
+			}
+
+			int result = JOptionPane.showConfirmDialog(null, "Möchten Sie diese Nachricht löschen?", "Nachricht löschen", JOptionPane.YES_NO_OPTION);
+
+			// 0 bedeuted ja -> löschen
+			if (result != 0) {
+				return;
+			}
+
+			for (int i : selectedRows) {
+				Message m = messages.get(i);
+				messageClient.deleteDraft(m);
+
+				if (boxState.equals(MessageBoxState.DRAFTS)) {
+					messageClient.deleteDraft(m);
+				} else if (boxState.equals(MessageBoxState.INBOX)) {
+					messageClient.deleteMessageFromInbox(m);
+				}
+			}
+
+			if (boxState.equals(MessageBoxState.DRAFTS)) {
+				updateDraftsMessages();
+			} else if (boxState.equals(MessageBoxState.INBOX)) {
+				updateInboxMessages();
+			}
+		}
+
+	}
+
+	public void updateMessageBoxes() {
+		updateInboxMessages();
+		updateDraftsMessages();
+	}
+
+	private void updateInboxMessages() {
+		messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
+		tableModel.changeMessages(messages);
+		messagesTable.repaint();
+	}
+
+	private void updateDraftsMessages() {
+		messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
+		tableModel.changeMessages(messages);
+		messagesTable.repaint();
+	}
+
+	class PrintActionLIstener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			int selectedRow = messagesTable.getSelectedRow();
+
+			if (selectedRow == -1) {
+				return;
+			}
+
+			Message m = messages.get(selectedRow);
+			UserAgent ua = messageClient.getUserAgentFor(messageType);
+			System.out.println("TODO Print");
+
+			if (ua instanceof PrintJobUserAgent) {
+				// TODO print
+			}
+		}
+
 	}
 
 	class InboxActionListener extends AbstractAction {
@@ -178,12 +261,10 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
-			tableModel.changeMessages(messages);
-			draftMessage = false;
-			messagesTable.repaint();
+			updateInboxMessages();
 			lbInbox.setForeground(Color.RED);
 			lbEntwürfe.setForeground(Color.BLUE);
+			boxState = MessageBoxState.INBOX;
 		}
 
 	}
@@ -194,12 +275,10 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
-			tableModel.changeMessages(messages);
-			draftMessage = true;
-			messagesTable.repaint();
+			updateDraftsMessages();
 			lbInbox.setForeground(Color.BLUE);
 			lbEntwürfe.setForeground(Color.RED);
+			boxState = MessageBoxState.DRAFTS;
 		}
 
 	}
