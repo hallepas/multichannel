@@ -29,7 +29,8 @@ public class MessageTest {
     
     @Test
     public void testFileAttachment() {
-        String path = "Attachment.dat";
+        String path = "data" + File.separator + "test" + File.separator + "Attachment.dat";
+        String dog = "data" + File.separator + "test" + File.separator + "Woof.gif";
         Writer fw = null;
         Attachment attachment = null;
         try
@@ -55,7 +56,7 @@ public class MessageTest {
         message.addAttachment(attachment);
         assertTrue("Message hat Attachment", message.hasAttachment());
         
-        assertEquals("Attachment hat Namen", attachment.getFileName(), path);
+        assertEquals("Attachment hat Namen", attachment.getFileName(), "Attachment.dat");
         // Datei löschen.
         new File(path).delete();
         
@@ -64,7 +65,7 @@ public class MessageTest {
         // Die Datei existiert nicht mehr.
         assertFalse(file.exists());
         try {
-            attachment.saveAttachment(".");
+            attachment.saveAttachment(file.getParent());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -82,6 +83,23 @@ public class MessageTest {
             fail("Datei konnte nicht gelesen werden");
         }      
         file.delete();
+        // Check with Images
+        try {
+            attachment = new Attachment(dog);
+        } catch (IOException e) { e.printStackTrace();}
+        assertEquals(attachment.getFileName(), "Woof.gif");
+        File dogFile = new File(dog);
+        assertEquals(dogFile.getPath(), dog);
+        String dogPath = dogFile.getParent();
+        dogFile.delete();
+        assertFalse(dogFile.exists());
+        try {
+            attachment.saveAttachment(dogPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertTrue(dogFile.exists());
+        
       
     }
 
