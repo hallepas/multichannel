@@ -1,6 +1,8 @@
 package clients;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import message.Message;
 
 /**
@@ -12,7 +14,7 @@ import message.Message;
 public class Mailbox extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private List<Message> messages = new ArrayList<Message>();
+    private List<Message> messages = new CopyOnWriteArrayList<Message>();
 
     public List<Message> getMessages() {
 	return messages;

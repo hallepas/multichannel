@@ -1,6 +1,12 @@
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import message.EmailMessage;
 import message.Message;
@@ -13,9 +19,6 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnitRuleMockery;
 
 import server.EmailServer;
 import server.MessageServer;
@@ -35,15 +38,27 @@ public class IntegrationTest {
     private Printer annasDrucker;
     private Computer bertsComputer;
     private FeaturePhone bertsNokia;
+    private Smartphone charliesBlackberry;
     private MessageServer gmail;
+    private MessageServer gmx;
     private final String annasEmail = "anna@gmail.com";
     private final String bertsEmail = "bert@gmail.com";
+    private final String charliesEmail = "charlie@gmx.ch";
     private Account annasEmailAccount;
     private Account bertsEmailAccount;
+    private Account charliesEmailAccount;
+    private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
 
 
-    @Rule 
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public IntegrationTest() {
+        super();
+        System.setProperty( "java.util.logging.config.file", "logging.properties" );
+        try { LogManager.getLogManager().readConfiguration(); }
+        catch ( Exception e ) { e.printStackTrace(); }
+    }
+
+    //@Rule 
+    //public JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Before
     public void setUp() throws Exception {
@@ -52,7 +67,9 @@ public class IntegrationTest {
 	annasDrucker = new Printer("Annas Drucker");
 	bertsComputer = new Computer("Berts Computer");
 	bertsNokia = new FeaturePhone("Berts Nokia 6150");
+	charliesBlackberry = new Smartphone("Charlies BlackBerry");
 	gmail = new EmailServer("GMail", "gmail.com");
+	gmx = new EmailServer("GMX", "gmx.ch");
 
 	annasEmailAccount = new Account();
 	annasEmailAccount.setAddress(annasEmail);
@@ -68,9 +85,21 @@ public class IntegrationTest {
 	bertsEmailAccount.setLoginCredentials(new UsernamePassword(bertsEmail, "b11b"));
 	bertsComputer.openMailProgram().setAccountFor(MessageType.EMAIL, bertsEmailAccount);
 	gmail.register(bertsEmail, bertsEmailAccount.getLoginCredentials());
-
-
+	
+	charliesEmailAccount = new Account();
+	charliesEmailAccount.setAddress(charliesEmail);
+	charliesEmailAccount.setServer(gmx);
+	charliesEmailAccount.setLoginCredentials(new UsernamePassword(charliesEmail, "bb10"));
+	charliesBlackberry.openMailProgram().setAccountFor(MessageType.EMAIL, charliesEmailAccount);
+	gmx.register(charliesEmail,  charliesEmailAccount.getLoginCredentials());
     }
+    
+//    @Test
+//    public void TestLogging(){
+//        log.fine("Test Logging");
+//        log.warning("Warning Test");
+//        log.info("Log Info");
+//    }
 
     @Test
     public void testRegisterAtServer(){
@@ -108,7 +137,9 @@ public class IntegrationTest {
 
     @Test
     public void testSendMessageWithoutReminder() {
+        Date date = new Date();
         MessageClient outlook = annasComputer.openMailProgram();
+        outlook.login();
         EmailMessage email = annasComputer.newEmail();
         assertEquals("Email von ist gesetzt", email.getFrom(), annasEmailAccount.getAddress());
         email.addRecipient(bertsEmail);
@@ -116,12 +147,17 @@ public class IntegrationTest {
         email.setMessage("Dies ist ein Test");
         outlook.submit(email);
         assertTrue("Message ist auf dem Server", gmail.getMessagesForUser(bertsEmail).contains(email));
-//        MessageClient thunderbird = bertsComputer.openMailProgram();
-//        List<Message> messages = thunderbird.getMessagesFromInbox();
-//        assertTrue("Mail ist angekommen", messages.contains(email));
-//        messages = thunderbird.getUnreadMessages();
-//        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
-        // fail();  // TODO: Rest
+    
+        MessageClient thunderbird = bertsComputer.openMailProgram();
+        thunderbird.login();
+        List<Message> messages = thunderbird.getMessagesFromInbox();
+        assertTrue("Mail ist angekommen", messages.contains(email));
+        messages = thunderbird.getUnreadMessages();
+        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
+        assertTrue("Mail hat Datum", email.getDate() != null);
+        assertTrue("Mail Datum ist korrekt", email.getDate().after(date));
+        date = new Date();
+        assertTrue(email.getDate().before(date));
     }
 
     @Test

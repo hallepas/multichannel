@@ -1,10 +1,12 @@
 package clients.useragents;
 import java.util.*;
+import java.util.logging.Logger;
 
 import message.Message;
 import message.MessageType;
 import message.Status;
 
+import server.MessageServer;
 import server.ServerProxy;
 
 import clients.Account;
@@ -20,6 +22,7 @@ import exceptions.NoAccountException;
 public abstract class UserAgent {
     private Account account;
     private ServerProxy server;
+    private static final Logger log = Logger.getLogger( UserAgent.class.getName() );
 
     public ServerProxy getServer(){
         // No magic here.
@@ -84,6 +87,10 @@ public abstract class UserAgent {
         checkForAccount();
         server = account.getServer().login(account.getAddress(), 
                                          account.getLoginCredentials(), client);
+        if (server == null) {
+            return new Status(500, "Could not log in at " 
+                                            + server.getServerName() + "." );
+        }
         return new Status(200, "Login at " + server.getServerName() + ".");
     }
 
@@ -111,12 +118,14 @@ public abstract class UserAgent {
         if (isLoggedIn()){
             message.setDate(new Date());
             Status status = getServer().put(message);
+            log.fine("Message sent. Status: " + status);
             if (status.getCode() != 200) {
                 message.setDate(null);
             }
             return status;
         }		
-        return new Status(400, "Not online");
+        log.info("Tried to send message " + message + ", but user is not logged in.");
+        return new Status(400, "Not logged in.");
     }
 
 
@@ -125,6 +134,7 @@ public abstract class UserAgent {
         if (isLoggedIn()){
             return getServer().poll();
         }
+        log.info("Tried to receive messages, but user is not logged in.");
         return null;
     }
 
