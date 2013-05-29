@@ -98,6 +98,8 @@ public class MessagesTab extends JComponent {
 	private void configureFrame() {
 
 		createPropertiesPanel();
+		
+//		messagesTable.getColumnModel().getColumn(4).setCellRenderer(new AttachementRendererCell());
 
 		// Am Anfang ist der Inbox selektiert
 		lbInbox.setForeground(Color.RED);
@@ -123,7 +125,7 @@ public class MessagesTab extends JComponent {
 
 					if (selectedRow > -1) {
 						Message message = messages.get(selectedRow);
-						MessageDialog mf = new MessageDialog(message, messageType, messageClient,true);
+						MessageDialog mf = new MessageDialog(message, messageType, messageClient, true);
 						mf.setVisible(true);
 						updateMessageBoxes();
 						tableModel.refresh();
@@ -142,13 +144,19 @@ public class MessagesTab extends JComponent {
 				}
 
 				Message m = messages.get(selectedRow);
-				String text = "";
+				String subjectText = "";
 
 				if (m instanceof MessageWithSubjectAndAttachment) {
-					text = "<br<b>Betreff: </b>" + ((MessageWithSubjectAndAttachment) m).getSubject() + "";
+					subjectText = "<br<b>Betreff: </b>" + ((MessageWithSubjectAndAttachment) m).getSubject() + "";
 				}
-
-				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + text + "<br><br><br>" + m.getMessage() + "</html>");
+				
+				String toList="";
+				
+				if(m.getTo().toString()!=null){
+					toList=m.getTo().toString();
+				}
+				//TODO tolist schöner darstelllen
+				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() +"<br><b>An:</b>"+toList+ subjectText + "<br><br><br>" + m.getMessage() + "</html>");
 			}
 		});
 
@@ -223,15 +231,19 @@ public class MessagesTab extends JComponent {
 	}
 
 	private void updateInboxMessages() {
-		messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
-		tableModel.changeMessages(messages);
-		messagesTable.repaint();
+		if (boxState.equals(MessageBoxState.INBOX)) {
+			messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
+			tableModel.changeMessages(messages);
+			messagesTable.repaint();
+		}
 	}
 
 	private void updateDraftsMessages() {
-		messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
-		tableModel.changeMessages(messages);
-		messagesTable.repaint();
+		if (boxState.equals(MessageBoxState.DRAFTS)) {
+			messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
+			tableModel.changeMessages(messages);
+			messagesTable.repaint();
+		}
 	}
 
 	class PrintActionLIstener implements ActionListener {
@@ -261,6 +273,8 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Reihenfolge wichtig
+			boxState = MessageBoxState.INBOX;
 			updateInboxMessages();
 			lbInbox.setForeground(Color.RED);
 			lbEntwürfe.setForeground(Color.BLUE);
@@ -275,10 +289,11 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Reihenfolge wichtig
+			boxState = MessageBoxState.DRAFTS;
 			updateDraftsMessages();
 			lbInbox.setForeground(Color.BLUE);
 			lbEntwürfe.setForeground(Color.RED);
-			boxState = MessageBoxState.DRAFTS;
 		}
 
 	}
