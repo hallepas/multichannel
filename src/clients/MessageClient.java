@@ -9,6 +9,8 @@ import java.util.Observer;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import server.MessageServer;
 import server.ServerProxy;
 
@@ -146,6 +148,7 @@ public class MessageClient {
 	this.drafts.add(message);
     }
     public void submit(Message message) {
+    // TODO: Message aus drafts löschen.
 	this.outbox.add(message);
     }
     
@@ -171,6 +174,7 @@ public class MessageClient {
      * @param message
      */
     public void displayModal(String message){
+    	JOptionPane.showConfirmDialog(null, message, "Fehler", JOptionPane.PLAIN_MESSAGE);
         log.info(message);
     }
 
