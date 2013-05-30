@@ -23,10 +23,14 @@ import org.junit.Test;
 import server.EmailServer;
 import server.MessageServer;
 import server.ServerProxy;
+import server.ServerSocket;
+import server.TheInternet;
 
 import clients.*;
 import clients.credentials.Credentials;
 import clients.credentials.UsernamePassword;
+import clients.useragents.EmailUserAgent;
+import clients.useragents.UserAgent;
 
 import devices.*;
 import exceptions.NoAccountException;
@@ -39,8 +43,7 @@ public class IntegrationTest {
     private Computer bertsComputer;
     private FeaturePhone bertsNokia;
     private Smartphone charliesBlackberry;
-    private MessageServer gmail;
-    private MessageServer gmx;
+   
     private final String annasEmail = "anna@gmail.com";
     private final String bertsEmail = "bert@gmail.com";
     private final String charliesEmail = "charlie@gmx.ch";
@@ -48,6 +51,9 @@ public class IntegrationTest {
     private Account bertsEmailAccount;
     private Account charliesEmailAccount;
     private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
+    private static final TheInternet internet = TheInternet.goOnline();
+    private static final MessageServer gmail = new EmailServer("GMail", "gmail.com");
+    private static final MessageServer gmx = new EmailServer("GMX", "gmx.ch");
 
 
     public IntegrationTest() {
@@ -68,12 +74,11 @@ public class IntegrationTest {
 	bertsComputer = new Computer("Berts Computer");
 	bertsNokia = new FeaturePhone("Berts Nokia 6150");
 	charliesBlackberry = new Smartphone("Charlies BlackBerry");
-	gmail = new EmailServer("GMail", "gmail.com");
-	gmx = new EmailServer("GMX", "gmx.ch");
+
 
 	annasEmailAccount = new Account();
 	annasEmailAccount.setAddress(annasEmail);
-	annasEmailAccount.setServer(gmail);
+	annasEmailAccount.setServer("gmail.com");
 	annasEmailAccount.setLoginCredentials(new UsernamePassword(annasEmail, "a99a"));
 	annasComputer.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
 	annasIPhone.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
@@ -81,14 +86,14 @@ public class IntegrationTest {
 	
 	bertsEmailAccount = new Account();
 	bertsEmailAccount.setAddress(bertsEmail);
-	bertsEmailAccount.setServer(gmail);
+	bertsEmailAccount.setServer("gmail.com");
 	bertsEmailAccount.setLoginCredentials(new UsernamePassword(bertsEmail, "b11b"));
 	bertsComputer.openMailProgram().setAccountFor(MessageType.EMAIL, bertsEmailAccount);
 	gmail.register(bertsEmail, bertsEmailAccount.getLoginCredentials());
 	
 	charliesEmailAccount = new Account();
 	charliesEmailAccount.setAddress(charliesEmail);
-	charliesEmailAccount.setServer(gmx);
+	charliesEmailAccount.setServer("gmx.ch");
 	charliesEmailAccount.setLoginCredentials(new UsernamePassword(charliesEmail, "bb10"));
 	charliesBlackberry.openMailProgram().setAccountFor(MessageType.EMAIL, charliesEmailAccount);
 	gmx.register(charliesEmail,  charliesEmailAccount.getLoginCredentials());
@@ -111,28 +116,25 @@ public class IntegrationTest {
 
     @Test
     public void testLogin(){
-	Credentials credentials = new UsernamePassword(annasEmail, "a99a");
-	// Actually use the same object
+	UserAgent ua = new EmailUserAgent();
+	ua.setAccount(annasEmailAccount);
+	Status status = ua.login();
+	assertEquals("Login funktioniert", status.getCode(), 200);
 	assertTrue(gmail instanceof MessageServer);
-	gmail.register(annasEmail, credentials);
-	ServerProxy proxy = gmail.login(annasEmail, credentials);
-	assertNotNull("Login funktioniert", proxy);
 	assertTrue("Benutzer ist eingeloggt", gmail.isUserLoggedIn(annasEmail));
-	Status status = gmail.logout(annasEmail);
+	
+	status = ua.logout();
 	assertEquals("Logout Anna", status.getCode(), 200);
 	assertFalse("Benutzer ist nicht mehr eingeloggt", gmail.isUserLoggedIn(annasEmail));
-	List<Message> poll = proxy.poll();
+	List<Message> poll = ua.receiveMessages();
 	assertNull("Ausgeloggte Benutzer dürfen nicht mehr Nachrichten empfangen", poll);
-	status = proxy.put(new EmailMessage());
+	status = ua.sendMessage(new EmailMessage());
 	assertTrue("Ausgeloggte Benutzer dürfen nicht mehr Nachrichten senden", status.getCode() != 200);
-	// Test using a different credentials object
-	proxy = gmail.login(annasEmail, new UsernamePassword(annasEmail, "a99a"));
-	assertNotNull("Login funktioniert", proxy);
-	assertTrue("Benutzer ist eingeloggt", gmail.isUserLoggedIn(annasEmail));
-	gmail.logout(annasEmail);
+
 	// wrong password
-	proxy = gmail.login(annasEmail, new UsernamePassword(annasEmail, "a11a"));
-	assertNull("Login funktioniert", proxy);
+	ServerProxy proxy = internet.lookup("gmail.com");
+	ServerSocket socket = proxy.login(annasEmail, new UsernamePassword(annasEmail, "a11a"), null);
+	assertNull("Login funktioniert", socket);
     }
 
     @Test

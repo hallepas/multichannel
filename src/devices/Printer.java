@@ -2,7 +2,7 @@ package devices;
 
 import java.util.List;
 
-import server.ServerProxy;
+import server.ServerSocket;
 
 import message.Message;
 import message.Status;
@@ -32,11 +32,11 @@ public class Printer {
     public void print(Message message){
 	System.out.println(message);
     }
-    public ServerProxy getProxy(){
+    public ServerSocket getProxy(){
 	return new PrinterProxy();
     }
 
-    public class PrinterProxy implements ServerProxy {
+    public class PrinterProxy implements ServerSocket {
 
 	@Override
 	public List<Message> poll() {

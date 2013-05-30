@@ -9,6 +9,7 @@ public class MobileMessageServer extends MessageServer {
 
     public MobileMessageServer(String networkName, String networkCode){
         super(networkName, networkCode);
+        internet.registerDomain(networkCode, new ServerInfo());
     }
 
     /**
@@ -35,6 +36,11 @@ public class MobileMessageServer extends MessageServer {
             return new Status(403, "You can only connect using IMEI");
         }
         return super.register(name, credentials);
+    }
+
+    @Override
+    protected ServerSocket getSocket(String name) {
+        return new Socket(name);
     }
 
 }

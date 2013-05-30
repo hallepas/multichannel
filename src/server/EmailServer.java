@@ -8,6 +8,7 @@ public class EmailServer extends MessageServer {
 
     public EmailServer(String name, String domain) {
         super(name, domain);
+        internet.registerDomain(domain, new ServerInfo());
     }
 
     public Status register(String name, Credentials credentials) {
@@ -25,6 +26,10 @@ public class EmailServer extends MessageServer {
         catch(NullPointerException e) {
             return "";
         }
+    }
+    @Override
+    protected ServerSocket getSocket(String name) {
+        return new Socket(name);
     }
 
 }

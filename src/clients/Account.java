@@ -1,12 +1,11 @@
 package clients;
 
-import server.MessageServer;
 import clients.credentials.Credentials;
 
 
 public class Account {
     private String address; 
-    private MessageServer server; 
+    private String server; 
     private Credentials loginCredentials;
 
     public String getAddress() {
@@ -15,10 +14,10 @@ public class Account {
     public void setAddress(String address) {
 	this.address = address;
     }
-    public MessageServer getServer() {
+    public String getServer() {
 	return server;
     }
-    public void setServer(MessageServer server) {
+    public void setServer(String server) {
 	this.server = server;
     }
     public Credentials getLoginCredentials() {

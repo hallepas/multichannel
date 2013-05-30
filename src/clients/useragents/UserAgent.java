@@ -6,8 +6,9 @@ import message.Message;
 import message.MessageType;
 import message.Status;
 
-import server.MessageServer;
 import server.ServerProxy;
+import server.ServerSocket;
+import server.TheInternet;
 
 import clients.Account;
 import clients.ClientProxy;
@@ -21,10 +22,11 @@ import exceptions.NoAccountException;
  */
 public abstract class UserAgent {
     private Account account;
-    private ServerProxy server;
+    private ServerSocket server;
     private static final Logger log = Logger.getLogger( UserAgent.class.getName() );
+    private static final TheInternet internet = TheInternet.goOnline();
 
-    public ServerProxy getServer(){
+    public ServerSocket getServer(){
         // No magic here.
         return server;
     }
@@ -72,26 +74,30 @@ public abstract class UserAgent {
 
 
     /**
-     * Login bei einem entfernten Server. Speichert den Proxy im Attribut
-     * server. Die zweite Methode übergibt ein Client-Proxy, der Push-
+     * Login bei einem entfernten Server. Speichert den Socket im Attribut
+     * server. Die zweite Methode übergibt ein Client-Socket, der Push-
      * Nachrichten unterstützt.
      * @return Status
      */
     public Status login() {
-        checkForAccount();
-        server = account.getServer().login(account.getAddress(), 
-                                           account.getLoginCredentials());
-        return new Status(200, "Login at " + server.getServerName() + ".");
+        return login(null);
     }
     public Status login(ClientProxy client) {
         checkForAccount();
-        server = account.getServer().login(account.getAddress(), 
-                                         account.getLoginCredentials(), client);
-        if (server == null) {
-            return new Status(500, "Could not log in at " 
-                                            + server.getServerName() + "." );
+        ServerProxy ip = internet.lookup(account.getServer());
+        if (ip == null) {
+            log.fine("Could not find " + account.getServer()+ "." );
+            return new Status(404, "Server " + account.getServer() + "not found.");
         }
-        return new Status(200, "Login at " + server.getServerName() + ".");
+        ServerSocket socket = ip.login(account.getAddress(), 
+                account.getLoginCredentials(), client);
+        if(socket != null) {
+            this.server = socket;
+            log.fine("Successfully logged in at " + account.getServer()+ "." );
+            return new Status(200, "Successfully logged in at " + account.getServer());
+        } 
+        log.fine("Could not log in at " + account.getServer()+ "." );
+        return new Status(405, "Login at server " + account.getServer() + " failed");
     }
 
     public Status logout() {
@@ -105,7 +111,7 @@ public abstract class UserAgent {
     }
 
     public boolean isLoggedIn(){
-        return server instanceof ServerProxy;
+        return server instanceof ServerSocket;
     }
 
     /**
@@ -125,7 +131,7 @@ public abstract class UserAgent {
             return status;
         }		
         log.info("Tried to send message " + message + ", but user is not logged in.");
-        return new Status(400, "Not logged in.");
+        return new Status(405, "Not logged in.");
     }
 
 

@@ -5,7 +5,7 @@ import java.util.List;
 import message.Message;
 import message.Status;
 
-import server.ServerProxy;
+import server.ServerSocket;
 
 import devices.Printer;
 import exceptions.NoAccountException;
@@ -13,12 +13,12 @@ import exceptions.NoDeviceException;
 
 /**
  * Diese Klasse ist etwas spezieller. sendMessages führt direkt zu einem Printer
- * Proxy. ReceiveMessages macht hier keinen Sinn.
+ * Socket. ReceiveMessages macht hier keinen Sinn.
  * 
  */
 
 public class PrintJobUserAgent extends UserAgent  {
-    private ServerProxy printer;
+    private ServerSocket printer;
 
     @Override
     public Status sendMessage(Message message) {
@@ -37,11 +37,11 @@ public class PrintJobUserAgent extends UserAgent  {
 	}
     }
 
-    public ServerProxy getPrinter() {
+    public ServerSocket getPrinter() {
 	return printer;
     }
 
-    public void setPrinter(ServerProxy printer) {
+    public void setPrinter(ServerSocket printer) {
 	this.printer = printer;
     }
 
