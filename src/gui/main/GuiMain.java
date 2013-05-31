@@ -2,6 +2,8 @@ package gui.main;
 
 import gui.components.LoginFrame;
 import gui.components.MainFrame;
+import gui.components.ReminderDialog;
+import gui.components.ReminderRememberDialog;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,9 +37,24 @@ public class GuiMain {
 			e.printStackTrace();
 		}
 
-		 new LoginFrame().setVisible(true);
-		computer();
-		smpartphone();
+		new LoginFrame().setVisible(true);
+		ArrayList<String> to = new ArrayList<>();
+		to.add("to@to.to");
+		to.add("hans@meier.com");
+		// computer();
+		EmailMessage em2 = new EmailMessage();
+		em2.setDate(new Date());
+		em2.setFrom("from");
+		em2.setMessage("Entwurf");
+		em2.setSubject("Email");
+		em2.setTo(to);Computer c = new Computer("Mac Book");
+		MessageClient mc = c.getMessageClient();
+		new ReminderRememberDialog(em2, mc, false).setVisible(true);
+		
+		Smartphone f = new Smartphone("IPhone");
+		MessageClient mc2 = f.getMessageClient();
+		new ReminderRememberDialog(new SMSMessage("Hallo ich wollte nur fragen...", "0781234567", "Betreff", new Date(), to, null), mc2,  false).setVisible(true);
+		// smpartphone();
 	}
 
 	public static void messagesTEst() {
@@ -106,13 +123,13 @@ public class GuiMain {
 		em.setSubject("Email");
 		em.setTo(to);
 		mc.addToInbox(em);
-		
+
 		UserAgent ua1 = mc.getUserAgentFor(MessageType.SMS);
 		UserAgent ua2 = mc.getUserAgentFor(MessageType.EMAIL);
-		
+
 		ua1.setAccount(new Account());
 		ua2.setAccount(new Account());
-		
+
 		MainFrame mainFrame = new MainFrame(MessageType.EMAIL, f);
 		mainFrame.setVisible(true);
 	}
@@ -138,18 +155,17 @@ public class GuiMain {
 		em2.setMessage("Entwurf");
 		em2.setSubject("Email");
 		em2.setTo(to);
-//		try {
-//			em2.addAttachment(new Attachment("D:\\example.txt"));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// em2.addAttachment(new Attachment("D:\\example.txt"));
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		mc.saveDraft(em2);
 
-
 		UserAgent ua2 = mc.getUserAgentFor(MessageType.EMAIL);
-		
+
 		ua2.setAccount(new Account());
-		
+
 		MainFrame mainFrame = new MainFrame(MessageType.SMS, c);
 		mainFrame.setVisible(true);
 	}

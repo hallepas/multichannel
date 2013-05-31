@@ -231,11 +231,12 @@ public class MessageDialog extends JDialog {
 	}
 
 	private ArrayList<String> getSeperatedList(String listText) {
-		// Letztes Semikolon entfernen
+		
 		if(listText==null || listText.length()<1){
 			return null;
 		}
 		
+		// Letztes Semikolon entfernen
 		String text = listText.substring(0, listText.length() - 1);
 		ArrayList<String> tos = new ArrayList<String>();
 		String[] tolist = text.split(";");
