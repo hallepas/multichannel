@@ -106,8 +106,7 @@ public abstract class MessageServer {
 
     
     protected ServerProxy findServerForDomain(String domain){
-        String domainname = getDomainForAddress(domain);
-        return internet.lookup(domainname);
+        return internet.lookup(domain);
     };
 
 
@@ -140,22 +139,25 @@ public abstract class MessageServer {
     /**
      * Nachrichten an lokale Empfänger werden in deren Mailbox verschoben.
      * Wenn der Empfänger nicht vorhanden ist, wird die Nachricht weitergeleitet.
-     * @param name Empfänger
+     * @param name Username
      * @param message Nachricht
      * @return Status
      */
     protected Status deliver(String name, Message message){
         // Sort messages for local and external users.
-        log.fine("Delivering message to " + name);
+        log.fine("Delivering message from " + message.getFrom() + " to " 
+                    + message.getTo() + "on account " + name);
         Map<String, Message> external = new HashMap<String, Message>();
         for(String receiver : message.getTo()) {
-            if(accounts.containsKey(name)) {
+            if(accounts.containsKey(receiver)) {
                 messages.get(receiver).add(message);
             } else {
                 external.put(receiver, message);
             }
         }
-        forwardMessages(external);
+        if(!external.isEmpty()) {
+            forwardMessages(external);
+        }
         return new Status(200, "All messages forwarded.");
     }
 
@@ -185,7 +187,8 @@ public abstract class MessageServer {
             log.fine("forwarder");
             // Sort servers for forwarding
             for (String address : forwards.keySet()) {
-                servers.put(address, findServerForDomain(getDomainForAddress(domain)));
+                String domain = getDomainForAddress(address);
+                servers.put(address, findServerForDomain(domain));
             }
             // forward message to the servers
             for (String address: servers.keySet()) {
@@ -209,7 +212,7 @@ public abstract class MessageServer {
             if(!accounts.containsKey(name)) {
                 return new Status(404, "User " + name + "not found.");
             } else {
-                return deliver(name, message);
+                return MessageServer.this.deliver(name, message);
             }
         }
         @Override
@@ -226,15 +229,15 @@ public abstract class MessageServer {
 
         @Override
         public List<Message> poll() {
-            return doPoll(name);
+            return doPoll(this.name);
         }
 
         @Override
         public Status put(Message message) {
-            if(!accountsOnline.containsKey(name)) {
-                return new Status(403, "User " + name + "is not logged in.");
+            if(!accountsOnline.containsKey(this.name)) {
+                return new Status(403, "User " + this.name + "is not logged in.");
             } else {
-                return deliver(name, message);
+                return deliver(this.name, message);
             }
         }
         @Override
@@ -244,7 +247,7 @@ public abstract class MessageServer {
 
         @Override
         public Status logout() {
-            return MessageServer.this.logout(name);
+            return MessageServer.this.logout(this.name);
         }
 
     }

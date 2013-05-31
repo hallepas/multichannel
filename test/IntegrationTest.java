@@ -175,5 +175,31 @@ public class IntegrationTest {
 	assertEquals("Nachricht ausgedruckt", status.getCode(), 200);
 	assertEquals(status.getDescription(), "printed");
     }
+    
+    @Test
+    public void testSendEmailAcrossDomains() {
+        MessageClient outlook = annasComputer.openMailProgram();
+        outlook.login();
+        EmailMessage email = annasComputer.newEmail();
+        assertEquals("Email von ist gesetzt", email.getFrom(), annasEmailAccount.getAddress());
+        email.addRecipient(charliesEmail);
+        email.setSubject("Email Test");
+        email.setMessage("Dies ist ein Test");
+        outlook.submit(email);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        assertTrue("Message ist auf dem Server", gmx.getMessagesForUser(charliesEmail).contains(email));
+        MessageClient bbMail = charliesBlackberry.openMailProgram();
+        bbMail.login();
+        List<Message> messages = bbMail.getMessagesFromInbox();
+        assertTrue("Mail ist angekommen", messages.contains(email));
+        messages = bbMail.getUnreadMessages();
+        assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
+        
+    }
 
 }
