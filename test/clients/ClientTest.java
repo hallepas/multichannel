@@ -40,6 +40,7 @@ public class ClientTest {
         assertTrue("Email Message", message instanceof EmailMessage);
         message = client.newMessage(MessageType.PRINT);
         assertTrue("Print Job message", message instanceof PrintJobMessage);
+        assertTrue(client.canPrint());
     }
 
 }
