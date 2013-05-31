@@ -2,26 +2,21 @@ package gui.main;
 
 import gui.components.LoginFrame;
 import gui.components.MainFrame;
-import gui.components.ReminderDialog;
 import gui.components.ReminderRememberDialog;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 import javax.swing.UIManager;
 
-import clients.Account;
-import clients.MessageClient;
-import clients.useragents.UserAgent;
-
-import message.Attachment;
 import message.EmailMessage;
 import message.Message;
 import message.MessageType;
 import message.SMSMessage;
+import clients.Account;
+import clients.MessageClient;
+import clients.useragents.UserAgent;
 import devices.Computer;
-import devices.FeaturePhone;
 import devices.Smartphone;
 
 public class GuiMain {
@@ -41,7 +36,7 @@ public class GuiMain {
 		ArrayList<String> to = new ArrayList<>();
 		to.add("to@to.to");
 		to.add("hans@meier.com");
-		// computer();
+		 computer();
 		EmailMessage em2 = new EmailMessage();
 		em2.setDate(new Date());
 		em2.setFrom("from");
