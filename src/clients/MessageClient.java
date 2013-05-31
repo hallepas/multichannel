@@ -40,6 +40,7 @@ public class MessageClient {
     private Mailbox outbox = new Mailbox(); 
     private Mailbox drafts = new Mailbox(); 
     private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
+    private boolean canPrint;
 
 
     /**
@@ -48,8 +49,9 @@ public class MessageClient {
      * kann.
      * @param types Array aus MessageType
      */
-    public MessageClient(MessageType[] types) {
-	handlers = new HashMap<MessageType, MessageHandler>();
+    public MessageClient(MessageType[] types, boolean canPrint) {
+    this.canPrint = canPrint;
+    handlers = new HashMap<MessageType, MessageHandler>();
 	agents = new HashMap<MessageType, UserAgent>();
 	for(MessageType type : types) {
 	    agents.put(type, UserAgent.getUserAgentForType(type));
@@ -192,6 +194,10 @@ public class MessageClient {
 	    }
 	}
 	return messageList;
+    }
+    
+    public boolean canPrint(){
+    	return canPrint;
     }
     
     /**

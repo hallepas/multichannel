@@ -2,6 +2,8 @@ package gui.components;
 
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
+import gui.table.cell.editor.AttachementCellEditor;
+import gui.table.cell.renderer.AttachementRendererCell;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -54,6 +56,7 @@ public class MessagesTab extends JComponent {
 	private JButton createButton;
 	private JButton deleteButton;
 	private JButton printButton;
+	private JButton attachementButton;
 	private String tabTitle;
 	private List<Message> messages;
 	private JPanel panelProperties;
@@ -74,6 +77,7 @@ public class MessagesTab extends JComponent {
 		// TODO Spalte Anhang: Checkbox anzeigen
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
+		this.attachementButton = new JButton("Anhang speichern");
 		this.printButton = new JButton(this.messageType.getTypeName() + " drucken");
 		this.tabTitle = messageType.getTypeName();
 
@@ -91,15 +95,26 @@ public class MessagesTab extends JComponent {
 		guiManagerPropertiesPanel.setX(0).setY(1).setComp(lbEntwürfe);
 		guiManagerPropertiesPanel.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(createButton);
 		guiManagerPropertiesPanel.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteButton);
-		guiManagerPropertiesPanel.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
+		
+		if (messageClient.canPrint()) {
+			guiManagerPropertiesPanel.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
+		}
+		//TODO 
+		
+//		attachementButton
 		guiManagerPropertiesPanel.setX(0).setY(5).setWeightY(20).setHeight(10).setComp(new JLabel());
 	}
 
 	private void configureFrame() {
 
 		createPropertiesPanel();
-		
-//		messagesTable.getColumnModel().getColumn(4).setCellRenderer(new AttachementRendererCell());
+
+		//TODO überprüfen ob ees ine spalte anhang hat
+		//TODO enable machen und Jfilehcooser anzeigen
+		if (messagesTable.getColumnCount()>2) {
+			messagesTable.getColumnModel().getColumn(3).setCellRenderer(new AttachementRendererCell());
+			messagesTable.getColumnModel().getColumn(3).setCellEditor(new AttachementCellEditor());
+		}
 
 		// Am Anfang ist der Inbox selektiert
 		lbInbox.setForeground(Color.RED);
@@ -149,14 +164,14 @@ public class MessagesTab extends JComponent {
 				if (m instanceof MessageWithSubjectAndAttachment) {
 					subjectText = "<br<b>Betreff: </b>" + ((MessageWithSubjectAndAttachment) m).getSubject() + "";
 				}
-				
-				String toList="";
-				
-				if(m.getTo().toString()!=null){
-					toList=m.getTo().toString();
+
+				String toList = "";
+
+				if (m.getTo().toString() != null) {
+					toList = m.getTo().toString();
 				}
-				//TODO tolist schöner darstelllen
-				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() +"<br><b>An:</b>"+toList+ subjectText + "<br><br><br>" + m.getMessage() + "</html>");
+				// TODO tolist schöner darstelllen
+				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + "<br><b>An:</b>" + toList + subjectText + "<br><br><br>" + m.getMessage() + "</html>");
 			}
 		});
 
@@ -273,7 +288,7 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Reihenfolge wichtig
+			// Reihenfolge wichtig
 			boxState = MessageBoxState.INBOX;
 			updateInboxMessages();
 			lbInbox.setForeground(Color.RED);
@@ -289,7 +304,7 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Reihenfolge wichtig
+			// Reihenfolge wichtig
 			boxState = MessageBoxState.DRAFTS;
 			updateDraftsMessages();
 			lbInbox.setForeground(Color.BLUE);
