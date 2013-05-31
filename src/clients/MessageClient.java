@@ -17,6 +17,7 @@ import server.ServerSocket;
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
+import exceptions.ValidationError;
 
 import message.Message;
 import message.MessageType;
@@ -151,8 +152,10 @@ public class MessageClient {
 	this.drafts.add(message);
     }
     public void submit(Message message) {
-    // TODO: Message aus drafts löschen.
-	this.outbox.add(message);
+        if(this.validateMessage(message)){
+            this.outbox.add(message);
+            this.drafts.deleteMessage(message);  
+        }
     }
     
     /*
@@ -177,7 +180,7 @@ public class MessageClient {
      * @param message
      */
     public void displayModal(String message){
-    	JOptionPane.showConfirmDialog(null, message, "Fehler", JOptionPane.PLAIN_MESSAGE);
+    	//JOptionPane.showConfirmDialog(null, message, "Fehler", JOptionPane.PLAIN_MESSAGE);
         log.info(message);
     }
 
@@ -195,6 +198,15 @@ public class MessageClient {
 	    }
 	}
 	return messageList;
+    }
+    public boolean validateMessage (Message message) {
+        try {
+            this.handlers.get(message.getType()).validateMessage(message);
+            return true;
+        } catch (ValidationError e) {
+            displayModal(e.getMessage());
+            return false;
+        }
     }
     
     /**

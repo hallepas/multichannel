@@ -6,7 +6,7 @@ package clients.credentials;
  */
 public class IMEI implements Credentials {
     private static final long serialVersionUID = 1L;
-    private long imei;
+    private final long imei;
 
     public IMEI(long imei) {
 	this.imei = imei;
@@ -17,12 +17,9 @@ public class IMEI implements Credentials {
 
     @Override 
     public boolean equals(Object o) {
-	if ( ! o.getClass().equals(getClass()) )
-	    return false;
-	if ( o == this )
-	    return true;
-	IMEI that = (IMEI) o;
-	return this.imei == that.getImei();
+	if ( !(o.getClass().equals(this.getClass())))  return false;
+	if ( o == this )   return true;
+	return this.imei == ((IMEI) o).getImei();
     }
 
     @Override

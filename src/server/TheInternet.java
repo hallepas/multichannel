@@ -60,4 +60,11 @@ public class TheInternet {
         }
     }   
     
+    /**
+     * Empty out registry. Used for tests.
+     */
+    public void startOver() {
+        this.domains = new ConcurrentHashMap<String, ServerProxy>();
+    }
+    
 }

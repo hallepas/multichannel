@@ -12,6 +12,7 @@ import message.EmailMessage;
 import message.Message;
 import message.MessageType;
 import message.PrintJobMessage;
+import message.SMSMessage;
 import message.Status;
 
 import org.junit.Test;
@@ -29,7 +30,9 @@ import server.TheInternet;
 
 import clients.*;
 import clients.credentials.Credentials;
+import clients.credentials.IMEI;
 import clients.credentials.UsernamePassword;
+import clients.useragents.CellphoneUserAgent;
 import clients.useragents.EmailUserAgent;
 import clients.useragents.UserAgent;
 
@@ -48,8 +51,8 @@ public class IntegrationTest {
     private final String annasEmail = "anna@gmail.com";
     private final String bertsEmail = "bert@gmail.com";
     private final String charliesEmail = "charlie@gmx.ch";
-    private final String annasTelNr = "079123456";
-    private final String charliesTelNr = "076333222";
+    private final String annasTelNr = "0791234567";
+    private final String charliesTelNr = "0763332220";
     private Account annasEmailAccount;
     private Account bertsEmailAccount;
     private Account charliesEmailAccount;
@@ -57,11 +60,10 @@ public class IntegrationTest {
     private Account charliesSunriseAbo;
     private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
     private static final TheInternet internet = TheInternet.goOnline();
-    private static final MessageServer gmail = new EmailServer("GMail", "gmail.com");
-    private static final MessageServer gmx = new EmailServer("GMX", "gmx.ch");
-    private static final MessageServer swisscom = new MobileMessageServer("Swisscom", "079");
-    private static final MessageServer sunrise = new MobileMessageServer("Sunrise", "076");
-
+    private MessageServer gmail;
+    private MessageServer gmx;
+    private MessageServer swisscom;
+    private MessageServer sunrise;
 
     public IntegrationTest() {
         super();
@@ -75,6 +77,11 @@ public class IntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        internet.startOver(); // empty registry
+        gmail = new EmailServer("GMail", "gmail.com");
+        gmx = new EmailServer("GMX", "gmx.ch");
+        swisscom = new MobileMessageServer("Swisscom", "4179");
+        sunrise = new MobileMessageServer("Sunrise", "4176");
 	annasComputer = new Computer("Annas Computer");
 	annasIPhone = new Smartphone("Annas iPhone");
 	annasDrucker = new Printer("Annas Drucker");
@@ -93,9 +100,12 @@ public class IntegrationTest {
 	
 	annasSwisscomAbo = new Account();
 	annasSwisscomAbo.setAddress(annasTelNr);
-	annasSwisscomAbo.setServer("079");
+	annasSwisscomAbo.setServer("4179");
+	annasSwisscomAbo.setLoginCredentials(new IMEI(annasIPhone.getImei()));
+	annasIPhone.getMessageClient().setAccountFor(MessageType.SMS, annasSwisscomAbo);
+	annasIPhone.getMessageClient().setAccountFor(MessageType.MMS, annasSwisscomAbo);
+	swisscom.register(annasTelNr, new IMEI(annasIPhone.getImei()));
 
-	
 	
 	bertsEmailAccount = new Account();
 	bertsEmailAccount.setAddress(bertsEmail);
@@ -110,6 +120,15 @@ public class IntegrationTest {
 	charliesEmailAccount.setLoginCredentials(new UsernamePassword(charliesEmail, "bb10"));
 	charliesBlackberry.openMailProgram().setAccountFor(MessageType.EMAIL, charliesEmailAccount);
 	gmx.register(charliesEmail,  charliesEmailAccount.getLoginCredentials());
+	
+	charliesSunriseAbo = new Account();
+	charliesSunriseAbo.setAddress(charliesTelNr);
+	charliesSunriseAbo.setServer("4176");
+	charliesSunriseAbo.setLoginCredentials(new IMEI(charliesBlackberry.getImei()));
+	charliesBlackberry.getMessageClient().setAccountFor(MessageType.SMS, charliesSunriseAbo);
+	charliesBlackberry.getMessageClient().setAccountFor(MessageType.MMS, charliesSunriseAbo);
+	sunrise.register(charliesTelNr, new IMEI(charliesBlackberry.getImei()));
+	
     }
     
 //    @Test
@@ -125,6 +144,8 @@ public class IntegrationTest {
 	Status status = gmail.register(annasEmail, new UsernamePassword(annasEmail, "a99a"));
 	assertEquals("Register Anna", status.getCode(), 200);
 	assertTrue("Anna is registered at Google", gmail.doesAccountExist(annasEmail));
+	assertTrue("Anna ist bei Swisscom", swisscom.doesAccountExist(annasTelNr));
+	assertTrue("Charlie ist bei Sunrise", sunrise.doesAccountExist(charliesTelNr));
     }
 
     @Test
@@ -148,6 +169,14 @@ public class IntegrationTest {
 	ServerProxy proxy = internet.lookup("gmail.com");
 	ServerSocket socket = proxy.login(annasEmail, new UsernamePassword(annasEmail, "a11a"), null);
 	assertNull("Login funktioniert", socket);
+	
+	// Cellphone
+	assertEquals("IMEI Accounts", charliesSunriseAbo.getLoginCredentials(), new IMEI(charliesBlackberry.getImei()) );
+	ua = new CellphoneUserAgent();
+	ua.setAccount(charliesSunriseAbo);
+	status = ua.login();
+	assertEquals("Login funktioniert", status.getCode(), 200);
+	assertTrue("Benutzer ist eingeloggt", sunrise.isUserLoggedIn(charliesTelNr));
     }
 
     @Test
@@ -211,6 +240,30 @@ public class IntegrationTest {
         assertTrue("Mail ist angekommen", messages.contains(email));
         messages = bbMail.getUnreadMessages();
         assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
+        
+    }
+    
+    @Test
+    public void sendSMSMessage() {
+        MessageClient iChat = annasIPhone.openMailProgram();
+        iChat.login();
+        MessageClient bbMail = charliesBlackberry.openMailProgram();
+        bbMail.login();
+        
+        SMSMessage sms = annasIPhone.newSMS();
+        sms.addRecipient(charliesTelNr);
+        sms.setMessage("Wo bisch?");
+        iChat.submit(sms);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //assertTrue("Message ist auf dem Server", sunrise.getMessagesForUser(charliesTelNr).contains(sms));
+        // SMS ist push
+        List<Message> messages = bbMail.getMessagesFromInbox();
+        assertTrue("SMS ist angekommen", messages.contains(sms));
+        
         
     }
 

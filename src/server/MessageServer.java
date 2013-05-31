@@ -80,6 +80,7 @@ public abstract class MessageServer {
     public ServerSocket login(String name, Credentials credentials, 
             ClientProxy client) {
         if(!doesAccountExist(name)) {
+            log.fine("Account: " + name + " does not exist @ " + this);
             return null;
         }
         if(accounts.get(name).equals(credentials)) {
@@ -101,7 +102,8 @@ public abstract class MessageServer {
         }
     }
 
-    protected abstract String getDomainForAddress(String name);
+    // Package visible wegen tests
+    abstract String getDomainForAddress(String name);
     protected abstract ServerSocket getSocket(String name);
 
     

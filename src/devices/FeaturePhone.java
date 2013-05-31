@@ -13,7 +13,7 @@ public class FeaturePhone extends Cellphone {
 
     public FeaturePhone(String deviceName) {
 	super(new MessageClient(new MessageType[]{MessageType.SMS, 
-		MessageType.MMS}, false), deviceName);
+		MessageType.MMS}), deviceName);
     }
 
 
