@@ -12,13 +12,13 @@ import message.Status;
 
 
 
-public abstract class MessageServer implements Serializable {
-    private static final long serialVersionUID = -4829470063770721056L;
+public abstract class MessageServer {
     private Map<String, ClientProxy> accountsOnline;
     private Map<String, Credentials> accounts;
     private Map<String, Mailbox> messages;
     private final String domain;
     private final String serverName;
+    protected static final TheInternet internet = TheInternet.goOnline();
     private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
 
     protected MessageServer(String name, String domain){
@@ -34,6 +34,10 @@ public abstract class MessageServer implements Serializable {
     }
     public String getName(){
         return serverName;
+    }
+    @Override
+    public String toString(){
+        return this.serverName;
     }
 
     public Status register(String name, Credentials credentials) {
@@ -69,27 +73,20 @@ public abstract class MessageServer implements Serializable {
     public boolean isUserLoggedIn(String name) {
         return accountsOnline.containsKey(name);
     }
-    /**
-     * Clients that don't implement the push interface are registered here.
-     */
-    public ServerProxy login(String name, Credentials credentials) {
-        if(!doesAccountExist(name)) return null;
-        log.fine("Login: " + name);
-        if(accounts.get(name).equals(credentials)) {
-            accountsOnline.put(name, null);
-            return new Proxy(name);
-        }
-        return null;
-    }
+
     /**
      * If the client implements the push interface, you can call him back.
      */
-    public ServerProxy login(String name, Credentials credentials, 
+    public ServerSocket login(String name, Credentials credentials, 
             ClientProxy client) {
-        if(!doesAccountExist(name)) return null;
+        if(!doesAccountExist(name)) {
+            return null;
+        }
         if(accounts.get(name).equals(credentials)) {
-            accountsOnline.put(name, client);
-            return new Proxy(name);
+            this.accountsOnline.put(name, client);
+            log.fine("Login: " + name + " @ " + this);
+            // delegate the instantiation to the class:
+            return getSocket(name);
         }
         return null;
     }
@@ -97,6 +94,7 @@ public abstract class MessageServer implements Serializable {
     public Status logout(String name){
         if(accountsOnline.containsKey(name)){
             accountsOnline.remove(name);
+            log.fine(" " + name + " logged off @ " + this);
             return new Status(200, "User " + name + " logged out");
         } else {
             return new Status(500, "User " + name + " was not logged in.");
@@ -104,13 +102,12 @@ public abstract class MessageServer implements Serializable {
     }
 
     protected abstract String getDomainForAddress(String name);
+    protected abstract ServerSocket getSocket(String name);
 
+    
     protected ServerProxy findServerForDomain(String domain){
-        String domainname = getDomainForAddress(domain);
-        // TODO: a lot
-        return null;
+        return internet.lookup(domain);
     };
-
 
 
     /**
@@ -142,22 +139,25 @@ public abstract class MessageServer implements Serializable {
     /**
      * Nachrichten an lokale Empfänger werden in deren Mailbox verschoben.
      * Wenn der Empfänger nicht vorhanden ist, wird die Nachricht weitergeleitet.
-     * @param name Empfänger
+     * @param name Username
      * @param message Nachricht
      * @return Status
      */
     protected Status deliver(String name, Message message){
         // Sort messages for local and external users.
-        log.fine("Delivering message to " + name);
+        log.fine("Delivering message from " + message.getFrom() + " to " 
+                    + message.getTo() + "on account " + name);
         Map<String, Message> external = new HashMap<String, Message>();
         for(String receiver : message.getTo()) {
-            if(accounts.containsKey(name)) {
+            if(accounts.containsKey(receiver)) {
                 messages.get(receiver).add(message);
             } else {
-                external.put(getDomainForAddress(receiver), message);
+                external.put(receiver, message);
             }
         }
-        forwardMessages(external);
+        if(!external.isEmpty()) {
+            forwardMessages(external);
+        }
         return new Status(200, "All messages forwarded.");
     }
 
@@ -185,37 +185,59 @@ public abstract class MessageServer implements Serializable {
         }
         public void run() {
             log.fine("forwarder");
-            for (String domain : forwards.keySet()) {
-                try {
-                    servers.put(domain, findServerForDomain(domain));
-                } catch (Exception e) { 
-                    // TODO: Notify sender;
-                }
+            // Sort servers for forwarding
+            for (String address : forwards.keySet()) {
+                String domain = getDomainForAddress(address);
+                servers.put(address, findServerForDomain(domain));
             }
-            for (String domain: servers.keySet()) {
-                servers.get(domain).put(forwards.get(domain));
+            // forward message to the servers
+            for (String address: servers.keySet()) {
+                try {
+                    servers.get(address).deliver(address, forwards.get(address));
+                } catch (NullPointerException e) {
+                    log.warning(e.getMessage());
+                }
             }
         }
     }
+    
+    public class ServerInfo implements ServerProxy {
+        @Override
+        public ServerSocket login(String name, Credentials credentials, 
+                ClientProxy client) {
+            return MessageServer.this.login(name, credentials, client);
+        }
+        @Override
+        public Status deliver(String name, Message message) {
+            if(!accounts.containsKey(name)) {
+                return new Status(404, "User " + name + "not found.");
+            } else {
+                return MessageServer.this.deliver(name, message);
+            }
+        }
+        @Override
+        public Status register(String name, Credentials credentials) {
+            return MessageServer.this.register(name, credentials);
+        }
+    }
 
-
-    public class Proxy implements ServerProxy {
+    public class Socket implements ServerSocket {
         private final String name;
-        private Proxy(String name) {
+        protected Socket(String name) {
             this.name = name;
         }
 
         @Override
         public List<Message> poll() {
-            return doPoll(name);
+            return doPoll(this.name);
         }
 
         @Override
         public Status put(Message message) {
-            if(!accountsOnline.containsKey(name)) {
-                return new Status(403, "User " + name + "is not logged in.");
+            if(!accountsOnline.containsKey(this.name)) {
+                return new Status(403, "User " + this.name + "is not logged in.");
             } else {
-                return deliver(name, message);
+                return deliver(this.name, message);
             }
         }
         @Override
@@ -225,9 +247,8 @@ public abstract class MessageServer implements Serializable {
 
         @Override
         public Status logout() {
-            return MessageServer.this.logout(name);
+            return MessageServer.this.logout(this.name);
         }
-
 
     }
 

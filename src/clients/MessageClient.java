@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import server.MessageServer;
-import server.ServerProxy;
+import server.ServerSocket;
 
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
@@ -217,7 +217,7 @@ public class MessageClient {
     public class MessageProxy implements ClientProxy {
 
         @Override
-        public void newMessages(ServerProxy server) {
+        public void newMessages(ServerSocket server) {
             // TODO: Filter nach dem richtigen Server.
             log.fine("Callback from " + server +" checking messages...");
             checkForNewMessages();

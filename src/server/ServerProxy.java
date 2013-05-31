@@ -1,13 +1,12 @@
 package server;
 
-import java.util.List;
-
 import message.Message;
 import message.Status;
+import clients.ClientProxy;
+import clients.credentials.Credentials;
 
 public interface ServerProxy {
-    List<Message> poll();
-    Status put(Message message);
-    String getServerName();
-    Status logout();
+    Status register(String name, Credentials credentials);
+    ServerSocket login(String name, Credentials credentials, ClientProxy client);
+    Status deliver(String name, Message message);
 }

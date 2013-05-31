@@ -1,7 +1,7 @@
 package clients;
 
-import server.ServerProxy;
+import server.ServerSocket;
 
 public interface ClientProxy {
-    void newMessages(ServerProxy server);
+    void newMessages(ServerSocket server);
 }
