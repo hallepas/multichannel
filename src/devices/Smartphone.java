@@ -10,7 +10,7 @@ import message.SMSMessage;
  * Ein Smartphone kan SMS, MMS und EMails senden und empfangen.
  * 
  */
-public class Smartphone extends Device {
+public class Smartphone extends Cellphone {
 
 	public Smartphone(String deviceName) {
 		super(new MessageClient(new MessageType[]{MessageType.EMAIL, 

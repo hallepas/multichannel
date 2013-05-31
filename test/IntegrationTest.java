@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import server.EmailServer;
 import server.MessageServer;
+import server.MobileMessageServer;
 import server.ServerProxy;
 import server.ServerSocket;
 import server.TheInternet;
@@ -47,13 +48,19 @@ public class IntegrationTest {
     private final String annasEmail = "anna@gmail.com";
     private final String bertsEmail = "bert@gmail.com";
     private final String charliesEmail = "charlie@gmx.ch";
+    private final String annasTelNr = "079123456";
+    private final String charliesTelNr = "076333222";
     private Account annasEmailAccount;
     private Account bertsEmailAccount;
     private Account charliesEmailAccount;
+    private Account annasSwisscomAbo;
+    private Account charliesSunriseAbo;
     private static final Logger log = Logger.getLogger( IntegrationTest.class.getName() );
     private static final TheInternet internet = TheInternet.goOnline();
     private static final MessageServer gmail = new EmailServer("GMail", "gmail.com");
     private static final MessageServer gmx = new EmailServer("GMX", "gmx.ch");
+    private static final MessageServer swisscom = new MobileMessageServer("Swisscom", "079");
+    private static final MessageServer sunrise = new MobileMessageServer("Sunrise", "076");
 
 
     public IntegrationTest() {
@@ -83,6 +90,12 @@ public class IntegrationTest {
 	annasComputer.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
 	annasIPhone.openMailProgram().setAccountFor(MessageType.EMAIL, annasEmailAccount);
 	gmail.register(annasEmail, annasEmailAccount.getLoginCredentials());
+	
+	annasSwisscomAbo = new Account();
+	annasSwisscomAbo.setAddress(annasTelNr);
+	annasSwisscomAbo.setServer("079");
+
+	
 	
 	bertsEmailAccount = new Account();
 	bertsEmailAccount.setAddress(bertsEmail);
@@ -189,7 +202,6 @@ public class IntegrationTest {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         assertTrue("Message ist auf dem Server", gmx.getMessagesForUser(charliesEmail).contains(email));

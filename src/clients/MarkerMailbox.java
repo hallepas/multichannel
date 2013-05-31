@@ -42,6 +42,9 @@ public class MarkerMailbox extends Mailbox {
     public void markAllMessagesAsRead(){
 	unreadMessages = new ArrayList<Message>();
     }
+    public boolean isMessageUnread(Message message){
+        return unreadMessages.contains(message);
+    }
 
     public List<Message> popUnreadMessages(){
 	List<Message> messages = unreadMessages;

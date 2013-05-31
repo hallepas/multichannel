@@ -9,7 +9,7 @@ import message.SMSMessage;
  * Ein Feature Phone kann nur SMS und MMS senden und empfangen.
  * 
  */
-public class FeaturePhone extends Device {
+public class FeaturePhone extends Cellphone {
 
     public FeaturePhone(String deviceName) {
 	super(new MessageClient(new MessageType[]{MessageType.SMS, 

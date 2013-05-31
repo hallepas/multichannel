@@ -47,9 +47,9 @@ public abstract class UserAgent {
     public static UserAgent getUserAgentForType(MessageType type) {
         switch(type) {
         case SMS:
-            return new SMSUserAgent();
+            return new CellphoneUserAgent();
         case MMS:
-            return new MMSUserAgent();
+            return new CellphoneUserAgent();
         case EMAIL:
             return new EmailUserAgent();
         case PRINT:
