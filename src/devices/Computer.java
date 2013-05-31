@@ -14,7 +14,7 @@ public class Computer extends Device {
      */
     public Computer(String deviceName) {
 	super(new MessageClient(new MessageType[]{MessageType.EMAIL,
-		MessageType.PRINT}), deviceName);
+		MessageType.PRINT}, true), deviceName);
     }
 
     public EmailMessage newEmail(){

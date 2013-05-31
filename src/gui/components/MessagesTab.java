@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.html.HTMLEditorKit;
 
+import message.Attachment;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
@@ -34,6 +37,7 @@ import table.model.MessageTableModel;
 import clients.MessageClient;
 import clients.useragents.PrintJobUserAgent;
 import clients.useragents.UserAgent;
+import gui.listener.action.AttachementActionListener;
 
 public class MessagesTab extends JComponent {
 
@@ -54,6 +58,7 @@ public class MessagesTab extends JComponent {
 	private JButton createButton;
 	private JButton deleteButton;
 	private JButton printButton;
+	private JButton attachementButton;
 	private String tabTitle;
 	private List<Message> messages;
 	private JPanel panelProperties;
@@ -74,6 +79,7 @@ public class MessagesTab extends JComponent {
 		// TODO Spalte Anhang: Checkbox anzeigen
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
+		this.attachementButton = new JButton("Anhang speichern");
 		this.printButton = new JButton(this.messageType.getTypeName() + " drucken");
 		this.tabTitle = messageType.getTypeName();
 
@@ -91,14 +97,24 @@ public class MessagesTab extends JComponent {
 		guiManagerPropertiesPanel.setX(0).setY(1).setComp(lbEntwürfe);
 		guiManagerPropertiesPanel.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(createButton);
 		guiManagerPropertiesPanel.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteButton);
-		guiManagerPropertiesPanel.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
-		guiManagerPropertiesPanel.setX(0).setY(5).setWeightY(20).setHeight(10).setComp(new JLabel());
+
+		if (messageClient.canPrint()) {
+			guiManagerPropertiesPanel.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
+		}
+
+		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
+			guiManagerPropertiesPanel.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementButton);
+		}
+		
+		guiManagerPropertiesPanel.setX(0).setY(6).setWeightY(20).setHeight(10).setComp(new JLabel());
 	}
 
 	private void configureFrame() {
 
 		createPropertiesPanel();
 
+		// TODO überprüfen ob ees ine spalte anhang hat
+		// TODO enable machen und Jfilehcooser anzeigen
 		// Am Anfang ist der Inbox selektiert
 		lbInbox.setForeground(Color.RED);
 		lbEntwürfe.setForeground(Color.BLUE);
@@ -110,6 +126,8 @@ public class MessagesTab extends JComponent {
 		messagesTable.setAutoCreateRowSorter(true);
 		panelProperties.setBorder(new TitledBorder("Eigenschaften"));
 
+		attachementButton.addActionListener(new AttachementActionListener(messagesTable, messages));
+		
 		messagesTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -123,7 +141,7 @@ public class MessagesTab extends JComponent {
 
 					if (selectedRow > -1) {
 						Message message = messages.get(selectedRow);
-						MessageDialog mf = new MessageDialog(message, messageType, messageClient,true);
+						MessageDialog mf = new MessageDialog(message, messageType, messageClient, true);
 						mf.setVisible(true);
 						updateMessageBoxes();
 						tableModel.refresh();
@@ -142,13 +160,19 @@ public class MessagesTab extends JComponent {
 				}
 
 				Message m = messages.get(selectedRow);
-				String text = "";
+				String subjectText = "";
 
 				if (m instanceof MessageWithSubjectAndAttachment) {
-					text = "<br<b>Betreff: </b>" + ((MessageWithSubjectAndAttachment) m).getSubject() + "";
+					subjectText = "<br<b>Betreff: </b>" + ((MessageWithSubjectAndAttachment) m).getSubject() + "";
 				}
 
-				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + text + "<br><br><br>" + m.getMessage() + "</html>");
+				String toList = "";
+
+				if (m.getTo().toString() != null) {
+					toList = m.getTo().toString();
+				}
+				// TODO tolist schöner darstelllen
+				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + "<br><b>An:</b>" + toList + subjectText + "<br><br><br>" + m.getMessage() + "</html>");
 			}
 		});
 
@@ -223,15 +247,19 @@ public class MessagesTab extends JComponent {
 	}
 
 	private void updateInboxMessages() {
-		messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
-		tableModel.changeMessages(messages);
-		messagesTable.repaint();
+		if (boxState.equals(MessageBoxState.INBOX)) {
+			messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
+			tableModel.changeMessages(messages);
+			messagesTable.repaint();
+		}
 	}
 
 	private void updateDraftsMessages() {
-		messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
-		tableModel.changeMessages(messages);
-		messagesTable.repaint();
+		if (boxState.equals(MessageBoxState.DRAFTS)) {
+			messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
+			tableModel.changeMessages(messages);
+			messagesTable.repaint();
+		}
 	}
 
 	class PrintActionLIstener implements ActionListener {
@@ -261,6 +289,8 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// Reihenfolge wichtig
+			boxState = MessageBoxState.INBOX;
 			updateInboxMessages();
 			lbInbox.setForeground(Color.RED);
 			lbEntwürfe.setForeground(Color.BLUE);
@@ -275,12 +305,14 @@ public class MessagesTab extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// Reihenfolge wichtig
+			boxState = MessageBoxState.DRAFTS;
 			updateDraftsMessages();
 			lbInbox.setForeground(Color.BLUE);
 			lbEntwürfe.setForeground(Color.RED);
-			boxState = MessageBoxState.DRAFTS;
 		}
 
 	}
+	
 
 }
