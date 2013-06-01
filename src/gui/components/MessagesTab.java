@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -38,6 +39,7 @@ import clients.MessageClient;
 import clients.useragents.PrintJobUserAgent;
 import clients.useragents.UserAgent;
 import gui.listener.action.AttachementActionListener;
+import gui.table.cell.renderer.AttachmentCellRenderer;
 
 public class MessagesTab extends JComponent {
 
@@ -49,7 +51,6 @@ public class MessagesTab extends JComponent {
 
 	private MessageType messageType;
 	private GridBagManager guiManager;
-	private GridBagManager guiManagerPropertiesPanel;
 	private JTextPane messageTextField;
 	private JTable messagesTable;
 
@@ -61,22 +62,19 @@ public class MessagesTab extends JComponent {
 	private JButton attachementButton;
 	private String tabTitle;
 	private List<Message> messages;
-	private JPanel panelProperties;
 	private MessageClient messageClient;
 	private MessageTableModel tableModel;
 	private MessageBoxState boxState = MessageBoxState.INBOX;
+	private BoxPorpertiesPanel boxPorpertiesPanel;
 
 	public MessagesTab(MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
-		this.panelProperties = new JPanel();
 		this.messageType = messageType;
 		this.messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
 		this.guiManager = new GridBagManager(this);
-		this.guiManagerPropertiesPanel = new GridBagManager(panelProperties);
 		this.messageTextField = new JTextPane();
 		this.tableModel = new MessageTableModel(messages, messageType);
 		this.messagesTable = new JTable(tableModel);
-		// TODO Spalte Anhang: Checkbox anzeigen
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
 		this.attachementButton = new JButton("Anhang speichern");
@@ -88,33 +86,13 @@ public class MessagesTab extends JComponent {
 
 		this.lbInbox.setText("Inbox");
 		this.lbEntwürfe.setText("Entwürfe");
+		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton);
 
 		configureFrame();
 	}
 
-	private void createPropertiesPanel() {
-		guiManagerPropertiesPanel.setX(0).setY(0).setComp(lbInbox);
-		guiManagerPropertiesPanel.setX(0).setY(1).setComp(lbEntwürfe);
-		guiManagerPropertiesPanel.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(createButton);
-		guiManagerPropertiesPanel.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteButton);
-
-		if (messageClient.canPrint()) {
-			guiManagerPropertiesPanel.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(printButton);
-		}
-
-		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
-			guiManagerPropertiesPanel.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementButton);
-		}
-		
-		guiManagerPropertiesPanel.setX(0).setY(6).setWeightY(20).setHeight(10).setComp(new JLabel());
-	}
-
 	private void configureFrame() {
 
-		createPropertiesPanel();
-
-		// TODO überprüfen ob ees ine spalte anhang hat
-		// TODO enable machen und Jfilehcooser anzeigen
 		// Am Anfang ist der Inbox selektiert
 		lbInbox.setForeground(Color.RED);
 		lbEntwürfe.setForeground(Color.BLUE);
@@ -124,10 +102,15 @@ public class MessagesTab extends JComponent {
 		messageTextField.setEditable(false);
 		messageTextField.setEditorKit(eKit);
 		messagesTable.setAutoCreateRowSorter(true);
-		panelProperties.setBorder(new TitledBorder("Eigenschaften"));
+		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
 
 		attachementButton.addActionListener(new AttachementActionListener(messagesTable, messages));
-		
+
+		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
+			messagesTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+			messagesTable.getColumnModel().getColumn(3).setCellRenderer(new AttachmentCellRenderer());
+		}
+
 		messagesTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -196,7 +179,7 @@ public class MessagesTab extends JComponent {
 
 		guiManager.setX(0).setY(0).setWidth(6).setScrollPanel().setComp(messagesTable);
 		guiManager.setX(6).setY(0).setWidth(8).setWeightX(15).setScrollPanel().setComp(messageTextField);
-		guiManager.setX(14).setY(0).setWidth(1).setScrollPanel().setComp(panelProperties);
+		guiManager.setX(14).setY(0).setWidth(1).setScrollPanel().setComp(boxPorpertiesPanel);
 
 	}
 
@@ -313,6 +296,5 @@ public class MessagesTab extends JComponent {
 		}
 
 	}
-	
 
 }

@@ -9,6 +9,7 @@ public class MessageProperties {
 
 	public static Font MESSAGE_FONT = new Font("Tahoma", 0, 11);
 	public static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+	public static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("H:mm");
 	public static SimpleDateFormat DATE_AND_TIME_FORMATTER = new SimpleDateFormat("dd.MM.yyyy H:mm");
 	
 }

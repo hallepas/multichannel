@@ -2,7 +2,6 @@ package gui.components;
 
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
-import gui.helper.MessageProperties;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -10,25 +9,21 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import clients.Account;
-import clients.MessageClient;
-import clients.useragents.UserAgent;
 
 import message.Attachment;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
 import message.Status;
+import clients.MessageClient;
+import clients.useragents.UserAgent;
 
 public class MessageDialog extends JDialog {
 
@@ -52,6 +47,7 @@ public class MessageDialog extends JDialog {
 	private Message message;
 	private MessageClient messageClient;
 	private boolean draft;
+	private ReminderPanel reminderPanel;
 
 	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
@@ -68,6 +64,7 @@ public class MessageDialog extends JDialog {
 		this.messageTextField = new JTextArea();
 		this.message = message;
 		this.draft = draft;
+		this.reminderPanel = new ReminderPanel();
 		fillComponentsWithMessageProperties();
 		configureFrame();
 	}
@@ -163,15 +160,27 @@ public class MessageDialog extends JDialog {
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(1).setWeightX(1).setComp(new JLabel("An"));
-		guiManager.setX(1).setY(0).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
+//		guiManager.setX(1).setY(0).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
+		
+		
+
+//		guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
+//		guiManager.setX(7).setY(0).setWidth(1).setWeightX(1).setComp(reminderPanel);
+//		
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
+			guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
+			guiManager.setX(7).setY(0).setWidth(1).setWeightX(1).setHeight(2).setComp(reminderPanel);
 			guiManager.setX(0).setY(1).setWidth(1).setWeightX(1).setComp(new JLabel("Betreff"));
-			guiManager.setX(1).setY(1).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectField);
+			guiManager.setX(1).setY(1).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectField);
 
 			guiManager.setX(0).setY(2).setWidth(1).setWeightX(1).setComp(new JLabel("Anhang"));
 			guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementField);
 			guiManager.setX(7).setY(2).setWeightX(1).setHeight(1).setFill(GridBagConstraints.HORIZONTAL).setComp(searchButton);
+		}else{
+
+			guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
+			guiManager.setX(7).setY(0).setWidth(1).setWeightX(1).setComp(reminderPanel);
 		}
 
 		guiManager.setX(0).setY(3).setWidth(8).setWeightX(8).setWeightY(25).setHeight(5).setScrollPanel().setComp(messageTextField);

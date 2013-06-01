@@ -2,6 +2,7 @@ package gui.main;
 
 import gui.components.LoginFrame;
 import gui.components.MainFrame;
+import gui.components.MessageDialog;
 import gui.components.ReminderRememberDialog;
 
 import java.util.ArrayList;
@@ -32,24 +33,58 @@ public class GuiMain {
 			e.printStackTrace();
 		}
 
-		new LoginFrame().setVisible(true);
+		// showReminder();
+		// computer();
+		// smpartphone();
+		showMessageDialogE();
+		showMessageDialog();
+	}
+
+	public static void showMessageDialog() {
 		ArrayList<String> to = new ArrayList<>();
 		to.add("to@to.to");
 		to.add("hans@meier.com");
-		 computer();
+
+		Computer c = new Computer("Mac Book");
+		MessageClient mc = c.getMessageClient();
+		MessageDialog md = new MessageDialog(new SMSMessage("Hallo ich wollte nur fragen...", "0781234567", "Betreff", new Date(), to, null), MessageType.SMS, mc, true);
+		md.setVisible(true);
+	}
+	
+	public static void showMessageDialogE() {
+		ArrayList<String> to = new ArrayList<>();
+		to.add("to@to.to");
+		to.add("hans@meier.com");
 		EmailMessage em2 = new EmailMessage();
 		em2.setDate(new Date());
 		em2.setFrom("from");
 		em2.setMessage("Entwurf");
 		em2.setSubject("Email");
-		em2.setTo(to);Computer c = new Computer("Mac Book");
+		em2.setTo(to);
+		Computer c = new Computer("Mac Book");
+		MessageClient mc = c.getMessageClient();
+		MessageDialog md = new MessageDialog(em2, MessageType.EMAIL, mc, true);
+		md.setVisible(true);
+	}
+
+	public static void showReminder() {
+		new LoginFrame().setVisible(true);
+		ArrayList<String> to = new ArrayList<>();
+		to.add("to@to.to");
+		to.add("hans@meier.com");
+		EmailMessage em2 = new EmailMessage();
+		em2.setDate(new Date());
+		em2.setFrom("from");
+		em2.setMessage("Entwurf");
+		em2.setSubject("Email");
+		em2.setTo(to);
+		Computer c = new Computer("Mac Book");
 		MessageClient mc = c.getMessageClient();
 		new ReminderRememberDialog(em2, mc, false).setVisible(true);
-		
+
 		Smartphone f = new Smartphone("IPhone");
 		MessageClient mc2 = f.getMessageClient();
-		new ReminderRememberDialog(new SMSMessage("Hallo ich wollte nur fragen...", "0781234567", "Betreff", new Date(), to, null), mc2,  false).setVisible(true);
-		// smpartphone();
+
 	}
 
 	public static void messagesTEst() {
