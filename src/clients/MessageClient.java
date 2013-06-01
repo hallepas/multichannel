@@ -2,6 +2,7 @@ package clients;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -156,9 +157,16 @@ public class MessageClient {
 	this.drafts.add(message);
     }
     public void submit(Message message) {
-        if(this.validateMessage(message)){
-            this.outbox.add(message);
-            this.drafts.deleteMessage(message);  
+        // Hat es einen Reminder?
+        if(message.getReminder() != null 
+                && message.getReminder().after(new Date())) {
+            this.saveDraft(message);
+            log.fine("Message has a reminder. saved as draft");
+        } else {
+            if(this.validateMessage(message)){
+                this.outbox.add(message);
+                this.drafts.deleteMessage(message);  
+            }
         }
     }
     

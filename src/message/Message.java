@@ -22,18 +22,19 @@ public abstract class Message implements Comparable<Message>, Serializable {
 	this.from = "";
 	this.to = new ArrayList<String>();
 	this.message = "";
-	this.date = new Date();
+	this.date = null;
+	this.reminder = null;
     }
 
-    public Message(String from, ArrayList<String> to, String message, 
-	    Date date, Date reminder) {
-	super();
-	this.from = from;
-	this.to = to;
-	this.message = message;
-	this.date = date;
-	this.reminder = reminder;
-    }
+//    public Message(String from, ArrayList<String> to, String message, 
+//	    Date date, Date reminder) {
+//	super();
+//	this.from = from;
+//	this.to = to;
+//	this.message = message;
+//	this.date = date;
+//	this.reminder = reminder;
+//    }
 
     public abstract MessageType getType();
 
@@ -81,8 +82,9 @@ public abstract class Message implements Comparable<Message>, Serializable {
     }
     
     public void setReminder(Date reminder) {
-		this.reminder = reminder;
-	}
+	this.reminder = reminder;
+    }
+
 
     @Override
     public int compareTo(Message other) {

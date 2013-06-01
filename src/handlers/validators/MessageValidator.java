@@ -14,13 +14,12 @@ public abstract class MessageValidator implements Validator {
      * @throws ValidationError
      */
     public void validateMessage(Message message) throws ValidationError {
-	if (!(message.getDate() instanceof Date)) {
-	    throw new ValidationError("No date specified");
+	if ( message.getDate() instanceof Date) {
+	    throw new ValidationError("Message has already been sent.");
 	}
-	if (message.getReminder() != null && message.getDate()
-					    .before(message.getReminder()) ){
-	    throw new ValidationError("Reminder cannot be set on a message " +
-	    			      "that has already been sent.");
+	if (message.getReminder() != null && message.getReminder()
+					    .after(new Date()) ){
+	    throw new ValidationError("Reminder is in the future Cannot send message.");
 	}
     }
 }
