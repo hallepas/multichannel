@@ -262,6 +262,11 @@ public class IntegrationTest {
         //assertTrue("Message ist auf dem Server", sunrise.getMessagesForUser(charliesTelNr).contains(sms));
         // SMS ist push
         List<Message> messages = bbMail.getMessagesFromInbox();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertTrue("SMS ist angekommen", messages.contains(sms));
         
         

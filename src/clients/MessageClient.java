@@ -90,6 +90,7 @@ public class MessageClient {
      */
     public void checkForNewMessages(MessageType type){
         for(Message message : agents.get(type).receiveMessages()) {
+            log.fine("Received new " + type);
             inbox.add(message);
         }
     }
@@ -226,10 +227,10 @@ public class MessageClient {
     public class MessageProxy implements ClientProxy {
 
         @Override
-        public void newMessages(ServerSocket server) {
+        public void newMessages(MessageType type, String server) {
             // TODO: Filter nach dem richtigen Server.
             log.fine("Callback from " + server +" checking messages...");
-            checkForNewMessages();
+            checkForNewMessages(type);
         }
         
     }

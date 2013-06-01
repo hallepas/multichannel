@@ -8,6 +8,7 @@ import clients.Mailbox;
 import clients.credentials.Credentials;
 
 import message.Message;
+import message.MessageType;
 import message.Status;
 
 
@@ -153,6 +154,12 @@ public abstract class MessageServer {
         for(String receiver : message.getTo()) {
             if(accounts.containsKey(receiver)) {
                 messages.get(receiver).add(message);
+                // Send Push-Notification
+                if(accountsOnline.containsKey(receiver)) {
+                    Push push = new Push(accountsOnline.get(receiver), 
+                                         message.getType());
+                    push.run();
+                }
             } else {
                 external.put(receiver, message);
             }
@@ -200,6 +207,25 @@ public abstract class MessageServer {
                     log.warning(e.getMessage());
                 }
             }
+        }
+    }
+    
+    /**
+     * Innere Klasse, die sich um das Versenden von Push-Mitteilungen kümmert.
+     *
+     */
+    public class Push implements Runnable {
+        private final ClientProxy receiver;
+        private final MessageType type;
+        
+        public Push(ClientProxy receiver, MessageType type){
+            this.receiver = receiver;
+            this.type = type;
+        }
+        
+        public void run(){
+            log.fine("Sending Push notification from " + getName() + " for " + this.type);
+            receiver.newMessages(type, getName());
         }
     }
     
