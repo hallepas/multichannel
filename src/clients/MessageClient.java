@@ -9,10 +9,10 @@ import java.util.Observer;
 import java.util.Set;
 import java.util.logging.Logger;
 
+// TODO: remove
 import javax.swing.JOptionPane;
 
 import server.MessageServer;
-import server.ServerSocket;
 
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;

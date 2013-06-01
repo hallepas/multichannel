@@ -2,9 +2,6 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -16,10 +13,7 @@ import message.SMSMessage;
 import message.Status;
 
 import org.junit.Test;
-
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
 
 import server.EmailServer;
 import server.MessageServer;
@@ -29,7 +23,6 @@ import server.ServerSocket;
 import server.TheInternet;
 
 import clients.*;
-import clients.credentials.Credentials;
 import clients.credentials.IMEI;
 import clients.credentials.UsernamePassword;
 import clients.useragents.CellphoneUserAgent;
@@ -37,7 +30,6 @@ import clients.useragents.EmailUserAgent;
 import clients.useragents.UserAgent;
 
 import devices.*;
-import exceptions.NoAccountException;
 
 
 public class IntegrationTest {
