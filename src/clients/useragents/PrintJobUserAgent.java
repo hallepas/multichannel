@@ -2,6 +2,8 @@ package clients.useragents;
 
 import java.util.List;
 
+import clients.ClientProxy;
+
 import message.Message;
 import message.Status;
 
@@ -48,6 +50,15 @@ public class PrintJobUserAgent extends UserAgent  {
     public Status connect(Printer printer) {
 	this.printer = printer.getProxy();
 	return new Status(200, "printer connected");
+    }
+    @Override
+    public Status login(ClientProxy client){
+        if(this.printer != null){
+            return new Status(200, "Printer online.");
+        } else {
+            return new Status(500, "No printer connected");
+        }
+        
     }
     
 }

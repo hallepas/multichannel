@@ -89,9 +89,12 @@ public class MessageClient {
      * @param type
      */
     public void checkForNewMessages(MessageType type){
-        for(Message message : agents.get(type).receiveMessages()) {
-            log.fine("Received new " + type);
-            inbox.add(message);
+        List<Message> messages = agents.get(type).receiveMessages();
+        if(messages != null) {
+            for(Message message : messages) {
+                log.fine("Received new " + type);
+                inbox.add(message);
+            }
         }
     }
     public void checkForNewMessages() {
