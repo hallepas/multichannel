@@ -7,7 +7,8 @@ import exceptions.ValidationError;
 
 public abstract class MobileMessageValidator extends MessageValidator {
     // Wir beschränken uns mal auf zehnstellige Telefonnummern.
-    private static final Pattern INTERNATIONAL = Pattern.compile("^\\+?([1-9]\\d{3})\\d{7}$");
+    private static final Pattern INTERNATIONAL = 
+                                    Pattern.compile("^\\+?([1-9]\\d{3})\\d{7}$");
     private static final Pattern NATIONAL = Pattern.compile("^0([1-9]\\d)\\d{7}$");
 
     private boolean validateNumber(String number){
@@ -23,7 +24,8 @@ public abstract class MobileMessageValidator extends MessageValidator {
         }
         for(String number : message.getTo()){
             if(!validateNumber(number)) {
-                throw new ValidationError("Empfänger " + number + " hat falsches Format.");
+                throw new ValidationError("Empfänger " + number + 
+                                          " hat falsches Format.");
             }
         }
         super.validateMessage(message);    

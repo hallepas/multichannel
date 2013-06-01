@@ -60,6 +60,8 @@ public class World {
         sunrise = new MobileMessageServer("Sunrise", "4176");
         // Create clients
         annasComputer = new Computer("Annas Computer");
+        annasDrucker = new Printer("Annas Drucker");
+        annasComputer.connectPrinter(annasDrucker);
         annasNokia = new FeaturePhone("Annas Nokia");
         charliesBlackberry = new Smartphone("Charlies BlackBerry");
      
