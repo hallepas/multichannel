@@ -33,6 +33,12 @@ public class MainFrame extends JFrame {
 		this.device = device;
 		configureFrame();
 	}
+	public MainFrame(Device device) {
+	        this.pane = new JTabbedPane();
+	        this.guiManager = new GridBagManager(this);
+	        this.device = device;
+	        configureFrame();
+	}
 
 	private void configureFrame() {
 		createTabs();

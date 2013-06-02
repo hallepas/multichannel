@@ -1,15 +1,19 @@
 package handlers.validators;
 
+import java.util.regex.Pattern;
+
 import message.Message;
 import exceptions.ValidationError;
 
 public class EmailValidator extends MessageValidator {
+    private static final Pattern EMAIL = Pattern.compile("^[_A-Za-z0-9-\\+]+"+
+       "(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
     private void checkValidEmail(String address) throws ValidationError {
 	if (!(address.indexOf('@') > 0 )) {
 	    throw new ValidationError("Email Adresse <" + address + 
 		    			"> hat kein @ Symbol.");
-	} else if (address.split("@").length != 2) {
+	} else if (!EMAIL.matcher(address).matches()) {
 	    throw new ValidationError("Email Adresse <" + address + 
 		    				"> hat falsches Format.");
 	}

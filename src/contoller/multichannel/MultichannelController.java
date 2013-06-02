@@ -1,12 +1,16 @@
 package contoller.multichannel;
 
-import gui.components.LoginFrame;
+import devices.Device;
+import gui.components.MainFrame;
 
 public class MultichannelController {
 
-	public void start() {
-		LoginFrame lf = new LoginFrame();
-		lf.setVisible(true);
-	}
+    public void start() {
+        World world = new World();
+        for(Device device : world.getDevices()){
+            new MainFrame(device).setVisible(true);
+        }
+        
+    }
 
 }

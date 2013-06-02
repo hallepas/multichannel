@@ -1,7 +1,8 @@
 package clients;
 
-import server.ServerSocket;
+import message.MessageType;
 
 public interface ClientProxy {
-    void newMessages(ServerSocket server);
+    // Vorläufig mal eines pro Message
+    void newMessages(MessageType type, String server);
 }

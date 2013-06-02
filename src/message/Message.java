@@ -65,6 +65,9 @@ public abstract class Message implements Comparable<Message>, Serializable {
     public void addRecipient(String recipient) {
 	this.to.add(recipient);
     }
+    public void removeRecipient(String recipient) {
+        this.to.remove(recipient);
+    }
 
     public Date getDate() {
 	return date;

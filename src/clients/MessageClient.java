@@ -9,10 +9,10 @@ import java.util.Observer;
 import java.util.Set;
 import java.util.logging.Logger;
 
+// TODO: remove
 import javax.swing.JOptionPane;
 
 import server.MessageServer;
-import server.ServerSocket;
 
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
@@ -89,8 +89,12 @@ public class MessageClient {
      * @param type
      */
     public void checkForNewMessages(MessageType type){
-        for(Message message : agents.get(type).receiveMessages()) {
-            inbox.add(message);
+        List<Message> messages = agents.get(type).receiveMessages();
+        if(messages != null) {
+            for(Message message : messages) {
+                log.fine("Received new " + type);
+                inbox.add(message);
+            }
         }
     }
     public void checkForNewMessages() {
@@ -226,10 +230,10 @@ public class MessageClient {
     public class MessageProxy implements ClientProxy {
 
         @Override
-        public void newMessages(ServerSocket server) {
+        public void newMessages(MessageType type, String server) {
             // TODO: Filter nach dem richtigen Server.
             log.fine("Callback from " + server +" checking messages...");
-            checkForNewMessages();
+            checkForNewMessages(type);
         }
         
     }

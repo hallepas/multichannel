@@ -3,7 +3,8 @@ package handlers.validators;
 import message.Message;
 import exceptions.ValidationError;
 
-public class SMSValidator extends MessageValidator {
+public class SMSValidator extends MobileMessageValidator {
+    
 
     @Override
     public void validateMessage(Message message) throws ValidationError {

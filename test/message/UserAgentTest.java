@@ -23,8 +23,6 @@ public class UserAgentTest {
         return userAgents;
     }
 
-
-
     /**
      * Methoden sollen eine Exception werfen, wenn kein Account definiert ist.
      */
@@ -44,5 +42,6 @@ public class UserAgentTest {
         }
         assertTrue("NoAccountException raised", true);
     }
-
+   
+    
 }
