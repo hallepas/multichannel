@@ -28,6 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.html.HTMLEditorKit;
 
+import message.Attachment;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
@@ -68,7 +69,7 @@ public class MessagesTab extends JComponent {
 	private BoxPorpertiesPanel boxPorpertiesPanel;
 	private Device device;
 	private AttachementActionListener attachementActionListener;
-	
+
 	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
 		this.messageType = messageType;
@@ -92,7 +93,7 @@ public class MessagesTab extends JComponent {
 		this.lbEntwürfe.setText("Entwürfe");
 		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton, replyButton);
 		this.messageClient.addObserver(new UpdateListener());
-		this.attachementActionListener= new AttachementActionListener(messagesTable, messages);
+		this.attachementActionListener = new AttachementActionListener(messagesTable, messages);
 
 		configureFrame();
 	}
@@ -203,17 +204,21 @@ public class MessagesTab extends JComponent {
 				}
 
 				Message message = messages.get(selectedRow);
+				Message newMessage = messageClient.newMessage(messageType);
+				newMessage.setDate(null);
+				newMessage.setMessage(message.getMessage());
 
+				if(message instanceof MessageWithSubjectAndAttachment){
+					((MessageWithSubjectAndAttachment) newMessage).setSubject(	((MessageWithSubjectAndAttachment) message).getSubject());
+					((MessageWithSubjectAndAttachment) newMessage).fillAttachements((ArrayList)((MessageWithSubjectAndAttachment) message).getAttachments());
+				}
+				
 				ArrayList<String> to = new ArrayList<String>();
 				to.add(message.getFrom());
-				message.setDate(null);
-				message.setTo(to);
+				newMessage.setTo(to);
 
-				MessageDialog mf = new MessageDialog(message, messageType, messageClient, false);
+				MessageDialog mf = new MessageDialog(newMessage, messageType, messageClient, false);
 				mf.setVisible(true);
-
-				// TODO nach entwürfen verschieben
-
 			}
 		});
 
