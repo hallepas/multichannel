@@ -136,11 +136,14 @@ public class MessagesTab extends JComponent {
 		messagesTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				attachementActionListener.updateMessages(messages);
+				
 				// Nur Entwürfe darf man bearbeiten
 				if (!boxState.equals(MessageBoxState.DRAFTS)) {
 					return;
 				}
-
+				
+				
 				if (e.getClickCount() == 2) {
 					int selectedRow = messagesTable.getSelectedRow();
 
