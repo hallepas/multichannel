@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 	private void createTabs() {
 		for(MessageType type: device.getSupportedMessageFormats()){
 			if (!type.equals(MessageType.PRINT)) {
-				MessagesTab mf = new MessagesTab(device.getMessageClient(), type);
+				MessagesTab mf = new MessagesTab(device, device.getMessageClient(), type);
 				pane.addTab(mf.getTabTitle(), mf);
 			}
 		}

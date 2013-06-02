@@ -87,6 +87,10 @@ public class MessageDialog extends JDialog {
 		}
 	}
 
+	public void fillAttachmentPanel(){
+		
+	}
+	
 	private void configureFrame() {
 
 		reminderButton.addActionListener(new ActionListener() {

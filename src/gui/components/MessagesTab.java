@@ -39,6 +39,7 @@ import table.model.MessageTableModel;
 import clients.MessageClient;
 import clients.useragents.PrintJobUserAgent;
 import clients.useragents.UserAgent;
+import devices.Device;
 import gui.listener.action.AttachementActionListener;
 import gui.table.cell.renderer.AttachmentCellRenderer;
 
@@ -67,8 +68,9 @@ public class MessagesTab extends JComponent {
 	private MessageTableModel tableModel;
 	private MessageBoxState boxState = MessageBoxState.INBOX;
 	private BoxPorpertiesPanel boxPorpertiesPanel;
-
-	public MessagesTab(MessageClient messageClient, MessageType messageType) {
+	private Device device;
+	
+	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
 		this.messageType = messageType;
 		this.messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
@@ -81,6 +83,7 @@ public class MessagesTab extends JComponent {
 		this.attachementButton = new JButton("Anhang speichern");
 		this.printButton = new JButton(this.messageType.getTypeName() + " drucken");
 		this.tabTitle = messageType.getTypeName();
+		this.device = device;
 
 		this.lbInbox = new JXHyperlink(new InboxActionListener());
 		this.lbEntwürfe = new JXHyperlink(new DraftsActionListener());
@@ -261,7 +264,6 @@ public class MessagesTab extends JComponent {
 			System.out.println("TODO Print");
 
 			if (ua instanceof PrintJobUserAgent) {
-				// TODO print
 			}
 		}
 
