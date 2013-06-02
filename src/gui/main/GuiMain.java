@@ -77,7 +77,7 @@ public class GuiMain {
 		em2.setTo(to);
 		Computer c = new Computer("Mac Book");
 		MessageClient mc = c.getMessageClient();
-		new ReminderRememberDialog(em2, mc, false).setVisible(true);
+		new ReminderRememberDialog(em2, mc).setVisible(true);
 
 		Smartphone f = new Smartphone("IPhone");
 		MessageClient mc2 = f.getMessageClient();
