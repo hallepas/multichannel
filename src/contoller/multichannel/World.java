@@ -112,9 +112,12 @@ public class World {
         generateMessages(10, annasTelNr, annasNokia.getMessageClient(), MessageType.MMS);
         
         // Nachrichten mit Remindern erstellen
-        
-        
-        
+        Message message = annasComputer.openMailProgram().newMessage(MessageType.EMAIL);
+        message.setMessage(getText());
+        message.addRecipient(getEmail(annasEmail));
+        // 5s Reminder
+        message.setReminder(new Date(new Date().getTime() + 1000*5));
+        annasComputer.openMailProgram().saveDraft(message);
     }
     
     private void generateMessages(int count, String who, MessageClient client,

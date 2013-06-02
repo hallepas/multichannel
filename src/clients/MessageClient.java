@@ -197,7 +197,7 @@ public class MessageClient {
     private void checkReminder(){
         for (Message message: drafts.getMessages()) {
             if(message.getReminder() != null 
-               && message.getReminder().after(new Date())) {
+               && message.getReminder().before(new Date())) {
                log.info("Reminder für Nachricht " + message + "anzeigen");
                // TODO: GUI Funktion aufrufen.
                // Reminder um eine Minute nach vorne stellen
