@@ -28,7 +28,7 @@ public abstract class UserAgent {
 
     public ServerSocket getServer(){
         // No magic here.
-        server.whosyourdaddy();  // Check if server instance is correct
+        //server.whosyourdaddy();  // Check if server instance is correct
         return server;
     }
 
