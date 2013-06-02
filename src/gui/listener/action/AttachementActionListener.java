@@ -25,6 +25,7 @@ public class AttachementActionListener implements ActionListener {
 	public AttachementActionListener(JTable table, List<Message> messages) {
 		this.table = table;
 		this.messages = messages;
+		System.out.println(messages.size());
 	}
 
 	@Override
@@ -45,17 +46,19 @@ public class AttachementActionListener implements ActionListener {
 
 		List<Attachment> attachements = new ArrayList<Attachment>();
 
+		System.out.println(messages.size());
+		
 		for (int index : selectedRows) {
-			m = (MessageWithSubjectAndAttachment) messages.get(index);
-			attachements.addAll(m.getAttachments());
+			System.out.println(index);
+				m = (MessageWithSubjectAndAttachment) messages.get(index);
+				attachements.addAll(m.getAttachments());
 		}
 
 		if (attachements.size() == 0) {
 			JOptionPane.showConfirmDialog(null, "Die ausgewählten Nachrichten haben keine Anhänge.", "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
-		
-		
+
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -73,6 +76,11 @@ public class AttachementActionListener implements ActionListener {
 
 			}
 		}
+	}
+
+	public void updateMessages(List<Message> messages) {
+		this.messages = messages;
+		System.out.println("list: "+messages.size());
 	}
 
 }
