@@ -23,7 +23,6 @@ public abstract class Message implements Comparable<Message>, Serializable {
 	this.to = new ArrayList<String>();
 	this.message = "";
 	this.date = new Date();
-	this.reminder = new Date();
     }
 
     public Message(String from, ArrayList<String> to, String message, 
