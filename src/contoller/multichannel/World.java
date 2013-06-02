@@ -2,6 +2,8 @@ package contoller.multichannel;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,6 +112,24 @@ public class World {
         generateMessages(50, annasEmail, annasComputer.openMailProgram(), MessageType.EMAIL);
         generateMessages(40, annasTelNr, annasNokia.getMessageClient(), MessageType.SMS);
         generateMessages(10, annasTelNr, annasNokia.getMessageClient(), MessageType.MMS);
+        
+        // Nachricht mit Anhang erstellen
+        EmailMessage message2 = (EmailMessage)annasComputer.openMailProgram().newMessage(MessageType.EMAIL);
+        message2.setMessage(getText());
+        message2.addRecipient(charliesEmail);
+        Attachment attachment;
+        String dog = "data" + File.separator + "test" + File.separator + "Woof.gif";
+        try {
+            attachment = new Attachment(dog);
+            message2.addAttachment(attachment);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        message2.setSubject("Message mit Attachment");
+        annasComputer.openMailProgram().submit(message2);
+        
+        
         
         // Nachrichten mit Remindern erstellen
         Message message = annasComputer.openMailProgram().newMessage(MessageType.EMAIL);
