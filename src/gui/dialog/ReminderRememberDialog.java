@@ -49,10 +49,10 @@ public class ReminderRememberDialog extends JDialog {
 
 		configureFrame();
 	}
-	
+
 	public static void createDialog(Message message, MessageClient client) {
-	    ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
-	    dialog.setVisible(true);
+		ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
+		dialog.setVisible(true);
 	}
 
 	private void prepareLabels() {
@@ -83,6 +83,8 @@ public class ReminderRememberDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				// TODO dieses fenster erst schliessen wenn md sauber
 				// geschlossen ist (abbrechen: dieses fenster sollte erscheinen)
+
+				message.setReminder(null);
 				MessageDialog md = new MessageDialog(message, message.getType(), messageClient, false);
 				md.setVisible(true);
 			}
@@ -92,6 +94,7 @@ public class ReminderRememberDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				message.setReminder(null);
 				// TODO
 				ReminderDialog rd = new ReminderDialog();
 				rd.setVisible(true);
@@ -103,7 +106,7 @@ public class ReminderRememberDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				message.setReminder(null);
-				//TODO mailbox refresh?
+				// TODO mailbox refresh?
 				dispose();
 			}
 		});
@@ -112,12 +115,12 @@ public class ReminderRememberDialog extends JDialog {
 		guiManager.setX(0).setY(0).setFill(GridBagConstraints.HORIZONTAL).setComp(dateLb);
 		guiManager.setX(0).setY(1).setFill(GridBagConstraints.HORIZONTAL).setComp(new JLabel());
 		guiManager.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(toLb);
-		
+
 		if (message instanceof MessageWithSubjectAndAttachment) {
 			guiManager.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectLb);
 			guiManager.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementLb);
 		}
-		
+
 		guiManager.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(sendButton);
 		guiManager.setX(1).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(bearbeitenButton);
 		guiManager.setX(0).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteReminderButton);

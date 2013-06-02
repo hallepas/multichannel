@@ -61,7 +61,8 @@ public class MessageDialog extends JDialog {
 		this.cancelButton = new JButton("Abbrechen");
 		this.sendButton = new JButton("Senden");
 		this.saveButton = new JButton("Speichern");
-		//TODO button anpassen (wenn reminder vorhanden-> reminder entfernen, reminder nicht vorhanden->reminder erstellen)
+		// TODO button anpassen (wenn reminder vorhanden-> reminder entfernen,
+		// reminder nicht vorhanden->reminder erstellen)
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
 		this.message = message;
@@ -87,10 +88,10 @@ public class MessageDialog extends JDialog {
 		}
 	}
 
-	public void fillAttachmentPanel(){
-		
+	public void fillAttachmentPanel() {
+
 	}
-	
+
 	private void configureFrame() {
 
 		reminderButton.addActionListener(new ActionListener() {
@@ -136,15 +137,15 @@ public class MessageDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				message = buildMessage();
-				if(draft==false){
+				if (draft == false) {
 					messageClient.saveDraft(message);
 				}
 				dispose();
 			}
 		});
-		
+
 		cancelButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -165,7 +166,7 @@ public class MessageDialog extends JDialog {
 			guiManager.setX(0).setY(2).setWidth(1).setWeightX(1).setComp(new JLabel("Anhang"));
 			guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementField);
 			guiManager.setX(7).setY(2).setWeightX(1).setHeight(1).setFill(GridBagConstraints.HORIZONTAL).setComp(searchButton);
-		}else{
+		} else {
 
 			guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
 			guiManager.setX(7).setY(0).setWidth(1).setWeightX(1).setComp(reminderPanel);
@@ -203,10 +204,10 @@ public class MessageDialog extends JDialog {
 		ArrayList<Attachment> attachementsList = new ArrayList<Attachment>();
 		String errorText = "";
 
-		if(attachementsListText==null){
+		if (attachementsListText == null) {
 			return null;
 		}
-		
+
 		for (String s : attachementsListText) {
 			try {
 				Attachment at = new Attachment(s);
@@ -225,13 +226,18 @@ public class MessageDialog extends JDialog {
 	}
 
 	private ArrayList<String> getSeperatedList(String listText) {
-		
-		if(listText==null || listText.length()<1){
+
+		if (listText == null || listText.length() < 1) {
 			return null;
 		}
-		
+
 		// Letztes Semikolon entfernen
-		String text = listText.substring(0, listText.length() - 1);
+		String text = listText;
+		
+		if (listText.endsWith(";")) {
+			text = listText.substring(0, listText.length() - 1);
+		}
+
 		ArrayList<String> tos = new ArrayList<String>();
 		String[] tolist = text.split(";");
 
