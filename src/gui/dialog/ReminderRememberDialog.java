@@ -34,7 +34,7 @@ public class ReminderRememberDialog extends JDialog {
 	private MessageClient messageClient;
 	private Observable obs;
 
-	public ReminderRememberDialog(Message message, MessageClient messageClient, boolean draft) {
+	public ReminderRememberDialog(Message message, MessageClient messageClient) {
 		this.messageClient = messageClient;
 		this.guiManager = new GridBagManager(this);
 		this.dateLb = new JLabel("An: ");

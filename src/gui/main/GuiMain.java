@@ -5,11 +5,13 @@ import gui.dialog.ReminderRememberDialog;
 import gui.frame.LoginFrame;
 import gui.frame.MainFrame;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.UIManager;
 
+import message.Attachment;
 import message.EmailMessage;
 import message.Message;
 import message.MessageType;
@@ -77,7 +79,7 @@ public class GuiMain {
 		em2.setTo(to);
 		Computer c = new Computer("Mac Book");
 		MessageClient mc = c.getMessageClient();
-		new ReminderRememberDialog(em2, mc, false).setVisible(true);
+		new ReminderRememberDialog(em2, mc).setVisible(true);
 
 		Smartphone f = new Smartphone("IPhone");
 		MessageClient mc2 = f.getMessageClient();
@@ -182,11 +184,14 @@ public class GuiMain {
 		em2.setMessage("Entwurf");
 		em2.setSubject("Email");
 		em2.setTo(to);
-		// try {
-		// em2.addAttachment(new Attachment("D:\\example.txt"));
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+		
+		
+		 try {
+			 em.addAttachment(new Attachment("data" + File.separator + "test" + File.separator + "Woof.gif"));
+		 } catch (Exception e) {
+		 e.printStackTrace();
+		 }
+		 
 		mc.saveDraft(em2);
 
 		UserAgent ua2 = mc.getUserAgentFor(MessageType.EMAIL);
