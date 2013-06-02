@@ -5,6 +5,7 @@ import gui.font.MessageFont;
 import gui.helper.GridBagManager;
 import gui.listener.action.AttachementActionListener;
 import gui.table.cell.renderer.AttachmentCellRenderer;
+import gui.table.cell.renderer.DateCellRenderer;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -25,6 +28,8 @@ import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import message.Message;
@@ -96,6 +101,7 @@ public class MessagesTab extends JComponent {
 
 	private void configureFrame() {
 
+		messagesTable.getColumnModel().getColumn(0).setCellRenderer(new DateCellRenderer());
 		// Am Anfang ist der Inbox selektiert
 		lbInbox.setForeground(Color.RED);
 		lbEntwürfe.setForeground(Color.BLUE);
@@ -105,7 +111,21 @@ public class MessagesTab extends JComponent {
 		messageTextField.setEditable(false);
 		messageTextField.setEditorKit(eKit);
 		// TODO nach datum sortieren
-		messagesTable.setAutoCreateRowSorter(true);
+		// messagesTable.setAutoCreateRowSorter(true);
+
+		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
+		messagesTable.setRowSorter(sorter);
+
+		sorter.setModel(tableModel);
+
+		sorter.setComparator(0, new Comparator<Date>() {
+
+			@Override
+			public int compare(Date o1, Date o2) {
+				return o1.compareTo(o2);
+			}
+		});
+
 		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
 
 		attachementButton.addActionListener(new AttachementActionListener(messagesTable, messages));
@@ -191,12 +211,12 @@ public class MessagesTab extends JComponent {
 				to.add(message.getFrom());
 				message.setDate(null);
 				message.setTo(to);
-				
+
 				MessageDialog mf = new MessageDialog(message, messageType, messageClient, false);
 				mf.setVisible(true);
 
-				//TODO nach entwürfen verschieben
-				
+				// TODO nach entwürfen verschieben
+
 			}
 		});
 
