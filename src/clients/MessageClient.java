@@ -23,7 +23,7 @@ import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
 import exceptions.NotRequiredException;
 import exceptions.ValidationError;
-import gui.components.ErrorDialogManager;
+import gui.dialog.ErrorDialogManager;
 import gui.dialog.ReminderRememberDialog;
 
 import message.Message;

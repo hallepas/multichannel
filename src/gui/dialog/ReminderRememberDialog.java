@@ -72,6 +72,7 @@ public class ReminderRememberDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO senden und mailbox refreshen
+				messageClient.submit(message);
 				dispose();
 			}
 		});

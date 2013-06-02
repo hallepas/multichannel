@@ -127,9 +127,7 @@ public class MessageDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				message = buildMessage();
-				
 				messageClient.submit(message);
-				
 			}
 		});
 
@@ -188,7 +186,6 @@ public class MessageDialog extends JDialog {
 	}
 
 	private Message buildMessage() {
-		message.setDate(new Date());
 		message.setMessage(messageTextField.getText());
 		message.setTo(getSeperatedList(toField.getText()));
 
