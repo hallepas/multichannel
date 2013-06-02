@@ -209,7 +209,6 @@ public class MessagesTab extends JComponent {
 
 			for (int i : selectedRows) {
 				Message m = messages.get(i);
-				messageClient.deleteDraft(m);
 
 				if (boxState.equals(MessageBoxState.DRAFTS)) {
 					messageClient.deleteDraft(m);
