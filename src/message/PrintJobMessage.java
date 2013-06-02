@@ -6,7 +6,7 @@ public class PrintJobMessage extends Message {
 
     @Override
     public String toString(){
-	return getMessage();
+	return "Nachricht von " + getFrom() +":\n" + getMessage();
     }
 
     @Override
