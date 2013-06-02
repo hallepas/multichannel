@@ -55,7 +55,11 @@ public class MessageTableModel extends AbstractTableModel {
 
 		switch (columnIndex) {
 		case 0:
-			return MessageProperties.DATE_FORMATTER.format(m.getDate());
+			if (m.getDate() != null) {
+				return MessageProperties.DATE_FORMATTER.format(m.getDate());
+			} else {
+				return "-";
+			}
 		case 1:
 			return m.getFrom();
 		case 2:
