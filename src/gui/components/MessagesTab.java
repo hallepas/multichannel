@@ -13,8 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,8 +26,6 @@ import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import message.Message;
@@ -71,7 +67,8 @@ public class MessagesTab extends JComponent {
 	private MessageBoxState boxState = MessageBoxState.INBOX;
 	private BoxPorpertiesPanel boxPorpertiesPanel;
 	private Device device;
-
+	private AttachementActionListener attachementActionListener;
+	
 	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
 		this.messageType = messageType;
@@ -95,6 +92,7 @@ public class MessagesTab extends JComponent {
 		this.lbEntwürfe.setText("Entwürfe");
 		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton, replyButton);
 		this.messageClient.addObserver(new UpdateListener());
+		this.attachementActionListener= new AttachementActionListener(messagesTable, messages);
 
 		configureFrame();
 	}
@@ -113,22 +111,21 @@ public class MessagesTab extends JComponent {
 		// TODO nach datum sortieren
 		// messagesTable.setAutoCreateRowSorter(true);
 
-		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
-		messagesTable.setRowSorter(sorter);
-
-		sorter.setModel(tableModel);
-
-		sorter.setComparator(0, new Comparator<Date>() {
-
-			@Override
-			public int compare(Date o1, Date o2) {
-				return o1.compareTo(o2);
-			}
-		});
+//		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
+//		messagesTable.setRowSorter(sorter);
+//
+//		sorter.setModel(tableModel);
+//
+//		sorter.setComparator(0, new Comparator<Date>() {
+//
+//			@Override
+//			public int compare(Date o1, Date o2) {
+//				return o1.compareTo(o2);
+//			}
+//		});
 
 		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
-
-		attachementButton.addActionListener(new AttachementActionListener(messagesTable, messages));
+		attachementButton.addActionListener(attachementActionListener);
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
 			messagesTable.getColumnModel().getColumn(3).setPreferredWidth(20);
@@ -273,6 +270,7 @@ public class MessagesTab extends JComponent {
 	public void updateMessageBoxes() {
 		updateInboxMessages();
 		updateDraftsMessages();
+		attachementActionListener.updateMessages(messages);
 	}
 
 	private void updateInboxMessages() {
