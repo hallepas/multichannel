@@ -4,15 +4,21 @@ import gui.helper.MessageProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.table.AbstractTableModel;
+
+import server.MessageServer;
 
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
 
 public class MessageTableModel extends AbstractTableModel {
+        private static final Logger log = Logger.getLogger( MessageTableModel.class.getName() );
 
 	private static final long serialVersionUID = 1L;
 	private Vector<String> columnNames;
@@ -82,7 +88,12 @@ public class MessageTableModel extends AbstractTableModel {
 	}
 
 	public void refresh() {
+	        System.out.println("Refresh: " + this);
 		fireTableDataChanged();
+	}
+	
+	public UpdateListener getUpdateListener(){
+	    return new UpdateListener();
 	}
 
 	@Override
@@ -90,4 +101,9 @@ public class MessageTableModel extends AbstractTableModel {
 		return columnNames.get(column);
 	}
 
+	public class UpdateListener implements Observer {
+	    @Override public void update(Observable o, Object arg) {
+	        refresh();
+	    }
+	}
 }

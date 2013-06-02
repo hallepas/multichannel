@@ -92,7 +92,8 @@ public class MessagesTab extends JComponent {
 		this.lbInbox.setText("Inbox");
 		this.lbEntwürfe.setText("Entwürfe");
 		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton);
-
+		this.messageClient.addObserver(this.tableModel.getUpdateListener());
+		
 		configureFrame();
 	}
 

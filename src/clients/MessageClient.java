@@ -44,7 +44,7 @@ public class MessageClient {
     private MarkerMailbox inbox = new MarkerMailbox(); 
     private Mailbox outbox = new Mailbox(); 
     private Mailbox drafts = new Mailbox(); 
-    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
+    private static final Logger log = Logger.getLogger( MessageClient.class.getName() );
 
 
     /**
@@ -175,6 +175,11 @@ public class MessageClient {
     public void saveDraft(Message message) {
 	this.drafts.put(message);
     }
+    public void addObserver(Observer observer) {
+        log.fine("Adding observer: " + observer);
+        this.inbox.addObserver(observer);
+        this.drafts.addObserver(observer);
+    }
     
     /**
      * Die Methode wird aufgerufen, wenn man auf den Submit Knopf drückt.
@@ -188,6 +193,7 @@ public class MessageClient {
             log.fine("Message has a reminder. saved as draft");
         } else {
             if(this.validateMessage(message)){
+                message.setReminder(null);
                 this.outbox.put(message);
                 this.drafts.deleteMessage(message);  
             } else {

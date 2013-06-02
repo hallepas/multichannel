@@ -204,7 +204,7 @@ public abstract class MessageServer {
                 try {
                     servers.get(address).deliver(address, forwards.get(address));
                 } catch (NullPointerException e) {
-                    log.warning(e.getMessage());
+                    log.warning("Kann Domain " + address + " nicht finden: " + e.getMessage());
                 }
             }
         }
