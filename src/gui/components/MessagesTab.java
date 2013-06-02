@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -83,7 +85,8 @@ public class MessagesTab extends JComponent {
 		this.lbInbox.setText("Inbox");
 		this.lbEntwürfe.setText("Entwürfe");
 		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton);
-
+		this.messageClient.addObserver(new UpdateListener());
+		
 		configureFrame();
 	}
 
@@ -257,6 +260,11 @@ public class MessagesTab extends JComponent {
 			}
 		}
 
+	}
+	public class UpdateListener implements Observer {
+	    @Override public void update(Observable o, Object arg) {
+	        updateInboxMessages();
+	    }
 	}
 
 	class InboxActionListener extends AbstractAction {

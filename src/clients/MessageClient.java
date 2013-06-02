@@ -13,11 +13,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-// TODO: remove
-import javax.swing.JOptionPane;
-
-import server.MessageServer;
-
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
@@ -47,7 +42,7 @@ public class MessageClient {
     private MarkerMailbox inbox = new MarkerMailbox(); 
     private Mailbox outbox = new Mailbox(); 
     private Mailbox drafts = new Mailbox(); 
-    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
+    private static final Logger log = Logger.getLogger( MessageClient.class.getName() );
 
 
     /**
@@ -113,7 +108,7 @@ public class MessageClient {
         List<Message> messages = agents.get(type).receiveMessages();
         if(messages != null) {
             for(Message message : messages) {
-                log.fine("Received new " + type);
+                log.fine(message.getTo() + " Received new " + type);
                 inbox.add(message);
             } 
         } else {
@@ -178,6 +173,10 @@ public class MessageClient {
     public void saveDraft(Message message) {
 	this.drafts.put(message);
     }
+    public void addObserver(Observer observer) {
+        log.fine("Adding observer: " + observer);
+        this.inbox.addObserver(observer);
+    }
     
     /**
      * Die Methode wird aufgerufen, wenn man auf den Submit Knopf drückt.
@@ -191,6 +190,7 @@ public class MessageClient {
             log.fine("Message has a reminder. saved as draft");
         } else {
             if(this.validateMessage(message)){
+                message.setReminder(null);
                 this.outbox.put(message);
                 this.drafts.deleteMessage(message);  
             } else {
