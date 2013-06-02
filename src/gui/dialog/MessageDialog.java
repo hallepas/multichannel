@@ -82,6 +82,10 @@ public class MessageDialog extends JDialog {
 			for (String s : message.getTo()) {
 				toListe = toListe + s + "; ";
 			}
+
+			if (toListe.length() > 1) {
+				toListe = toListe.substring(0, toListe.length() - 2);
+			}
 		}
 
 		toField.setText(toListe);
@@ -229,7 +233,7 @@ public class MessageDialog extends JDialog {
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
 			((MessageWithSubjectAndAttachment) message).setSubject(subjectField.getText());
-				((MessageWithSubjectAndAttachment) message).fillAttachements(attachmentPanel.getAttachments());
+			((MessageWithSubjectAndAttachment) message).fillAttachements(attachmentPanel.getAttachments());
 		}
 
 		return message;
@@ -252,6 +256,7 @@ public class MessageDialog extends JDialog {
 		String[] tolist = text.split(";");
 
 		for (String s : tolist) {
+			s=s.trim();
 			tos.add(s);
 		}
 

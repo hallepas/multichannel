@@ -84,6 +84,7 @@ public class ReminderRememberDialog extends JDialog {
 				message.setReminder(null);
 				MessageDialog md = new MessageDialog(message, message.getType(), messageClient, false);
 				md.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -91,8 +92,10 @@ public class ReminderRememberDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				message.setReminder(null);
 				ReminderDialog rd = new ReminderDialog(message);
 				rd.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -101,7 +104,6 @@ public class ReminderRememberDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				message.setReminder(null);
-				// TODO mailbox refresh?
 				dispose();
 			}
 		});

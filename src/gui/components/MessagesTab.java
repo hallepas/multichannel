@@ -13,8 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,8 +26,6 @@ import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import message.Message;
