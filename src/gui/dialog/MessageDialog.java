@@ -1,5 +1,6 @@
 package gui.dialog;
 
+import gui.components.AttachementPanel;
 import gui.components.ReminderPanel;
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
@@ -35,7 +36,7 @@ public class MessageDialog extends JDialog {
 
 	private JTextField toField;
 	private JTextField subjectField;
-	private JTextField attachementField;
+	// private JTextField attachementField;
 
 	private JButton searchButton;
 	private JButton cancelButton;
@@ -49,20 +50,20 @@ public class MessageDialog extends JDialog {
 	private MessageClient messageClient;
 	private boolean draft;
 	private ReminderPanel reminderPanel;
+	private AttachementPanel attachmentPanel;
 
 	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
+		this.attachmentPanel = new AttachementPanel();
 		this.guiManager = new GridBagManager(this);
 		this.messageType = messageType;
 		this.toField = new JTextField();
 		this.subjectField = new JTextField();
-		this.attachementField = new JTextField();
+		// this.attachementField = new JTextField();
 		this.searchButton = new JButton("...");
 		this.cancelButton = new JButton("Abbrechen");
 		this.sendButton = new JButton("Senden");
 		this.saveButton = new JButton("Speichern");
-		// TODO button anpassen (wenn reminder vorhanden-> reminder entfernen,
-		// reminder nicht vorhanden->reminder erstellen)
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
 		this.message = message;
@@ -84,7 +85,9 @@ public class MessageDialog extends JDialog {
 
 		if (message instanceof MessageWithSubjectAndAttachment) {
 			subjectField.setText(((MessageWithSubjectAndAttachment) message).getSubject());
-			attachementField.setText(((MessageWithSubjectAndAttachment) message).getAttachments().toString());
+			// TODO
+			// attachementField.setText(((MessageWithSubjectAndAttachment)
+			// message).getAttachments().toString());
 		}
 	}
 
@@ -98,8 +101,17 @@ public class MessageDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReminderDialog rd = new ReminderDialog();
+				ReminderDialog rd = new ReminderDialog(message);
 				rd.setVisible(true);
+
+				Date reminder = message.getReminder();
+				if (reminder != null) {
+					reminderButton.setText("Reminder entfernen");
+				} else {
+					reminderButton.setText("Reminder erstellen");
+				}
+
+				reminderPanel.reminderUpdate(reminder);
 			}
 		});
 
@@ -115,8 +127,13 @@ public class MessageDialog extends JDialog {
 					attachementFiles = fc.getSelectedFiles();
 
 					for (File file : attachementFiles) {
-						attachementField.setText(attachementField.getText() + file.getPath() + ";");
+						attachmentPanel.addAttachement(file.getPath());
 					}
+					// TODO
+					// for (File file : attachementFiles) {
+					// attachementField.setText(attachementField.getText() +
+					// file.getPath() + ";");
+					// }
 
 				}
 
@@ -129,6 +146,7 @@ public class MessageDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				message = buildMessage();
 				messageClient.submit(message);
+				dispose();
 			}
 		});
 
@@ -164,7 +182,7 @@ public class MessageDialog extends JDialog {
 			guiManager.setX(1).setY(1).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectField);
 
 			guiManager.setX(0).setY(2).setWidth(1).setWeightX(1).setComp(new JLabel("Anhang"));
-			guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementField);
+			guiManager.setX(1).setY(2).setWidth(6).setWeightX(8).setFill(GridBagConstraints.HORIZONTAL).setComp(attachmentPanel);
 			guiManager.setX(7).setY(2).setWeightX(1).setHeight(1).setFill(GridBagConstraints.HORIZONTAL).setComp(searchButton);
 		} else {
 
@@ -192,7 +210,9 @@ public class MessageDialog extends JDialog {
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
 			((MessageWithSubjectAndAttachment) message).setSubject(subjectField.getText());
-			((MessageWithSubjectAndAttachment) message).fillAttachements(getSeparatedAttachement(attachementField.getText()));
+			// TODO
+			// ((MessageWithSubjectAndAttachment)
+			// message).fillAttachements(getSeparatedAttachement(attachementField.getText()));
 		}
 
 		return message;
@@ -233,7 +253,7 @@ public class MessageDialog extends JDialog {
 
 		// Letztes Semikolon entfernen
 		String text = listText;
-		
+
 		if (listText.endsWith(";")) {
 			text = listText.substring(0, listText.length() - 1);
 		}

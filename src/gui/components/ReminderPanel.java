@@ -31,13 +31,13 @@ public class ReminderPanel extends JPanel {
 		prepare();
 	}
 
-	private void reminderUpdate(Date date) {
+	public void reminderUpdate(Date date) {
 		if (date != null) {
-			this.timeLb = new JLabel("<html><b>Zeit:</b> "+MessageProperties.TIME_FORMATTER.format(date)+"</html");
-			this.dateLb = new JLabel("<html><b>Datum:</b> "+MessageProperties.DATE_FORMATTER.format(date)+"</html");
+			this.timeLb.setText("<html><b>Zeit:</b> "+MessageProperties.TIME_FORMATTER.format(date)+"</html");
+			this.dateLb.setText("<html><b>Datum:</b> "+MessageProperties.DATE_FORMATTER.format(date)+"</html");
 		} else {
-			this.timeLb = new JLabel("<html><b>Zeit:</b> -</html");
-			this.dateLb = new JLabel("<html><b>Datum:</b>-</html");
+			this.timeLb.setText("<html><b>Zeit:</b> -</html");
+			this.dateLb.setText("<html><b>Datum:</b>-</html");
 		}
 	}
 

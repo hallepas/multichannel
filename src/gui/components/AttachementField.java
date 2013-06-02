@@ -1,5 +1,6 @@
 package gui.components;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,7 @@ import gui.helper.GridBagManager;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 public class AttachementField extends JPanel {
 
@@ -31,9 +33,10 @@ public class AttachementField extends JPanel {
 				guiManager.removeAll();
 			}
 		});
-
-		guiManager.setX(0).setY(0).setWidth(6).setComp(lbAttachement);
-		guiManager.setX(6).setY(0).setWidth(1).setComp(btDelete);
+		
+		
+		guiManager.setX(0).setY(0).setWidth(1).setFill(GridBagConstraints.HORIZONTAL).setComp(lbAttachement);
+		guiManager.setX(1).setY(0).setWidth(1).setFill(GridBagConstraints.HORIZONTAL).setComp(btDelete);
 	}
 	
 	public String getPath(){

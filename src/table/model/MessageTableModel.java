@@ -4,6 +4,8 @@ import gui.helper.MessageProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -76,6 +78,7 @@ public class MessageTableModel extends AbstractTableModel {
 
 	}
 
+	//TODO
 	public void changeMessages(List<Message> messages) {
 		this.messages = (ArrayList<Message>) messages;
 		fireTableDataChanged();

@@ -3,23 +3,12 @@ package gui.frame;
 import gui.components.MessagesTab;
 import gui.helper.GridBagManager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
-import sun.security.util.DerValue;
-
-import clients.MessageClient;
-
-import devices.Device;
-import devices.Smartphone;
-
-import message.Message;
 import message.MessageType;
+import devices.Device;
 
 public class MainFrame extends JFrame {
 
@@ -34,6 +23,7 @@ public class MainFrame extends JFrame {
 		this.device = device;
 		configureFrame();
 	}
+	
 	public MainFrame(Device device) {
 	        this.pane = new JTabbedPane();
 	        this.guiManager = new GridBagManager(this);
@@ -43,7 +33,6 @@ public class MainFrame extends JFrame {
 
 	private void configureFrame() {
 		createTabs();
-		//TODO Username anzeigen
 		guiManager.setX(0).setY(0).setComp(new JLabel("Angemeldet mit: "+device.getDeviceName()));
 		guiManager.setX(0).setY(1).setComp(pane);
 

@@ -81,9 +81,6 @@ public class ReminderRememberDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO dieses fenster erst schliessen wenn md sauber
-				// geschlossen ist (abbrechen: dieses fenster sollte erscheinen)
-
 				message.setReminder(null);
 				MessageDialog md = new MessageDialog(message, message.getType(), messageClient, false);
 				md.setVisible(true);
@@ -94,9 +91,7 @@ public class ReminderRememberDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				message.setReminder(null);
-				// TODO
-				ReminderDialog rd = new ReminderDialog();
+				ReminderDialog rd = new ReminderDialog(message);
 				rd.setVisible(true);
 			}
 		});
