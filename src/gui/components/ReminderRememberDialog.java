@@ -111,8 +111,7 @@ public class ReminderRememberDialog extends JDialog {
 		guiManager.setX(0).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteReminderButton);
 		guiManager.setX(1).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(laterButton);
 
-		// TODO uhrzeit
-		setTitle("Reminder: 23.02.2013");
+		setTitle("Reminder");
 
 		if (message instanceof MessageWithSubjectAndAttachment) {
 			setSize(350, 200);

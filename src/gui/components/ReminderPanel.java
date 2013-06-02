@@ -18,12 +18,13 @@ public class ReminderPanel extends JPanel {
 		this.guiManager = new GridBagManager(this);
 		this.timeLb = new JLabel("Zeit:[time]");
 		this.dateLb = new JLabel("Datum: [date]");
-		this.imgLb = new JLabel(new ImageIcon("data/images/clock2.jpg"));
+//		this.imgLb = new JLabel(new ImageIcon("data/images/clock2.png"));
+		this.imgLb = new JLabel(new ImageIcon("data/images/reminder_clock3.png"));
 		prepare();
 	}
 
 	private void prepare() {
-		setBorder(new TitledBorder("Reminder"));
+//		setBorder(new TitledBorder("Reminder"));
 		guiManager.setX(0).setY(0).setHeight(3).setComp(imgLb);
 		guiManager.setX(1).setY(0).setComp(dateLb);
 		guiManager.setX(1).setY(1).setComp(timeLb);
