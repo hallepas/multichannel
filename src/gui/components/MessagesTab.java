@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -56,6 +57,8 @@ public class MessagesTab extends JComponent {
 	private JButton deleteButton;
 	private JButton printButton;
 	private JButton attachementButton;
+	private JButton replyButton;
+
 	private String tabTitle;
 	private List<Message> messages;
 	private MessageClient messageClient;
@@ -75,6 +78,7 @@ public class MessagesTab extends JComponent {
 		this.createButton = new JButton(this.messageType.getTypeName() + " erstellen");
 		this.deleteButton = new JButton(this.messageType.getTypeName() + " löschen");
 		this.attachementButton = new JButton("Anhang speichern");
+		this.replyButton = new JButton("Antworten");
 		this.printButton = new JButton(this.messageType.getTypeName() + " drucken");
 		this.tabTitle = messageType.getTypeName();
 		this.device = device;
@@ -84,9 +88,9 @@ public class MessagesTab extends JComponent {
 
 		this.lbInbox.setText("Inbox");
 		this.lbEntwürfe.setText("Entwürfe");
-		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton);
+		this.boxPorpertiesPanel = new BoxPorpertiesPanel(messageType, messageClient, lbInbox, lbEntwürfe, createButton, deleteButton, printButton, attachementButton, replyButton);
 		this.messageClient.addObserver(new UpdateListener());
-		
+
 		configureFrame();
 	}
 
@@ -100,7 +104,7 @@ public class MessagesTab extends JComponent {
 		HTMLEditorKit eKit = new HTMLEditorKit();
 		messageTextField.setEditable(false);
 		messageTextField.setEditorKit(eKit);
-		//TODO nach datum sortieren
+		// TODO nach datum sortieren
 		messagesTable.setAutoCreateRowSorter(true);
 		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
 
@@ -168,6 +172,31 @@ public class MessagesTab extends JComponent {
 				updateMessageBoxes();
 				tableModel.refresh();
 				messagesTable.repaint();
+			}
+		});
+
+		replyButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = messagesTable.getSelectedRow();
+
+				if (selectedRow == -1) {
+					return;
+				}
+
+				Message message = messages.get(selectedRow);
+
+				ArrayList<String> to = new ArrayList<String>();
+				to.add(message.getFrom());
+				message.setDate(null);
+				message.setTo(to);
+				
+				MessageDialog mf = new MessageDialog(message, messageType, messageClient, false);
+				mf.setVisible(true);
+
+				//TODO nach entwürfen verschieben
+				
 			}
 		});
 
@@ -253,7 +282,7 @@ public class MessagesTab extends JComponent {
 			}
 
 			Message m = messages.get(selectedRow);
-			
+
 			if (device instanceof Computer) {
 				JOptionPane.showConfirmDialog(null, "Ihre Nachricht wurde gedruckt.", "Drucken", JOptionPane.PLAIN_MESSAGE);
 				((Computer) device).printMessage(m);
@@ -261,10 +290,12 @@ public class MessagesTab extends JComponent {
 		}
 
 	}
+
 	public class UpdateListener implements Observer {
-	    @Override public void update(Observable o, Object arg) {
-	        updateInboxMessages();
-	    }
+		@Override
+		public void update(Observable o, Object arg) {
+			updateInboxMessages();
+		}
 	}
 
 	class InboxActionListener extends AbstractAction {
@@ -279,6 +310,7 @@ public class MessagesTab extends JComponent {
 			lbInbox.setForeground(Color.RED);
 			lbEntwürfe.setForeground(Color.BLUE);
 			boxState = MessageBoxState.INBOX;
+			replyButton.setVisible(true);
 		}
 
 	}
@@ -294,6 +326,7 @@ public class MessagesTab extends JComponent {
 			updateDraftsMessages();
 			lbInbox.setForeground(Color.BLUE);
 			lbEntwürfe.setForeground(Color.RED);
+			replyButton.setVisible(false);
 		}
 
 	}
