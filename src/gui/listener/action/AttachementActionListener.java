@@ -80,7 +80,6 @@ public class AttachementActionListener implements ActionListener {
 
 	public void updateMessages(List<Message> messages) {
 		this.messages = messages;
-		System.out.println("list: "+messages.size());
 	}
 
 }
