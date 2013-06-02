@@ -1,32 +1,54 @@
 package gui.components;
 
-import java.util.Vector;
-
 import gui.helper.GridBagManager;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-public class AttachementPanel extends JPanel{
+import message.Attachment;
+
+public class AttachementPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private GridBagManager guiManager;
-	private Vector<AttachementField> fields;
-	private int y=0;
-	
-	
+	private ArrayList<Attachment> attachments;
+	private int y = 0;
+
 	public AttachementPanel() {
 		this.guiManager = new GridBagManager(this);
-		this.fields = new Vector<AttachementField>();
+		this.attachments = new ArrayList<Attachment>();
 		setBorder(new TitledBorder("Anhang"));
 	}
-	
-	public void addAttachement(String path){
-		guiManager.setX(0).setY(y).setComp(new AttachementField(path));
+
+	//TODO muss refresht werden
+	public void addAttachement(Attachment attachment) {
+		JButton btDelete = new JButton("X");
+		final AttachementField attachmentField = new AttachementField(attachment.getFileName(), btDelete);
+
+		btDelete.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO muss refresht werden
+				guiManager.remove(attachmentField);
+				repaint();
+			}
+		});
+
+		attachments.add(attachment);
+		guiManager.setX(0).setY(y).setComp(attachmentField);
 		repaint();
 		y++;
+	}
+
+	public ArrayList<Attachment> getAttachments() {
+		return attachments;
 	}
 
 }

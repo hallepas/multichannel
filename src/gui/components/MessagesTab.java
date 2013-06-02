@@ -176,8 +176,8 @@ public class MessagesTab extends JComponent {
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(6).setScrollPanel().setComp(messagesTable);
-		guiManager.setX(6).setY(0).setWidth(8).setWeightX(15).setScrollPanel().setComp(messageTextField);
-		guiManager.setX(14).setY(0).setWidth(1).setScrollPanel().setComp(boxPorpertiesPanel);
+		guiManager.setX(6).setY(0).setWidth(8).setWeightX(8).setScrollPanel().setComp(messageTextField);
+		guiManager.setX(14).setY(0).setWidth(1).setComp(boxPorpertiesPanel);
 
 	}
 

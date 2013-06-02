@@ -47,6 +47,7 @@ public class ReminderDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				//TODO zeit 
 				message.setReminder(datePicker.getDate());
 				dispose();
 			}

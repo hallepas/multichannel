@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -76,8 +78,10 @@ public class MessageDialog extends JDialog {
 	public void fillComponentsWithMessageProperties() {
 		String toListe = "";
 
-		for (String s : message.getTo()) {
-			toListe = toListe + s + "; ";
+		if (message.getTo() != null) {
+			for (String s : message.getTo()) {
+				toListe = toListe + s + "; ";
+			}
 		}
 
 		toField.setText(toListe);
@@ -85,9 +89,11 @@ public class MessageDialog extends JDialog {
 
 		if (message instanceof MessageWithSubjectAndAttachment) {
 			subjectField.setText(((MessageWithSubjectAndAttachment) message).getSubject());
-			// TODO
-			// attachementField.setText(((MessageWithSubjectAndAttachment)
-			// message).getAttachments().toString());
+
+			for (Attachment file : ((MessageWithSubjectAndAttachment) message).getAttachments()) {
+				attachmentPanel.addAttachement(file);
+			}
+
 		}
 	}
 
@@ -127,7 +133,20 @@ public class MessageDialog extends JDialog {
 					attachementFiles = fc.getSelectedFiles();
 
 					for (File file : attachementFiles) {
-						attachmentPanel.addAttachement(file.getPath());
+						if (file.isDirectory()) {
+							JOptionPane.showConfirmDialog(null, "Sie haben einen Ordner ausgewählt, sie müssen eine Datei auswählen", "Ordner nicht erlaubt", JOptionPane.PLAIN_MESSAGE);
+							continue;
+						}
+
+						Attachment at;
+
+						try {
+							at = new Attachment(file.getPath());
+							attachmentPanel.addAttachement(at);
+						} catch (IOException e1) {
+							JOptionPane.showConfirmDialog(null, "Datei fehlerhaft", "Anhang", JOptionPane.PLAIN_MESSAGE);
+							e1.printStackTrace();
+						}
 					}
 					// TODO
 					// for (File file : attachementFiles) {
@@ -210,39 +229,10 @@ public class MessageDialog extends JDialog {
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
 			((MessageWithSubjectAndAttachment) message).setSubject(subjectField.getText());
-			// TODO
-			// ((MessageWithSubjectAndAttachment)
-			// message).fillAttachements(getSeparatedAttachement(attachementField.getText()));
+				((MessageWithSubjectAndAttachment) message).fillAttachements(attachmentPanel.getAttachments());
 		}
 
 		return message;
-	}
-
-	// TODO überarbeiten
-	private ArrayList<Attachment> getSeparatedAttachement(String listText) {
-		ArrayList<String> attachementsListText = getSeperatedList(listText);
-		ArrayList<Attachment> attachementsList = new ArrayList<Attachment>();
-		String errorText = "";
-
-		if (attachementsListText == null) {
-			return null;
-		}
-
-		for (String s : attachementsListText) {
-			try {
-				Attachment at = new Attachment(s);
-				attachementsList.add(at);
-			} catch (Exception e) {
-				errorText = errorText + s + ";";
-				System.out.println("Datei fehlerhaft: " + s);
-			}
-		}
-
-		if (errorText.equals("")) {
-			return attachementsList;
-		}
-
-		return null;
 	}
 
 	private ArrayList<String> getSeperatedList(String listText) {
