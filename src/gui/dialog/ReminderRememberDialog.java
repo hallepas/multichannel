@@ -49,6 +49,11 @@ public class ReminderRememberDialog extends JDialog {
 
 		configureFrame();
 	}
+	
+	public static void createDialog(Message message, MessageClient client) {
+	    ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
+	    dialog.setVisible(true);
+	}
 
 	private void prepareLabels() {
 		dateLb.setText("<html><b>Erinnerung: </b>" + MessageProperties.DATE_AND_TIME_FORMATTER.format(message.getReminder()));
