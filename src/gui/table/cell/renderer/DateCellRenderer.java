@@ -6,20 +6,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
 
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellRenderer;
 
 public class DateCellRenderer implements TableCellRenderer {
 
-	private JLabel field;
+	private JTextField field;
 	private Color focusBackgroundColor;
 	private Color normalBackgroundColor;
 
 	public DateCellRenderer() {
-		this.field = new JLabel();
+		this.field = new JTextField();
 		this.focusBackgroundColor = new Color(51, 153, 255);
 		this.normalBackgroundColor = Color.WHITE;
 	}
@@ -33,7 +31,8 @@ public class DateCellRenderer implements TableCellRenderer {
 			field.setBackground(normalBackgroundColor);
 		}
 
-		field.setText(MessageProperties.DATE_FORMATTER.format((Date)value));
+		// TODO
+		field.setText(MessageProperties.DATE_FORMATTER.format((Date) value));
 		return field;
 	}
 

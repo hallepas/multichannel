@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -40,12 +41,21 @@ public class AttachementActionListener implements ActionListener {
 			}
 		}
 
-		List<Attachment> attachements = ((MessageWithSubjectAndAttachment) messages.get(selectedRows[0])).getAttachments();
-		if (attachements.size() == 0) {
-			JOptionPane.showConfirmDialog(null, "Die ausgewählte Nachricht hat keinen Anhang.", "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
-			return;
+		MessageWithSubjectAndAttachment m;
+
+		List<Attachment> attachements = new ArrayList<Attachment>();
+
+		for (int index : selectedRows) {
+			m = (MessageWithSubjectAndAttachment) messages.get(index);
+			attachements.addAll(m.getAttachments());
 		}
 
+		if (attachements.size() == 0) {
+			JOptionPane.showConfirmDialog(null, "Die ausgewählten Nachrichten haben keine Anhänge.", "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
+		
+		
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
