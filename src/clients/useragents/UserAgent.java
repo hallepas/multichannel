@@ -28,6 +28,7 @@ public abstract class UserAgent {
 
     public ServerSocket getServer(){
         // No magic here.
+        server.whosyourdaddy();  // Check if server instance is correct
         return server;
     }
 
@@ -44,7 +45,7 @@ public abstract class UserAgent {
      * @param type
      * @return Konkrete UserAgent Instanz für den entsprechenden Typ.
      */
-    public static UserAgent getUserAgentForType(MessageType type) {
+    public static UserAgent newUserAgentForType(MessageType type) {
         switch(type) {
         case SMS:
             return new CellphoneUserAgent();
@@ -93,7 +94,7 @@ public abstract class UserAgent {
                 account.getLoginCredentials(), client);
         if(socket != null) {
             this.server = socket;
-            log.fine("Successfully logged in at " + account.getServer()+ "." );
+            log.fine("Successfully logged in at " + account.getServer()+ "." + socket);
             return new Status(200, "Successfully logged in at " + account.getServer());
         } 
         log.fine("Could not log in at " + account.getServer()+ "." );

@@ -10,7 +10,7 @@ public class MessageServerTest {
 
     @Before
     public void setUp() throws Exception {
-        internet.startOver();   
+       // internet.startOver();   
     }
 
     @Test

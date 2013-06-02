@@ -38,7 +38,7 @@ public abstract class MessageServer {
     }
     @Override
     public String toString(){
-        return this.serverName;
+        return this.serverName + super.toString();
     }
 
     public Status register(String name, Credentials credentials) {
@@ -123,9 +123,9 @@ public abstract class MessageServer {
         // Benutzer muss eingeloggt sein.
         if(!accountsOnline.containsKey(name)) return null;
         Mailbox box = messages.get(name);
-        List<Message> newMessages = box.getMessages();
+        List<Message> newMessages = new ArrayList<Message>(box.getMessages());
         // delete Messages in Inbox
-        box.setMessages(new ArrayList<Message>()); 
+        box.clear(); 
         return newMessages;
     }
     
@@ -247,6 +247,10 @@ public abstract class MessageServer {
         public Status register(String name, Credentials credentials) {
             return MessageServer.this.register(name, credentials);
         }
+        @Override
+        public void whosyourdaddy() {
+            log.fine(MessageServer.this.toString()); 
+        }
     }
 
     public class Socket implements ServerSocket {
@@ -276,6 +280,10 @@ public abstract class MessageServer {
         @Override
         public Status logout() {
             return MessageServer.this.logout(this.name);
+        }
+        @Override
+        public void whosyourdaddy() {
+            log.fine(MessageServer.this.toString()); 
         }
 
     }

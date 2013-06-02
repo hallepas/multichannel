@@ -1,7 +1,9 @@
 package devices; 
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import server.MessageServer;
 import server.ServerSocket;
 
 import message.Message;
@@ -15,6 +17,7 @@ import message.Status;
  */
 public class Printer {
     private final String deviceName;
+    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
 
     public Printer(String deviceName) { 
 	super();
@@ -58,6 +61,11 @@ public class Printer {
 	public Status logout() {
 	    return new Status(501, "Disconnect at the computer.");
 	}
+
+    @Override
+    public void whosyourdaddy() {
+        log.fine(Printer.this.toString()); 
+    }
 
     }
 

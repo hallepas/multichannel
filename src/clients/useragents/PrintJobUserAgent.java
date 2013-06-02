@@ -12,6 +12,7 @@ import server.ServerSocket;
 import devices.Printer;
 import exceptions.NoAccountException;
 import exceptions.NoDeviceException;
+import exceptions.NotRequiredException;
 
 /**
  * Diese Klasse ist etwas spezieller. sendMessages führt direkt zu einem Printer
@@ -24,7 +25,10 @@ public class PrintJobUserAgent extends UserAgent  {
 
     @Override
     public Status sendMessage(Message message) {
-	checkForAccount();
+	try {
+	    checkForAccount();
+	} catch (NotRequiredException e) {}
+        
 	return printer.put(message);
     }
 
@@ -36,6 +40,8 @@ public class PrintJobUserAgent extends UserAgent  {
     public void checkForAccount() throws NoAccountException {
 	if (printer == null) {
 	    throw new NoDeviceException("No printer connected.");
+	} else {
+	    throw new NotRequiredException("No account required");
 	}
     }
 
@@ -51,14 +57,13 @@ public class PrintJobUserAgent extends UserAgent  {
 	this.printer = printer.getProxy();
 	return new Status(200, "printer connected");
     }
-    @Override
-    public Status login(ClientProxy client){
-        if(this.printer != null){
-            return new Status(200, "Printer online.");
-        } else {
-            return new Status(500, "No printer connected");
-        }
-        
-    }
+//    @Override
+//    public Status login(ClientProxy client){
+//        if(this.printer != null){
+//            return new Status(200, "Printer online.");
+//        } else {
+//            return new Status(500, "No printer connected");
+//        }
+//    }
     
 }

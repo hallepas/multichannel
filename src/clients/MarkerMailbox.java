@@ -40,7 +40,7 @@ public class MarkerMailbox extends Mailbox {
 	return unreadMessages;
     }
     public void markAllMessagesAsRead(){
-	unreadMessages = new ArrayList<Message>();
+	unreadMessages.clear();
     }
     public boolean isMessageUnread(Message message){
         return unreadMessages.contains(message);
