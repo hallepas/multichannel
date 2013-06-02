@@ -1,4 +1,4 @@
-package gui.components;
+package gui.frame;
 
 import gui.helper.GridBagManager;
 

@@ -1,4 +1,4 @@
-package gui.components;
+package gui.dialog;
 
 import gui.helper.GridBagManager;
 import gui.helper.MessageProperties;
@@ -46,7 +46,7 @@ public class ReminderRememberDialog extends JDialog {
 		this.bearbeitenButton = new JButton("Bearbeiten");
 		this.laterButton = new JButton("Später bearbeiten");
 		this.message = message;
-		
+
 		configureFrame();
 	}
 
@@ -96,7 +96,9 @@ public class ReminderRememberDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO reminder löschen, nach entwürfen verschieben
+				message.setReminder(null);
+				//TODO mailbox refresh?
+				dispose();
 			}
 		});
 
@@ -104,10 +106,12 @@ public class ReminderRememberDialog extends JDialog {
 		guiManager.setX(0).setY(0).setFill(GridBagConstraints.HORIZONTAL).setComp(dateLb);
 		guiManager.setX(0).setY(1).setFill(GridBagConstraints.HORIZONTAL).setComp(new JLabel());
 		guiManager.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(toLb);
+		
 		if (message instanceof MessageWithSubjectAndAttachment) {
 			guiManager.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectLb);
 			guiManager.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementLb);
 		}
+		
 		guiManager.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(sendButton);
 		guiManager.setX(1).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(bearbeitenButton);
 		guiManager.setX(0).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteReminderButton);
@@ -127,17 +131,17 @@ public class ReminderRememberDialog extends JDialog {
 
 	private String getSeperatedTo(ArrayList<String> text) {
 		// Letztes Semikolon entfernen
-		String tempTos ="";
-		if(text.size()==0){
+		String tempTos = "";
+		if (text.size() == 0) {
 			return "";
 		}
-		
+
 		for (int i = 0; i < text.size(); i++) {
-			tempTos+=text.get(i)+"; ";
+			tempTos += text.get(i) + "; ";
 		}
-		
+
 		String tos = tempTos.substring(0, tempTos.length() - 2);
-		
+
 		return tos;
 	}
 }

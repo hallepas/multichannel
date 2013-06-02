@@ -80,6 +80,10 @@ public abstract class Message implements Comparable<Message>, Serializable {
     public Date getReminder() {
 	return reminder;
     }
+    
+    public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
 
     @Override
     public int compareTo(Message other) {

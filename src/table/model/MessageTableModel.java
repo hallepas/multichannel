@@ -64,9 +64,7 @@ public class MessageTableModel extends AbstractTableModel {
 			}
 		case 3:
 			if (m instanceof MessageWithSubjectAndAttachment) {
-				//TODO
-				return true;
-//				return ((MessageWithSubjectAndAttachment) m).hasAttachment();
+				return ((MessageWithSubjectAndAttachment) m).hasAttachment();
 			}
 		default:
 			return "";

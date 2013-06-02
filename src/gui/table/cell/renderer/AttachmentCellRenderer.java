@@ -15,14 +15,7 @@ public class AttachmentCellRenderer implements TableCellRenderer {
 	
 	public AttachmentCellRenderer() {
 		this.checkBox = new JCheckBox();
-		//TODO Default focus blue color herausfinden
-		this.focusBackgroundColor = Color.BLUE;
-		this.normalBackgroundColor = Color.WHITE;
-		prepare();
-	}
-
-	private void prepare() {
-		this.focusBackgroundColor = Color.BLUE;
+		this.focusBackgroundColor = new Color(51,153,255);
 		this.normalBackgroundColor = Color.WHITE;
 	}
 

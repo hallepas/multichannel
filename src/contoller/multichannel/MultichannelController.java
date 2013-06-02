@@ -1,7 +1,7 @@
 package contoller.multichannel;
 
 import devices.Device;
-import gui.components.MainFrame;
+import gui.frame.MainFrame;
 
 public class MultichannelController {
 

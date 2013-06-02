@@ -1,9 +1,9 @@
 package gui.main;
 
-import gui.components.LoginFrame;
-import gui.components.MainFrame;
-import gui.components.MessageDialog;
-import gui.components.ReminderRememberDialog;
+import gui.dialog.MessageDialog;
+import gui.dialog.ReminderRememberDialog;
+import gui.frame.LoginFrame;
+import gui.frame.MainFrame;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,9 +22,6 @@ import devices.Smartphone;
 
 public class GuiMain {
 
-	// TODO Diese Klasse ist nur zum testen der Gui Klassen. Package und Klasse
-	// wieder löschen
-
 	public static void main(String[] args) {
 
 		try {
@@ -35,7 +32,7 @@ public class GuiMain {
 
 		// showReminder();
 		 computer();
-		// smpartphone();
+		 smpartphone();
 //		showMessageDialogE();
 //		showMessageDialog();
 	}

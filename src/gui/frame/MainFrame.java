@@ -1,5 +1,6 @@
-package gui.components;
+package gui.frame;
 
+import gui.components.MessagesTab;
 import gui.helper.GridBagManager;
 
 import java.util.ArrayList;
@@ -49,21 +50,15 @@ public class MainFrame extends JFrame {
 		setTitle("Multichannel");
 		setSize(1000, 650);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	private void createTabs() {
-		MessageType messageType;
-		Iterator<MessageType> iterator = device.getSupportedMessageFormats().iterator();
-		
-		while (iterator.hasNext()) {
-			messageType = iterator.next();
-			
-			if (!messageType.equals(MessageType.PRINT)) {
-				MessagesTab mf = new MessagesTab(device.getMessageClient(), messageType);
+		for(MessageType type: device.getSupportedMessageFormats()){
+			if (!type.equals(MessageType.PRINT)) {
+				MessagesTab mf = new MessagesTab(device.getMessageClient(), type);
 				pane.addTab(mf.getTabTitle(), mf);
 			}
-			
 		}
 	}
 

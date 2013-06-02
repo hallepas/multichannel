@@ -49,7 +49,7 @@ public class AttachementActionListener implements ActionListener {
 
 		if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			if (fc.getSelectedFile().isDirectory()) {
-				// TODO speichern
+				// TODO files speichern
 			}
 		}
 	}

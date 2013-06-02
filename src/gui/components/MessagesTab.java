@@ -1,5 +1,6 @@
 package gui.components;
 
+import gui.dialog.MessageDialog;
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
 
@@ -151,7 +152,7 @@ public class MessagesTab extends JComponent {
 
 				String toList = "";
 
-				if (m.getTo().toString() != null) {
+				if (m.getTo() != null) {
 					toList = m.getTo().toString();
 				}
 				// TODO tolist schöner darstelllen

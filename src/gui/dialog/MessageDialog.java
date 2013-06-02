@@ -1,5 +1,6 @@
-package gui.components;
+package gui.dialog;
 
+import gui.components.ReminderPanel;
 import gui.font.MessageFont;
 import gui.helper.GridBagManager;
 
@@ -161,13 +162,6 @@ public class MessageDialog extends JDialog {
 		messageTextField.setFont(MessageFont.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(1).setWeightX(1).setComp(new JLabel("An"));
-//		guiManager.setX(1).setY(0).setWidth(7).setWeightX(7).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
-		
-		
-
-//		guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
-//		guiManager.setX(7).setY(0).setWidth(1).setWeightX(1).setComp(reminderPanel);
-//		
 
 		if (messageType.instance() instanceof MessageWithSubjectAndAttachment) {
 			guiManager.setX(1).setY(0).setWidth(6).setWeightX(6).setFill(GridBagConstraints.HORIZONTAL).setComp(toField);
@@ -200,7 +194,7 @@ public class MessageDialog extends JDialog {
 
 	private Message buildMessage() {
 		message.setDate(new Date());
-		// TODO
+		// TODO username
 		message.setFrom("TODO");
 		message.setMessage(messageTextField.getText());
 		message.setTo(getSeperatedList(toField.getText()));
