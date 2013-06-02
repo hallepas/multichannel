@@ -3,7 +3,7 @@ package clients;
 import clients.credentials.Credentials;
 
 
-public class Account {
+public class Account implements Cloneable {
     private String address; 
     private String server; 
     private Credentials loginCredentials;
@@ -26,4 +26,5 @@ public class Account {
     public void setLoginCredentials(Credentials loginCredentials) {
 	this.loginCredentials = loginCredentials;
     }
+    
 }

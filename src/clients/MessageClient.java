@@ -2,11 +2,15 @@ package clients;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 // TODO: remove
@@ -17,6 +21,7 @@ import server.MessageServer;
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
+import exceptions.NotRequiredException;
 import exceptions.ValidationError;
 
 import message.Message;
@@ -50,14 +55,19 @@ public class MessageClient {
      * @param types Array aus MessageType
      */
     public MessageClient(MessageType[] types) {
-    handlers = new HashMap<MessageType, MessageHandler>();
+        handlers = new HashMap<MessageType, MessageHandler>();
 	agents = new HashMap<MessageType, UserAgent>();
 	for(MessageType type : types) {
-	    agents.put(type, UserAgent.getUserAgentForType(type));
+	    agents.put(type, UserAgent.newUserAgentForType(type));
 	    handlers.put(type, MessageHandler.getHandlerForType(type));
 	}
 	// Observer hinzufügen, der Nachrichten weiter schickt.
 	outbox.addObserver(new OutboundListener());
+	ScheduledExecutorService scheduler = Executors.newScheduledThreadPool( 1 );
+	scheduler.scheduleAtFixedRate(new ReminderChecker(this),
+	          5 /* Startverzögerung */,
+	          5 /* Dauer */,
+	          TimeUnit.SECONDS );
     }
     public UserAgent getUserAgentFor(MessageType type) {
 	return agents.get(type);
@@ -74,11 +84,19 @@ public class MessageClient {
                 } else {
                     checkForNewMessages(type);
                 }
-            } catch (NoAccountException e) {
+            } catch (NotRequiredException e) {} 
+            catch (NoAccountException e) {
                 if (type != MessageType.PRINT) {
                     displayModal("No account for " + type.getTypeName() + "s.");
                 }
             }
+        }
+    }
+    public void logout(){
+        for (MessageType type:agents.keySet()) {
+            try {
+                agents.get(type).logout();
+            } catch (Exception e) { }
         }
     }
     
@@ -89,12 +107,15 @@ public class MessageClient {
      * @param type
      */
     public void checkForNewMessages(MessageType type){
+        log.fine("Checking for new " + type);
         List<Message> messages = agents.get(type).receiveMessages();
         if(messages != null) {
             for(Message message : messages) {
                 log.fine("Received new " + type);
                 inbox.add(message);
-            }
+            } 
+        } else {
+            log.fine("No new " + type);
         }
     }
     public void checkForNewMessages() {
@@ -153,14 +174,39 @@ public class MessageClient {
 	this.inbox.add(message);
     }
     public void saveDraft(Message message) {
-	this.drafts.add(message);
+	this.drafts.put(message);
     }
+    
+    /**
+     * Die Methode wird aufgerufen, wenn man auf den Submit Knopf drückt.
+     * @param message Nachricht
+     */
     public void submit(Message message) {
-        if(this.validateMessage(message)){
-            this.outbox.add(message);
-            this.drafts.deleteMessage(message);  
+        // Hat es einen Reminder?
+        if(message.getReminder() != null 
+                && message.getReminder().after(new Date())) {
+            this.saveDraft(message);
+            log.fine("Message has a reminder. saved as draft");
+        } else {
+            if(this.validateMessage(message)){
+                this.outbox.put(message);
+                this.drafts.deleteMessage(message);  
+            }
         }
     }
+    private void checkReminder(){
+        for (Message message: drafts.getMessages()) {
+            if(message.getReminder() != null 
+               && message.getReminder().before(new Date())) {
+               log.info("Reminder für Nachricht " + message + "anzeigen");
+               // TODO: GUI Funktion aufrufen.
+               // Reminder um eine Minute nach vorne stellen
+               Date inOneMinute = new Date(message.getReminder().getTime() + (1000*60));
+               message.setReminder(inOneMinute);
+            }
+        }
+    }
+    
     
     /*
      * Die Methode schickt alle Nachrichten aus der Outbox an
@@ -222,7 +268,7 @@ public class MessageClient {
         @Override public void update(Observable o, Object arg) {
             if(((String) arg).equals("added")) {
                 sendMessagesToServer();
-                log.fine("Message added to outbox. Sending...");
+                log.fine("Message sent");
             }
         }
     }
@@ -235,8 +281,23 @@ public class MessageClient {
             log.fine("Callback from " + server +" checking messages...");
             checkForNewMessages(type);
         }
+    }
+    
+    public class ReminderChecker implements Runnable {
+        private MessageClient client;
         
+        public ReminderChecker(MessageClient client) {
+            this.client = client;
+        }
+        
+        @Override 
+        public void run() {
+              client.checkReminder();
+           }
+
     }
 
+
+        
 
 }

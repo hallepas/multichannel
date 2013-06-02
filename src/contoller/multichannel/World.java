@@ -111,13 +111,19 @@ public class World {
         generateMessages(40, annasTelNr, annasNokia.getMessageClient(), MessageType.SMS);
         generateMessages(10, annasTelNr, annasNokia.getMessageClient(), MessageType.MMS);
         
+        // Nachrichten mit Remindern erstellen
+        Message message = annasComputer.openMailProgram().newMessage(MessageType.EMAIL);
+        message.setMessage(getText());
+        message.addRecipient(getEmail(annasEmail));
+        // 5s Reminder
+        message.setReminder(new Date(new Date().getTime() + 1000*5));
+        annasComputer.openMailProgram().saveDraft(message);
     }
     
     private void generateMessages(int count, String who, MessageClient client,
                                 MessageType type) {
         for(int i=0; i<count; i++) {
             Message message = client.newMessage(type);
-            message.setMessage(getText());
             message.setDate(getDate());
             message.addRecipient(who);
             if (type == MessageType.EMAIL || type == MessageType.MMS) {
@@ -128,9 +134,19 @@ public class World {
             } else if (type == MessageType.SMS || type == MessageType.MMS) {
                 message.setFrom(getPhoneNumber(who));
             }
+            if(type != MessageType.SMS) {
+                message.setMessage(getText());
+            } else {
+                message.setMessage(getText().substring(0, 150));
+            }
             client.addToInbox(message);
         }
     }
+    
+    private void generateDraftWithReminder() {
+        
+    }
+    
     
     public List<Device> getDevices(){
         ArrayList<Device> devices = new ArrayList<Device>();

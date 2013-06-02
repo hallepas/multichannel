@@ -29,7 +29,25 @@ public class Mailbox extends Observable implements Serializable {
 	messages.add(message);
 	notifyObservers("added");
     }
-
+    /**
+     * Überschreibt eine Nachricht, falls bereits vorhanden.
+     * @param message Nachricht
+     */
+    public void put(Message message) {
+        if (this.messages.contains(message)){
+            this.messages.remove(message);
+            setChanged();
+            this.messages.add(message);
+            notifyObservers("replaced");
+        } else {
+            this.add(message);
+        }
+    }
+    
+    public void clear(){
+        this.messages.clear();
+    }
+    
     public void sort() {
         setChanged();
 	Collections.sort(messages);

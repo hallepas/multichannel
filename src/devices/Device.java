@@ -51,7 +51,7 @@ public abstract class Device {
 	}
     }
 
-    protected UserAgent getUserAgentFor(MessageType type) {
+    public UserAgent newUserAgentFor(MessageType type) {
 	return messageclient.getUserAgentFor(type);
     }
 

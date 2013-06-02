@@ -13,4 +13,5 @@ public interface ServerSocket {
     Status put(Message message);
     String getServerName();
     Status logout();
+    void whosyourdaddy();
 }

@@ -26,7 +26,7 @@ public class Computer extends Device {
     }
     
     public Status print(PrintJobMessage message) {
-        return getUserAgentFor(MessageType.PRINT).sendMessage(message);
+        return newUserAgentFor(MessageType.PRINT).sendMessage(message);
     }
     
     public Status printMessage(Message message){
@@ -39,11 +39,11 @@ public class Computer extends Device {
     }
     
     public Status connectPrinter(Printer printer) {
-	return ((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT))
+	return ((PrintJobUserAgent) newUserAgentFor(MessageType.PRINT))
 		.connect(printer);
     }
     public void disconnectPrinter() {
-	((PrintJobUserAgent) getUserAgentFor(MessageType.PRINT))
+	((PrintJobUserAgent) newUserAgentFor(MessageType.PRINT))
 	.setPrinter(null);
     }
 

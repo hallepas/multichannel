@@ -12,6 +12,7 @@ import message.Message;
  * 
  */
 public class MarkerMailbox extends Mailbox {
+
 	private static final long serialVersionUID = 1L;
 
 	private List<Message> unreadMessages = new ArrayList<Message>();
@@ -46,7 +47,7 @@ public class MarkerMailbox extends Mailbox {
 	}
 
 	public void markAllMessagesAsRead() {
-		unreadMessages = new ArrayList<Message>();
+		unreadMessages.clear();
 	}
 
 	public boolean isMessageUnread(Message message) {
@@ -64,13 +65,4 @@ public class MarkerMailbox extends Mailbox {
 			unreadMessages.remove(message);
 		}
 	}
-
-	public void deleteMessage(Message message) {
-		try {
-			unreadMessages.remove(message);
-		} catch (NullPointerException e) {
-		}
-		super.deleteMessage(message);
-	}
-
 }
