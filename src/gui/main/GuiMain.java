@@ -34,10 +34,10 @@ public class GuiMain {
 		}
 
 		// showReminder();
-		// computer();
+		 computer();
 		// smpartphone();
-		showMessageDialogE();
-		showMessageDialog();
+//		showMessageDialogE();
+//		showMessageDialog();
 	}
 
 	public static void showMessageDialog() {

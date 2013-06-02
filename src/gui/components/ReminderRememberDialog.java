@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -31,6 +32,7 @@ public class ReminderRememberDialog extends JDialog {
 	private JLabel attachementLb;
 	private Message message;
 	private MessageClient messageClient;
+	private Observable obs;
 
 	public ReminderRememberDialog(Message message, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
@@ -44,7 +46,7 @@ public class ReminderRememberDialog extends JDialog {
 		this.bearbeitenButton = new JButton("Bearbeiten");
 		this.laterButton = new JButton("Später bearbeiten");
 		this.message = message;
-
+		
 		configureFrame();
 	}
 

@@ -60,11 +60,12 @@ public class MessageDialog extends JDialog {
 		this.cancelButton = new JButton("Abbrechen");
 		this.sendButton = new JButton("Senden");
 		this.saveButton = new JButton("Speichern");
+		//TODO button anpassen (wenn reminder vorhanden-> reminder entfernen, reminder nicht vorhanden->reminder erstellen)
 		this.reminderButton = new JButton("Reminder erstellen");
 		this.messageTextField = new JTextArea();
 		this.message = message;
 		this.draft = draft;
-		this.reminderPanel = new ReminderPanel();
+		this.reminderPanel = new ReminderPanel(message);
 		fillComponentsWithMessageProperties();
 		configureFrame();
 	}

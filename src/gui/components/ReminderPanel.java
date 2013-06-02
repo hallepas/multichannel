@@ -1,30 +1,49 @@
 package gui.components;
 
+import java.util.Date;
+
 import gui.helper.GridBagManager;
+import gui.helper.MessageProperties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import message.Message;
+
 public class ReminderPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private GridBagManager guiManager;
 	private JLabel timeLb;
 	private JLabel dateLb;
 	private JLabel imgLb;
+	private Message message;
 
-	public ReminderPanel() {
+	public ReminderPanel(Message message) {
+		this.message = message;
 		this.guiManager = new GridBagManager(this);
-		this.timeLb = new JLabel("Zeit:[time]");
-		this.dateLb = new JLabel("Datum: [date]");
-//		this.imgLb = new JLabel(new ImageIcon("data/images/clock2.png"));
+		this.timeLb = new JLabel();
+		this.dateLb = new JLabel();
+		// this.imgLb = new JLabel(new ImageIcon("data/images/clock2.png"));
 		this.imgLb = new JLabel(new ImageIcon("data/images/reminder_clock3.png"));
 		prepare();
 	}
 
-	private void prepare() {
-//		setBorder(new TitledBorder("Reminder"));
+	private void reminderUpdate(Date date) {
+		if (date != null) {
+			this.timeLb = new JLabel("<html><b>Zeit:</b> "+MessageProperties.TIME_FORMATTER.format(date)+"</html");
+			this.dateLb = new JLabel("<html><b>Datum:</b> "+MessageProperties.DATE_FORMATTER.format(date)+"</html");
+		} else {
+			this.timeLb = new JLabel("<html><b>Zeit:</b> -</html");
+			this.dateLb = new JLabel("<html><b>Datum:</b>-</html");
+		}
+	}
+
+	private void prepare(){ 
+		reminderUpdate(message.getReminder());
+		// setBorder(new TitledBorder("Reminder"));
 		guiManager.setX(0).setY(0).setHeight(3).setComp(imgLb);
 		guiManager.setX(1).setY(0).setComp(dateLb);
 		guiManager.setX(1).setY(1).setComp(timeLb);
