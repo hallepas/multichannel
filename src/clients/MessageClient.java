@@ -193,6 +193,8 @@ public class MessageClient {
             if(this.validateMessage(message)){
                 this.outbox.put(message);
                 this.drafts.deleteMessage(message);  
+            } else {
+                this.drafts.put(message);
             }
         }
     }
