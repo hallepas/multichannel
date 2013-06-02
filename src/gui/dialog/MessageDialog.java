@@ -198,8 +198,6 @@ public class MessageDialog extends JDialog {
 
 	private Message buildMessage() {
 		message.setDate(new Date());
-		// TODO username
-		message.setFrom("TODO");
 		message.setMessage(messageTextField.getText());
 		message.setTo(getSeperatedList(toField.getText()));
 

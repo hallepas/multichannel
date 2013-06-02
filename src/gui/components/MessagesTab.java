@@ -168,8 +168,6 @@ public class MessagesTab extends JComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO überprüfen ob hier der Aufruf
-				// (messageClient.newMessage(messageType) eine gute Idee ist
 				MessageDialog mf = new MessageDialog(messageClient.newMessage(messageType), messageType, messageClient, false);
 				mf.setVisible(true);
 				updateMessageBoxes();

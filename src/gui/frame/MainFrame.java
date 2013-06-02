@@ -44,10 +44,10 @@ public class MainFrame extends JFrame {
 	private void configureFrame() {
 		createTabs();
 		//TODO Username anzeigen
-		guiManager.setX(0).setY(0).setComp(new JLabel("Angemeldet mit: "+device.getDeviceName()+" ("+device.getDeviceType()+")"));
+		guiManager.setX(0).setY(0).setComp(new JLabel("Angemeldet mit: "+device.getDeviceName()));
 		guiManager.setX(0).setY(1).setComp(pane);
 
-		setTitle("Multichannel");
+		setTitle("Multichannel: "+device.getDeviceType());
 		setSize(1000, 650);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
