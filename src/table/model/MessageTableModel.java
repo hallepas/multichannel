@@ -92,18 +92,11 @@ public class MessageTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 	
-	public UpdateListener getUpdateListener(){
-	    return new UpdateListener();
-	}
 
 	@Override
 	public String getColumnName(int column) {
 		return columnNames.get(column);
 	}
 
-	public class UpdateListener implements Observer {
-	    @Override public void update(Observable o, Object arg) {
-	        refresh();
-	    }
-	}
+
 }

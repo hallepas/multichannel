@@ -13,8 +13,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import server.MessageServer;
-
 import clients.handlers.MessageHandler;
 import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
@@ -110,7 +108,7 @@ public class MessageClient {
         List<Message> messages = agents.get(type).receiveMessages();
         if(messages != null) {
             for(Message message : messages) {
-                log.fine("Received new " + type);
+                log.fine(message.getTo() + " Received new " + type);
                 inbox.add(message);
             } 
         } else {
@@ -178,7 +176,6 @@ public class MessageClient {
     public void addObserver(Observer observer) {
         log.fine("Adding observer: " + observer);
         this.inbox.addObserver(observer);
-        this.drafts.addObserver(observer);
     }
     
     /**
