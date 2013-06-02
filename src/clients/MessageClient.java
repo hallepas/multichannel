@@ -13,9 +13,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-// TODO: remove
-import javax.swing.JOptionPane;
-
 import server.MessageServer;
 
 import clients.handlers.MessageHandler;
