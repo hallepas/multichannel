@@ -23,6 +23,7 @@ import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
 import exceptions.NotRequiredException;
 import exceptions.ValidationError;
+import gui.dialog.ReminderRememberDialog;
 
 import message.Message;
 import message.MessageType;
@@ -199,7 +200,7 @@ public class MessageClient {
             if(message.getReminder() != null 
                && message.getReminder().before(new Date())) {
                log.info("Reminder für Nachricht " + message + "anzeigen");
-               // TODO: GUI Funktion aufrufen.
+               ReminderRememberDialog.createDialog(message, this);
                // Reminder um eine Minute nach vorne stellen
                Date inOneMinute = new Date(message.getReminder().getTime() + (1000*60));
                message.setReminder(inOneMinute);
