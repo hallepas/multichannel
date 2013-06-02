@@ -100,5 +100,5 @@ public abstract class Message implements Comparable<Message>, Serializable {
     public String toString(){
         return "Message from " + from + "to " + to;
     }
-
+    
 }

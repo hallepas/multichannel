@@ -34,9 +34,12 @@ public class DateCellRenderer implements TableCellRenderer {
 			field.setBackground(normalBackgroundColor);
 		}
 
-		// TODO
-		field.setText(MessageProperties.DATE_FORMATTER.format((Date) value));
+		if (value.toString().equals("-")) {
+			field.setText("-");
+		} else {
+			field.setText(MessageProperties.DATE_FORMATTER.format((Date) value));
+		}
 		return field;
-	}
 
+	}
 }
