@@ -23,6 +23,7 @@ import clients.useragents.UserAgent;
 import exceptions.NoAccountException;
 import exceptions.NotRequiredException;
 import exceptions.ValidationError;
+import gui.components.ErrorDialogManager;
 import gui.dialog.ReminderRememberDialog;
 
 import message.Message;
@@ -231,7 +232,7 @@ public class MessageClient {
      * @param message
      */
     public void displayModal(String message){
-    	//JOptionPane.showConfirmDialog(null, message, "Fehler", JOptionPane.PLAIN_MESSAGE);
+    	ErrorDialogManager.showErrorDialog(message);
         log.info(message);
     }
 

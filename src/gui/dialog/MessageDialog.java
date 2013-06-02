@@ -127,18 +127,9 @@ public class MessageDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				message = buildMessage();
-				UserAgent userAgent = messageClient.getUserAgentFor(messageType);
-				Status status = userAgent.sendMessage(message);
-				System.out.println("Senden: " + status);
 				
-				//TODO überprüfen ob es der richtige Code ist
-				if(status.getCode()==200){
-					//TODO falls ein Entwurf gesendet wurde muss dieser aus den Entwürfen gelösch werden
-					messageClient.getDrafts().remove(message);
-					dispose();
-				}else{
-					// TODO User benachrichtigen (JOptionpane)
-				}
+				messageClient.submit(message);
+				
 			}
 		});
 
