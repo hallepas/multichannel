@@ -2,6 +2,8 @@ package gui.listener.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -38,18 +40,27 @@ public class AttachementActionListener implements ActionListener {
 			}
 		}
 
-		List<Attachment> attachement = ((MessageWithSubjectAndAttachment) messages.get(selectedRows[0])).getAttachments();
-		if (attachement.size() == 0) {
-			JOptionPane.showConfirmDialog(null, "Die ausgewählte Nachricht hat keinen Anhang.", "Kein Anhang vorhanden" , JOptionPane.PLAIN_MESSAGE);
+		List<Attachment> attachements = ((MessageWithSubjectAndAttachment) messages.get(selectedRows[0])).getAttachments();
+		if (attachements.size() == 0) {
+			JOptionPane.showConfirmDialog(null, "Die ausgewählte Nachricht hat keinen Anhang.", "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
 			return;
-		} 
-		
+		}
+
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-			if (fc.getSelectedFile().isDirectory()) {
-				// TODO files speichern
+			File selectedFile = fc.getSelectedFile();
+			if (selectedFile.isDirectory()) {
+
+				for (Attachment at : attachements) {
+					try {
+						at.saveAttachment(selectedFile.getPath());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+
 			}
 		}
 	}

@@ -39,6 +39,7 @@ import table.model.MessageTableModel;
 import clients.MessageClient;
 import clients.useragents.PrintJobUserAgent;
 import clients.useragents.UserAgent;
+import devices.Computer;
 import devices.Device;
 import gui.listener.action.AttachementActionListener;
 import gui.table.cell.renderer.AttachmentCellRenderer;
@@ -69,7 +70,7 @@ public class MessagesTab extends JComponent {
 	private MessageBoxState boxState = MessageBoxState.INBOX;
 	private BoxPorpertiesPanel boxPorpertiesPanel;
 	private Device device;
-	
+
 	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
 		this.messageType = messageType;
@@ -260,10 +261,10 @@ public class MessagesTab extends JComponent {
 			}
 
 			Message m = messages.get(selectedRow);
-			UserAgent ua = messageClient.getUserAgentFor(messageType);
-			System.out.println("TODO Print");
-
-			if (ua instanceof PrintJobUserAgent) {
+			
+			if (device instanceof Computer) {
+				JOptionPane.showConfirmDialog(null, "Ihre Nachricht wurde gedruckt.", "Drucken", JOptionPane.PLAIN_MESSAGE);
+				((Computer) device).printMessage(m);
 			}
 		}
 
