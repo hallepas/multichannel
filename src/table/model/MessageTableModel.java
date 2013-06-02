@@ -89,11 +89,9 @@ public class MessageTableModel extends AbstractTableModel {
 	}
 
 	public void refresh() {
-	        System.out.println("Refresh: " + this);
 		fireTableDataChanged();
 	}
 	
-
 	@Override
 	public String getColumnName(int column) {
 		return columnNames.get(column);

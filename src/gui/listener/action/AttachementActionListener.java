@@ -25,7 +25,6 @@ public class AttachementActionListener implements ActionListener {
 	public AttachementActionListener(JTable table, List<Message> messages) {
 		this.table = table;
 		this.messages = messages;
-		System.out.println(messages.size());
 	}
 
 	@Override
@@ -43,13 +42,9 @@ public class AttachementActionListener implements ActionListener {
 		}
 
 		MessageWithSubjectAndAttachment m;
-
 		List<Attachment> attachements = new ArrayList<Attachment>();
 
-		System.out.println(messages.size());
-		
 		for (int index : selectedRows) {
-			System.out.println(index);
 				m = (MessageWithSubjectAndAttachment) messages.get(index);
 				attachements.addAll(m.getAttachments());
 		}
