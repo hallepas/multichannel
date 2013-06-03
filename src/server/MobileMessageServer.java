@@ -3,6 +3,10 @@ package server;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import message.EmailMessage;
+import message.MMSMessage;
+import message.Message;
+import message.MessageType;
 import message.Status;
 import clients.credentials.Credentials;
 import clients.credentials.IMEI;
@@ -33,6 +37,16 @@ public class MobileMessageServer extends MessageServer {
             return getDomain().substring(0, 2) + m.group(1);
         }
         return "";
+    }
+    @Override
+    protected Message createSenderNotificationMessage(Message message, String reason) {
+    Message note = super.createSenderNotificationMessage(message, reason);
+    if(note.getType() == MessageType.MMS){
+    	note.setMessage(note.getMessage() + "\n\n Inhalt der Nachricht:\n\n");
+    	((MMSMessage)note).setSubject("Fehler beim Versand der MMS");
+    }
+	note.setFrom(this.getDomain() + "000000");
+	return note;
     }
 
 
