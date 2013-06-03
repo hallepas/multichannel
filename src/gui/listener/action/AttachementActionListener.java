@@ -58,6 +58,8 @@ public class AttachementActionListener implements ActionListener {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
+		// TODO: Auf Mac gehen nicht alle Ordner. 
+		// Ist ein Bug in JAVA: http://stackoverflow.com/questions/3063812/jfilechooser-returns-incorrect-path-in-os-x-folders-only-mode
 		if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			if (selectedFile.isDirectory()) {
