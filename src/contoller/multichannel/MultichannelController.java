@@ -1,16 +1,20 @@
 package contoller.multichannel;
 
+import gui.frame.MainFrame;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import devices.Device;
-import gui.frame.MainFrame;
 
 public class MultichannelController {
+
+	private int frameCounter = 0;
 
 	public void start() {
 		World world = new World();
 		for (Device device : world.getDevices()) {
+			frameCounter++;
 			new MainFrameRunner(device).run();
 		}
 
@@ -28,11 +32,19 @@ public class MultichannelController {
 			MainFrame mf = new MainFrame(device);
 			mf.setVisible(true);
 
-			mf.addWindowStateListener(new WindowAdapter() {
-				@Override
-				public void windowClosed(WindowEvent e) {
+			mf.addWindowListener(new WindowAdapter() {
+
+				public void windowClosing(WindowEvent e) {
+					frameCounter--;
+
+					if (frameCounter == 0) {
+						//Killt das Programm
+						System.exit(0);
+					}
+					;
 				}
 			});
+
 		}
 	}
 
