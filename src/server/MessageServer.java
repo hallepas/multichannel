@@ -40,8 +40,9 @@ public abstract class MessageServer {
     	MessageHandler handler = MessageHandler.getHandlerForType(message.getType());
     	Message note = handler.newMessage();
     	note.addRecipient(message.getFrom());
-    	note.setMessage("Ihre Nachricht an" + message.getTo() + 
+    	note.setMessage("Ihre Nachricht an " + message.getTo() + 
     			" konnte nicht verschickt werden.\n" + reason);
+    	log.warning("Nachricht an " + message.getTo() + " konnte nicht verschickt werden");
     	return note;
     }
     protected void sendNotificationToSender(Message message, String reason) {
@@ -232,7 +233,9 @@ public abstract class MessageServer {
                 try {
                     servers.get(address).deliver(address, forwards.get(address));
                 } catch (NullPointerException e) {
-                    log.warning("Kann Domain " + address + " nicht finden: " + e.getMessage());
+                    sendNotificationToSender(forwards.get(address), 
+                            "Domain für " + address + " existiert nicht");
+                    log.warning("Kann Domain " + address + " nicht finden: ");
                 }
             }
         }
@@ -266,6 +269,8 @@ public abstract class MessageServer {
         @Override
         public Status deliver(String name, Message message) {
             if(!accounts.containsKey(name)) {
+                sendNotificationToSender(message, 
+                        "Benutzer " + name + " existiert nicht");
                 return new Status(404, "User " + name + "not found.");
             } else {
                 return MessageServer.this.deliver(name, message);

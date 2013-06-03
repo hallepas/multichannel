@@ -22,7 +22,8 @@ public class EmailServer extends MessageServer {
     @Override
     protected Message createSenderNotificationMessage(Message message, String reason) {
     EmailMessage note = (EmailMessage)super.createSenderNotificationMessage(message, reason);
-	note.setMessage(note.getMessage() + "\n\n Inhalt der Nachricht:\n\n");
+	note.setMessage(note.getMessage() + "\n\n Inhalt der Nachricht:\n\n" 
+	        + message.getMessage());
 	note.setSubject("Fehler beim Versand der Email");
 	note.setFrom("root@" + this.getDomain());
 	return note;
