@@ -4,13 +4,10 @@ import gui.helper.MessageProperties;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.util.Date;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 
 public class DateCellRenderer implements TableCellRenderer {

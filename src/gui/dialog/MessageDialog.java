@@ -25,9 +25,7 @@ import message.Attachment;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
-import message.Status;
 import clients.MessageClient;
-import clients.useragents.UserAgent;
 
 public class MessageDialog extends JDialog {
 
@@ -38,7 +36,6 @@ public class MessageDialog extends JDialog {
 
 	private JTextField toField;
 	private JTextField subjectField;
-	// private JTextField attachementField;
 
 	private JButton searchButton;
 	private JButton cancelButton;
@@ -61,7 +58,6 @@ public class MessageDialog extends JDialog {
 		this.messageType = messageType;
 		this.toField = new JTextField();
 		this.subjectField = new JTextField();
-		// this.attachementField = new JTextField();
 		this.searchButton = new JButton("...");
 		this.cancelButton = new JButton("Abbrechen");
 		this.sendButton = new JButton("Senden");
@@ -147,17 +143,13 @@ public class MessageDialog extends JDialog {
 						try {
 							at = new Attachment(file.getPath());
 							attachmentPanel.addAttachement(at);
+							attachmentPanel.repaint();
+							repaint();
 						} catch (IOException e1) {
 							JOptionPane.showConfirmDialog(null, "Datei fehlerhaft", "Anhang", JOptionPane.PLAIN_MESSAGE);
 							e1.printStackTrace();
 						}
 					}
-					// TODO
-					// for (File file : attachementFiles) {
-					// attachementField.setText(attachementField.getText() +
-					// file.getPath() + ";");
-					// }
-
 				}
 
 			}

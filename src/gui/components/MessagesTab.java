@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,6 +28,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import message.Attachment;
@@ -109,22 +112,21 @@ public class MessagesTab extends JComponent {
 		HTMLEditorKit eKit = new HTMLEditorKit();
 		messageTextField.setEditable(false);
 		messageTextField.setEditorKit(eKit);
-		// TODO nach datum sortieren
-		// messagesTable.setAutoCreateRowSorter(true);
+		
+		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
+		messagesTable.setRowSorter(sorter);
+		sorter.setModel(tableModel);
 
-//		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
-//		messagesTable.setRowSorter(sorter);
-//
-//		sorter.setModel(tableModel);
-//
-//		sorter.setComparator(0, new Comparator<Date>() {
-//
-//			@Override
-//			public int compare(Date o1, Date o2) {
-//				return o1.compareTo(o2);
-//			}
-//		});
+		sorter.setComparator(0, new Comparator<Date>() {
 
+			@Override
+			public int compare(Date o1, Date o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		
+		sorter.sort();
+		
 		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
 		attachementButton.addActionListener(attachementActionListener);
 
@@ -136,34 +138,36 @@ public class MessagesTab extends JComponent {
 		messagesTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				attachementActionListener.updateMessages(messages);
+
 				// Nur Entwürfe darf man bearbeiten
 				if (!boxState.equals(MessageBoxState.DRAFTS)) {
 					return;
 				}
+				
+				
+				if (e.getClickCount() == 2&&messagesTable.getSelectedRow()>-1) {
+					
+					int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 
-				if (e.getClickCount() == 2) {
-					int selectedRow = messagesTable.getSelectedRow();
-
-					if (selectedRow > -1) {
 						Message message = messages.get(selectedRow);
 						MessageDialog mf = new MessageDialog(message, messageType, messageClient, true);
 						mf.setVisible(true);
 						updateMessageBoxes();
 						tableModel.refresh();
 						messagesTable.repaint();
-					}
 				}
 			}
 		});
 
 		messagesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				int selectedRow = messagesTable.getSelectedRow();
 
-				if (selectedRow == -1) {
+				if (messagesTable.getSelectedRow() == -1) {
 					return;
 				}
 
+				int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 				Message m = messages.get(selectedRow);
 				String subjectText = "";
 
@@ -176,7 +180,6 @@ public class MessagesTab extends JComponent {
 				if (m.getTo() != null) {
 					toList = m.getTo().toString();
 				}
-				// TODO tolist schöner darstelllen
 				messageTextField.setText("<html><b>Von:</b> " + m.getFrom() + "<br><b>An:</b>" + toList + subjectText + "<br><br><br>" + m.getMessage() + "</html>");
 			}
 		});
@@ -197,12 +200,12 @@ public class MessagesTab extends JComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int selectedRow = messagesTable.getSelectedRow();
 
-				if (selectedRow == -1) {
+				if (messagesTable.getSelectedRow() == -1) {
 					return;
 				}
 
+				int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 				Message message = messages.get(selectedRow);
 				Message newMessage = messageClient.newMessage(messageType);
 				newMessage.setDate(null);
@@ -254,7 +257,9 @@ public class MessagesTab extends JComponent {
 			}
 
 			for (int i : selectedRows) {
-				Message m = messages.get(i);
+
+				int selectedRow=	messagesTable.convertRowIndexToModel(i);
+				Message m = messages.get(selectedRow);
 
 				if (boxState.equals(MessageBoxState.DRAFTS)) {
 					messageClient.deleteDraft(m);

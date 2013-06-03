@@ -82,22 +82,18 @@ public class MessageTableModel extends AbstractTableModel {
 
 	}
 
-	//TODO
 	public void changeMessages(List<Message> messages) {
 		this.messages = (ArrayList<Message>) messages;
 		fireTableDataChanged();
 	}
 
 	public void refresh() {
-	        System.out.println("Refresh: " + this);
 		fireTableDataChanged();
 	}
 	
-
 	@Override
 	public String getColumnName(int column) {
 		return columnNames.get(column);
 	}
-
 
 }

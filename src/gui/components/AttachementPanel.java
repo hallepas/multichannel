@@ -5,7 +5,6 @@ import gui.helper.GridBagManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,17 +25,17 @@ public class AttachementPanel extends JPanel {
 		setBorder(new TitledBorder("Anhang"));
 	}
 
-	//TODO muss refresht werden
+	// TODO muss refresht werden
 	public void addAttachement(Attachment attachment) {
 		JButton btDelete = new JButton("X");
-		final AttachementField attachmentField = new AttachementField(attachment.getFileName(), btDelete);
+		final AttachementField attachmentField = new AttachementField(attachment, btDelete);
 
 		btDelete.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO muss refresht werden
 				guiManager.remove(attachmentField);
+				attachments.remove(attachmentField.getAttachment());
 				repaint();
 			}
 		});
