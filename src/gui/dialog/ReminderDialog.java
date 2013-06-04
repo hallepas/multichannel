@@ -8,18 +8,21 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import message.Message;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+
+/**
+ * Reminderdialog auf welchen man Zeit und Datum für den Reminder auswählen kann
+ *
+ */
 public class ReminderDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +35,11 @@ public class ReminderDialog extends JDialog {
 	private JXDatePicker datePicker;
 	private Message message;
 
+	
+	/**
+	 * 
+	 * @param message Auf diese Nachricht wird den Reminder gesetzt
+	 */
 	public ReminderDialog(Message message) {
 		this.message = message;
 		this.guiManager = new GridBagManager(this);
@@ -42,13 +50,26 @@ public class ReminderDialog extends JDialog {
 		configure();
 	}
 
+	
+	/**
+	 * Baut den Dialog zusammen
+	 */
 	private void configure() {
 		okButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				Calendar cal = Calendar.getInstance();
+				
+				String[] time = timeField.getText().split(":");
+				int hour = Integer.parseInt(time[0]);
+				int min = Integer.parseInt(time[0]);
+				
+				cal.set(datePicker.getDate().getYear(), datePicker.getDate().getMonth(), datePicker.getDate().getDay(), hour, min, 0);
 				//TODO zeit 
-				message.setReminder(datePicker.getDate());
+				
+				
+				message.setReminder(cal.getTime());
 				dispose();
 			}
 		});

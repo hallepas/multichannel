@@ -12,23 +12,49 @@ import javax.swing.border.TitledBorder;
 
 import message.Attachment;
 
-public class AttachementPanel extends JPanel {
+/**
+ * Beinhaltet alle AttachmentFields
+ * 
+ */
+public class AttachmentPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Verwaltet das Panel
+	 */
 	private GridBagManager guiManager;
+
+	/**
+	 * Enthält alle Anhänge
+	 */
 	private ArrayList<Attachment> attachments;
+
+	/**
+	 * Die y-Koordinate welche das nächste AttachmentField platziert wrid
+	 */
 	private int y = 0;
 
-	public AttachementPanel() {
+	/**
+	 * Initialisiert das AttachmentPanel
+	 */
+	public AttachmentPanel() {
 		this.guiManager = new GridBagManager(this);
 		this.attachments = new ArrayList<Attachment>();
 		setBorder(new TitledBorder("Anhang"));
 	}
 
 	// TODO muss refresht werden
+	/**
+	 * Fügt es dem Panel hinzu. Zusätzlich wird ein Delete-Button angehängt
+	 * welcher beim klicken die Datei wieder entfernt
+	 * 
+	 * @param attachment
+	 *            Die ausgewählte Datei
+	 */
 	public void addAttachement(Attachment attachment) {
 		JButton btDelete = new JButton("X");
-		final AttachementField attachmentField = new AttachementField(attachment, btDelete);
+		final AttachmentField attachmentField = new AttachmentField(attachment, btDelete);
 
 		btDelete.addActionListener(new ActionListener() {
 
@@ -46,6 +72,10 @@ public class AttachementPanel extends JPanel {
 		y++;
 	}
 
+	/**
+	 * Gibt alle ausgewählte Dateien zurück
+	 * @return Gibt alle ausgewählte Dateien zurück
+	 */
 	public ArrayList<Attachment> getAttachments() {
 		return attachments;
 	}

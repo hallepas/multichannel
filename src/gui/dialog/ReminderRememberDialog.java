@@ -13,14 +13,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import clients.MessageClient;
-
-import message.EmailMessage;
 import message.Message;
 import message.MessageWithSubjectAndAttachment;
+import clients.MessageClient;
 
+/**
+ * Dialog welcher dem User auf den Reminder erinnert
+ *
+ */
 public class ReminderRememberDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GridBagManager guiManager;
 	private JButton sendButton;
 	private JButton deleteReminderButton;
@@ -32,8 +38,12 @@ public class ReminderRememberDialog extends JDialog {
 	private JLabel attachementLb;
 	private Message message;
 	private MessageClient messageClient;
-	private Observable obs;
 
+	/**
+	 * Initialisiert die Klasse
+	 * @param message Die betroffene Nachricht
+	 * @param messageClient Der MessageClient
+	 */
 	public ReminderRememberDialog(Message message, MessageClient messageClient) {
 		this.messageClient = messageClient;
 		this.guiManager = new GridBagManager(this);
@@ -47,14 +57,22 @@ public class ReminderRememberDialog extends JDialog {
 		this.laterButton = new JButton("Später bearbeiten");
 		this.message = message;
 
-		configureFrame();
+		configure();
 	}
 
+	/**
+	 * Statische Methode um diesen Dialog zu erstellen
+	 * @param message
+	 * @param client
+	 */
 	public static void createDialog(Message message, MessageClient client) {
 		ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
 		dialog.setVisible(true);
 	}
 
+	/**
+	 * Bereit die Labels vor
+	 */
 	private void prepareLabels() {
 		dateLb.setText("<html><b>Erinnerung: </b>" + MessageProperties.DATE_AND_TIME_FORMATTER.format(message.getReminder()));
 		toLb.setText("<html><b>" + toLb.getText() + "</b>" + getSeperatedTo(message.getTo()));
@@ -66,7 +84,10 @@ public class ReminderRememberDialog extends JDialog {
 		}
 	}
 
-	private void configureFrame() {
+	/**
+	 * Baut den Dialog auf
+	 */
+	private void configure() {
 		sendButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -134,15 +155,20 @@ public class ReminderRememberDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
-	private String getSeperatedTo(ArrayList<String> text) {
+	/**
+	 * 
+	 * @param list Die Liste aus welchen man einen schönen Text erstellt
+	 * @return Gibt einen schönen Text zurück
+	 */
+	private String getSeperatedTo(ArrayList<String> list) {
 		// Letztes Semikolon entfernen
 		String tempTos = "";
-		if (text.size() == 0) {
+		if (list.size() == 0) {
 			return "";
 		}
 
-		for (int i = 0; i < text.size(); i++) {
-			tempTos += text.get(i) + "; ";
+		for (int i = 0; i < list.size(); i++) {
+			tempTos += list.get(i) + "; ";
 		}
 
 		String tos = tempTos.substring(0, tempTos.length() - 2);

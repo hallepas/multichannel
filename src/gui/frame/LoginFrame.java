@@ -11,20 +11,49 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * Das Loginframe auf welchen der User Daten eingibt
+ *
+ */
 public class LoginFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	private GridBagManager guiManager;
 	
+	/**
+	 * Das Feld für den Namen
+	 */
 	private JTextField tfLoginName;
+	
+	/**
+	 * Das Feld für das Passwort
+	 */
 	private JTextField tfLoginPw;
+	
+	/**
+	 * Das Feld für den Server 
+	 */
 	private JTextField tfLoginServer;
+	
+	/**
+	 * Das Feld für den Email
+	 */
 	private JTextField tfLoginEmail;
 
+	/**
+	 * Der Button zum registrieren
+	 */
 	private JButton btRegister;
+	
+	/**
+	 * Der Button zum abbrechen
+	 */
 	private JButton btCancel;
 	
+	/**
+	 * Initialisiert die Klasse
+	 */
 	public LoginFrame(){
 		this.guiManager = new GridBagManager(this);
 		this.tfLoginName = new JTextField();
@@ -36,6 +65,9 @@ public class LoginFrame extends JFrame {
 		configureFrame();
 	}
 
+	/**
+	 * Baut das Loginframe auf
+	 */
 	private void configureFrame() {
 		btCancel.addActionListener(new ActionListener() {
 			

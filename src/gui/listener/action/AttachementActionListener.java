@@ -15,18 +15,35 @@ import message.Attachment;
 import message.Message;
 import message.MessageWithSubjectAndAttachment;
 
+/**
+ * Listener für den Anhang
+ *
+ */
 public class AttachementActionListener implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * Die Messagetabelle
+	 */
 	private JTable table;
+	
+	/**
+	 * Die Messages
+	 */
 	private List<Message> messages;
 
+	/**
+	 * Initialisiert den Listener
+	 * @param Die Messagetabelle
+	 * @param Die Messages
+	 */
 	public AttachementActionListener(JTable table, List<Message> messages) {
 		this.table = table;
 		this.messages = messages;
 	}
 
+	/**
+	 * Aktion 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int[] selectedRows = table.getSelectedRows();
@@ -76,6 +93,9 @@ public class AttachementActionListener implements ActionListener {
 		}
 	}
 
+	/**
+	 * @param messages  Updatet die Liste
+	 */
 	public void updateMessages(List<Message> messages) {
 		this.messages = messages;
 	}

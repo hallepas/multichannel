@@ -7,8 +7,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.DateFormatter;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.SimpleFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This is licensed under LGPL.  License can be found here:  http://www.gnu.org/licenses/lgpl-3.0.txt
@@ -16,9 +20,14 @@ import java.awt.*;
  * This is provided as is.  If you have questions please direct them to charlie.hubbard at gmail dot you know what.
  */
 public class DateTimePicker extends JXDatePicker {
-    private JSpinner timeSpinner;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JSpinner timeSpinner;
     private JPanel timePanel;
     private DateFormat timeFormat;
+    private JButton btOk;
 
     public DateTimePicker() {
         super();
@@ -54,6 +63,16 @@ public class DateTimePicker extends JXDatePicker {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new FlowLayout());
         //newPanel.add(panelOriginal);
+        btOk = new JButton("ok");
+        btOk.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(getDate());
+				SimpleDateFormat f = new SimpleDateFormat();
+				System.out.println(f.format(getDate()));
+			}
+		});
 
         SpinnerDateModel dateModel = new SpinnerDateModel();
         timeSpinner = new JSpinner(dateModel);

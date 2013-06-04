@@ -1,8 +1,8 @@
 package gui.components;
 
 import gui.dialog.MessageDialog;
-import gui.font.MessageFont;
 import gui.helper.GridBagManager;
+import gui.helper.MessageProperties;
 import gui.listener.action.AttachementActionListener;
 import gui.table.cell.renderer.AttachmentCellRenderer;
 import gui.table.cell.renderer.DateCellRenderer;
@@ -31,7 +31,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.html.HTMLEditorKit;
 
-import message.Attachment;
 import message.Message;
 import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
@@ -45,6 +44,10 @@ import devices.Device;
 
 public class MessagesTab extends JComponent {
 
+	/**
+	 * Enum Für die verschiedene Mailboxens
+	 *
+	 */
 	enum MessageBoxState {
 		DRAFTS, INBOX;
 	}
@@ -73,6 +76,12 @@ public class MessagesTab extends JComponent {
 	private Device device;
 	private AttachementActionListener attachementActionListener;
 
+	/**
+	 * Initialisiert den MessagesTab
+	 * @param device Das Gerät mit welcher der User angemolden ist
+	 * @param messageClient Der zuständige MessageClient
+	 * @param messageType Der Messagetype
+	 */
 	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
 		this.messageType = messageType;
@@ -98,10 +107,13 @@ public class MessagesTab extends JComponent {
 		this.messageClient.addObserver(new UpdateListener());
 		this.attachementActionListener = new AttachementActionListener(messagesTable, messages);
 
-		configureFrame();
+		configure();
 	}
 
-	private void configureFrame() {
+	/**
+	 * Baut den Tab zusammen
+	 */
+	private void configure() {
 
 		messagesTable.getColumnModel().getColumn(0).setCellRenderer(new DateCellRenderer());
 		// Am Anfang ist der Inbox selektiert
@@ -227,18 +239,29 @@ public class MessagesTab extends JComponent {
 
 		printButton.addActionListener(new PrintActionLIstener());
 		deleteButton.addActionListener(new DeleteActionListener());
-		messageTextField.setFont(MessageFont.MESSAGE_FONT);
-
-		guiManager.setX(0).setY(0).setWidth(6).setScrollPanel().setComp(messagesTable);
-		guiManager.setX(6).setY(0).setWidth(8).setWeightX(8).setScrollPanel().setComp(messageTextField);
-		guiManager.setX(14).setY(0).setWidth(1).setComp(boxPorpertiesPanel);
+		messageTextField.setFont(MessageProperties.MESSAGE_FONT);
+		
+		
+		
+		guiManager.setX(0).setY(0).setWidth(6).setWeightX(6).setScrollPanel().setComp(messagesTable);
+		guiManager.setX(6).setY(0).setWidth(6).setWeightX(5).setScrollPanel().setComp(messageTextField);
+		guiManager.setX(12).setY(0).setWeightX(1).setWidth(1).setComp(boxPorpertiesPanel);
+		repaint();
 
 	}
 
+	/**
+	 * @return Gibt den Tabtitel zurück
+	 */
 	public String getTabTitle() {
 		return tabTitle;
 	}
 
+	
+	/**
+	 * Der ActionListener für die Löschaktion der Nachrichten
+	 *
+	 */
 	class DeleteActionListener implements ActionListener {
 
 		@Override
@@ -277,12 +300,18 @@ public class MessagesTab extends JComponent {
 
 	}
 
+	/**
+	 * Updatet alle Mailboxen
+	 */
 	public void updateMessageBoxes() {
 		updateInboxMessages();
 		updateDraftsMessages();
 		attachementActionListener.updateMessages(messages);
 	}
 
+	/**
+	 * Updatet die Erhaltene Nachrichten
+	 */
 	private void updateInboxMessages() {
 		if (boxState.equals(MessageBoxState.INBOX)) {
 			messages = MessageClient.getOnlyType(messageClient.getMessagesFromInbox(), messageType);
@@ -291,6 +320,9 @@ public class MessagesTab extends JComponent {
 		}
 	}
 
+	/**
+	 * Updatet die Entwürfe
+	 */
 	private void updateDraftsMessages() {
 		if (boxState.equals(MessageBoxState.DRAFTS)) {
 			messages = MessageClient.getOnlyType(messageClient.getDrafts(), messageType);
@@ -298,7 +330,11 @@ public class MessagesTab extends JComponent {
 			messagesTable.repaint();
 		}
 	}
-
+	
+	/**
+	 * Der ActionListener für die Printaktion der Nachrichten
+	 *
+	 */
 	class PrintActionLIstener implements ActionListener {
 
 		@Override
@@ -319,6 +355,10 @@ public class MessagesTab extends JComponent {
 
 	}
 
+	/**
+	 * Der UpdateListener für die Nachrichten
+	 *
+	 */
 	public class UpdateListener implements Observer {
 		@Override
 		public void update(Observable o, Object arg) {
@@ -326,6 +366,12 @@ public class MessagesTab extends JComponent {
 		}
 	}
 
+
+	
+	/**
+	 * Der InboxActionListener ist für das Anzeigen der Mailboxen und andere Komponente wichtig
+	 *
+	 */
 	class InboxActionListener extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -342,7 +388,10 @@ public class MessagesTab extends JComponent {
 		}
 
 	}
-
+	/**
+	 * Der DraftsActionListener ist für das Anzeigen der Mailboxen und andere Komponente wichtig
+	 *
+	 */
 	class DraftsActionListener extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;

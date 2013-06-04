@@ -1,9 +1,9 @@
 package gui.dialog;
 
-import gui.components.AttachementPanel;
+import gui.components.AttachmentPanel;
 import gui.components.ReminderPanel;
-import gui.font.MessageFont;
 import gui.helper.GridBagManager;
+import gui.helper.MessageProperties;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -49,11 +49,11 @@ public class MessageDialog extends JDialog {
 	private MessageClient messageClient;
 	private boolean draft;
 	private ReminderPanel reminderPanel;
-	private AttachementPanel attachmentPanel;
+	private AttachmentPanel attachmentPanel;
 
 	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
-		this.attachmentPanel = new AttachementPanel();
+		this.attachmentPanel = new AttachmentPanel();
 		this.guiManager = new GridBagManager(this);
 		this.messageType = messageType;
 		this.toField = new JTextField();
@@ -97,9 +97,6 @@ public class MessageDialog extends JDialog {
 		}
 	}
 
-	public void fillAttachmentPanel() {
-
-	}
 
 	private void configureFrame() {
 
@@ -186,7 +183,7 @@ public class MessageDialog extends JDialog {
 		});
 
 		messageTextField.setSize(100, 100);
-		messageTextField.setFont(MessageFont.MESSAGE_FONT);
+		messageTextField.setFont(MessageProperties.MESSAGE_FONT);
 
 		guiManager.setX(0).setY(0).setWidth(1).setWeightX(1).setComp(new JLabel("An"));
 
