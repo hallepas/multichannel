@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import clients.ClientProxy;
 import clients.Mailbox;
 import clients.credentials.Credentials;
+import clients.handlers.MessageHandler;
 
 import message.Message;
 import message.MessageType;
@@ -28,6 +29,26 @@ public abstract class MessageServer {
         accountsOnline = new HashMap<String, ClientProxy>();
         accounts = new HashMap<String, Credentials>();
         messages = new HashMap<String, Mailbox>();
+    }
+    
+    /**
+     * Wenn eine Nachricht nicht verschickt werden kann, den Absender
+     * informieren
+     * @param message
+     */
+    protected Message createSenderNotificationMessage(Message message, String reason) {
+    	MessageHandler handler = MessageHandler.getHandlerForType(message.getType());
+    	Message note = handler.newMessage();
+    	note.addRecipient(message.getFrom());
+    	note.setMessage("Ihre Nachricht an " + message.getTo() + 
+    			" konnte nicht verschickt werden.\n" + reason);
+    	log.warning("Nachricht an " + message.getTo() + " konnte nicht verschickt werden");
+    	return note;
+    }
+    protected void sendNotificationToSender(Message message, String reason) {
+    	Message note = createSenderNotificationMessage(message, reason);
+    	note.setDate(new Date());
+    	deliver(note.getTo().get(0), note);
     }
 
     public String getDomain(){
@@ -152,17 +173,25 @@ public abstract class MessageServer {
                     + message.getTo() + "on account " + name);
         Map<String, Message> external = new HashMap<String, Message>();
         for(String receiver : message.getTo()) {
-            if(accounts.containsKey(receiver)) {
-                messages.get(receiver).add(message);
-                // Send Push-Notification
-                if(accountsOnline.containsKey(receiver)) {
-                    Push push = new Push(accountsOnline.get(receiver), 
-                                         message.getType());
-                    push.run();
+        	if(getDomainForAddress(receiver).equals(this.domain)) {
+                if(accounts.containsKey(receiver)) {
+                    messages.get(receiver).add(message);
+                    // Send Push-Notification
+                    if(accountsOnline.containsKey(receiver)) {
+                        Push push = new Push(accountsOnline.get(receiver), 
+                                             message.getType());
+                        push.run();
+                    }
+                } else {
+                    // send notification user does not exist.
+                	// TODO: Infinite loop verhindern.
+                	sendNotificationToSender(message, 
+                			"Benutzer " + receiver + " existiert nicht");
                 }
-            } else {
-                external.put(receiver, message);
-            }
+        	} else {
+        		external.put(receiver, message);
+        	}
+ 
         }
         if(!external.isEmpty()) {
             forwardMessages(external);
@@ -178,7 +207,7 @@ public abstract class MessageServer {
         Forwarder forwarder = new Forwarder(forwards);
         forwarder.run();
     }
-
+    
     /**
      * Innere Klasse, die sich um das Forwarding von Messages kümmert.
      * Erst werden die externen Server gesucht, danach die entsprechenden
@@ -204,7 +233,9 @@ public abstract class MessageServer {
                 try {
                     servers.get(address).deliver(address, forwards.get(address));
                 } catch (NullPointerException e) {
-                    log.warning("Kann Domain " + address + " nicht finden: " + e.getMessage());
+                    sendNotificationToSender(forwards.get(address), 
+                            "Domain für " + address + " existiert nicht");
+                    log.warning("Kann Domain " + address + " nicht finden: ");
                 }
             }
         }
@@ -238,6 +269,8 @@ public abstract class MessageServer {
         @Override
         public Status deliver(String name, Message message) {
             if(!accounts.containsKey(name)) {
+                sendNotificationToSender(message, 
+                        "Benutzer " + name + " existiert nicht");
                 return new Status(404, "User " + name + "not found.");
             } else {
                 return MessageServer.this.deliver(name, message);

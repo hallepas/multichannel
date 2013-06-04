@@ -195,7 +195,7 @@ public class IntegrationTest {
         assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
         assertTrue("Mail hat Datum", email.getDate() != null);
         assertTrue("Mail Datum ist korrekt", email.getDate().after(date));
-        date = new Date();
+        date = new Date(new Date().getTime() + 10);
         assertTrue(email.getDate().before(date));
         outlook.logout();
         thunderbird.logout();
