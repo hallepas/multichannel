@@ -4,6 +4,8 @@ import gui.helper.GridBagManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -42,9 +44,21 @@ public class AttachmentPanel extends JPanel {
 		this.guiManager = new GridBagManager(this);
 		this.attachments = new ArrayList<Attachment>();
 		setBorder(new TitledBorder("Anhang"));
+		
+		addContainerListener(new ContainerListener() {
+			
+			@Override
+			public void componentRemoved(ContainerEvent e) {
+				updateUI();
+			}
+			
+			@Override
+			public void componentAdded(ContainerEvent e) {
+				updateUI();
+			}
+		});
 	}
 
-	// TODO muss refresht werden
 	/**
 	 * Fügt es dem Panel hinzu. Zusätzlich wird ein Delete-Button angehängt
 	 * welcher beim klicken die Datei wieder entfernt
