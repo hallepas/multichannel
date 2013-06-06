@@ -25,14 +25,45 @@ import org.jdesktop.swingx.JXDatePicker;
 public class ReminderDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Verwaltet das GUI
+	 */
 	private GridBagManager guiManager;
+	
+	/**
+	 * Fügt den Reminder hinzu
+	 */
 	private JButton okButton;
+	
+	/**
+	 * Entfernt den Reminder
+	 */
 	private JButton removeButton;
 
+	/**
+	 * Feld um die Zeit zu schreiben
+	 */
 	private JFormattedTextField timeField;
+	
+	/**
+	 * Der Zeitformat. Ungültige Werte werden nicht akzeptiert
+	 */
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+	
+	/**
+	 * Der Datepicker. Man kann ein Datum auswählen
+	 */
 	private JXDatePicker datePicker;
+	
+	/**
+	 * Die betreffende Nachricht
+	 */
 	private Message message;
+	
+	/**
+	 *  Der Kalender. Wichtig für die Umwandlung
+	 */
 	private Calendar calendar = Calendar.getInstance();
 
 	/**

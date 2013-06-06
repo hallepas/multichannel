@@ -27,30 +27,101 @@ import message.MessageType;
 import message.MessageWithSubjectAndAttachment;
 import clients.MessageClient;
 
+/**
+ * Das Nachricht-Fenster. In diesem Fenster kann man die Nachricht bearbeiten
+ */
 public class MessageDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Verwaltet das GUI
+	 */
 	private GridBagManager guiManager;
 
+	/**
+	 * Der Messsagetype
+	 */
 	private MessageType messageType;
 
+	/**
+	 * Die "An"-Liste der Nachricht
+	 */
 	private JTextField toField;
+
+	/**
+	 * Der Betreff der Nachricht
+	 */
 	private JTextField subjectField;
 
+	/**
+	 * Der Suchen-Button für die Anhänge
+	 */
 	private JButton searchButton;
+
+	/**
+	 * Der Abbrechen-Button
+	 */
 	private JButton cancelButton;
+
+	/**
+	 * Sendet die Nachricht
+	 */
 	private JButton sendButton;
+
+	/**
+	 * Speichert die Nachricht in den Entwürfen
+	 */
 	private JButton saveButton;
+
+	/**
+	 * Öffnet das Reminderdialog
+	 */
 	private JButton reminderButton;
 
+	/**
+	 * Dieses Feld enthält den Inhalt der Nachricht
+	 */
 	private JTextArea messageTextField;
+
+	/**
+	 * Enthält alle Anhänge der Nachricht
+	 */
 	private File[] attachementFiles;
+
+	/**
+	 * Die zu bearbeitende/erstellte Nachricht
+	 */
 	private Message message;
+
+	/**
+	 * Der Messageclient
+	 */
 	private MessageClient messageClient;
 	private boolean draft;
+
+	/**
+	 * Der Reminder Panel. Enthält das Datum und die Zeit
+	 */
 	private ReminderPanel reminderPanel;
+
+	/**
+	 * Enthält die Anhänge
+	 */
 	private AttachmentPanel attachmentPanel;
 
+	/**
+	 * Initialisiert die Klasse
+	 * 
+	 * @param message
+	 *            Die zu bearbeitende/erstellte Nachricht
+	 * @param messageType
+	 *            Der Messgetype
+	 * @param messageClient
+	 *            Der Messageclient
+	 * @param draft
+	 *            Ob die Nachricht sich in den Entwürfen befindet
+	 */
 	public MessageDialog(Message message, MessageType messageType, MessageClient messageClient, boolean draft) {
 		this.messageClient = messageClient;
 		this.attachmentPanel = new AttachmentPanel();
@@ -71,6 +142,9 @@ public class MessageDialog extends JDialog {
 		configureFrame();
 	}
 
+	/**
+	 * Füllt alle Komponente mit den Informationen der Nachricht
+	 */
 	public void fillComponentsWithMessageProperties() {
 		String toListe = "";
 
@@ -97,7 +171,9 @@ public class MessageDialog extends JDialog {
 		}
 	}
 
-
+	/**
+	 * Baut das Fenster auf
+	 */
 	private void configureFrame() {
 
 		reminderButton.addActionListener(new ActionListener() {
@@ -216,6 +292,11 @@ public class MessageDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
+	/**
+	 * Baut die Nachricht zusammen
+	 * 
+	 * @return Die zusammengebaute Nachricht
+	 */
 	private Message buildMessage() {
 		message.setMessage(messageTextField.getText());
 		message.setTo(getSeperatedList(toField.getText()));
@@ -228,6 +309,13 @@ public class MessageDialog extends JDialog {
 		return message;
 	}
 
+	/**
+	 * Aus dem Text wird ein String ArrayList gebaut
+	 * 
+	 * @param listText
+	 *            Der zu bearbeitende Text
+	 * @return Die erstellte Arraylist
+	 */
 	private ArrayList<String> getSeperatedList(String listText) {
 
 		if (listText == null || listText.length() < 1) {
@@ -245,7 +333,7 @@ public class MessageDialog extends JDialog {
 		String[] tolist = text.split(";");
 
 		for (String s : tolist) {
-			s=s.trim();
+			s = s.trim();
 			tos.add(s);
 		}
 

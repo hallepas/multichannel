@@ -14,7 +14,6 @@ import message.Message;
 /**
  * Zeigt die Daten des Reminders an
  * 
- * @author Milijana
  * 
  */
 public class ReminderPanel extends JPanel {

@@ -36,6 +36,7 @@ public class MessageTableModel extends AbstractTableModel {
 	
 	/**
 	 * Initialisiert die Klasse
+	 * 
 	 * @param messages Die Nachrichten
 	 * @param messageType Der MessageType
 	 */

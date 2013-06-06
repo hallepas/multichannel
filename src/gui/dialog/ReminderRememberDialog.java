@@ -26,16 +26,60 @@ public class ReminderRememberDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Verwaltet das GUI
+	 */
 	private GridBagManager guiManager;
+	
+	/**
+	 * Der Senden-Button
+	 */
 	private JButton sendButton;
+	
+	/**
+	 * Entfernt den Reminder
+	 */
 	private JButton deleteReminderButton;
+	
+	/**
+	 * Öffnet den Messagedialog
+	 */
 	private JButton bearbeitenButton;
+	
+	/**
+	 * Öffnet den Reminderdialog
+	 */
 	private JButton laterButton;
+	
+	/**
+	 * Zeigt das Reminderdatum der Nachricht an
+	 */
 	private JLabel dateLb;
+	
+	/**
+	 * Zeigt die "An"-Liste der Nachricht an
+	 */
 	private JLabel toLb;
+	
+	/**
+	 * Zeigt den Betreff der Nachricht an
+	 */
 	private JLabel subjectLb;
+	
+	/**
+	 * Zeigt die Anhänge der Nachricht an
+	 */
 	private JLabel attachementLb;
+	
+	/**
+	 * Die betroffene Nachricht
+	 */
 	private Message message;
+	
+	/**
+	 * Der Messageclient
+	 */
 	private MessageClient messageClient;
 
 	/**
@@ -61,8 +105,8 @@ public class ReminderRememberDialog extends JDialog {
 
 	/**
 	 * Statische Methode um diesen Dialog zu erstellen
-	 * @param message
-	 * @param client
+	 * @param message Die betroffene Nachricht
+	 * @param client Der Messageclient
 	 */
 	public static void createDialog(Message message, MessageClient client) {
 		ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
