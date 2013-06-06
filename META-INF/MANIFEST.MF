@@ -1,0 +1,4 @@
+Manifest-Version: 1.1
+Created-By: Simon Bächler, Milijana Tomic
+Main-Class: main.Multichannel
+Class-Path: lib/*.jar

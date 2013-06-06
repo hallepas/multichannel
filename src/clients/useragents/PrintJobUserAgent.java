@@ -2,13 +2,9 @@ package clients.useragents;
 
 import java.util.List;
 
-import clients.ClientProxy;
-
 import message.Message;
 import message.Status;
-
 import server.ServerSocket;
-
 import devices.Printer;
 import exceptions.NoAccountException;
 import exceptions.NoDeviceException;

@@ -2,9 +2,6 @@ package server;
 
 import java.util.List;
 
-import clients.ClientProxy;
-import clients.credentials.Credentials;
-
 import message.Message;
 import message.Status;
 

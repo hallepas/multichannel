@@ -3,7 +3,6 @@ package server;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import message.EmailMessage;
 import message.MMSMessage;
 import message.Message;
 import message.MessageType;

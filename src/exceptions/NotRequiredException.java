@@ -2,7 +2,12 @@ package exceptions;
 
 public class NotRequiredException extends RuntimeException {
 
-    public NotRequiredException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public NotRequiredException(String message) {
         super(message);
     }
 

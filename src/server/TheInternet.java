@@ -1,7 +1,5 @@
 package server;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import message.Status;

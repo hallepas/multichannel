@@ -56,8 +56,7 @@ public class ReminderPanel extends JPanel {
 		this.guiManager = new GridBagManager(this);
 		this.timeLb = new JLabel();
 		this.dateLb = new JLabel();
-		// this.imgLb = new JLabel(new ImageIcon("data/images/clock2.png"));
-		this.imgLb = new JLabel(new ImageIcon("data/images/reminder_clock3.png"));
+		this.imgLb = new JLabel(new ImageIcon("data/images/reminder_clock.png"));
 		configure();
 	}
 

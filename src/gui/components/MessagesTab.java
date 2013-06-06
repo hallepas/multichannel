@@ -46,7 +46,7 @@ public class MessagesTab extends JComponent {
 
 	/**
 	 * Enum Für die verschiedene Mailboxens
-	 *
+	 * 
 	 */
 	enum MessageBoxState {
 		DRAFTS, INBOX;
@@ -54,33 +54,113 @@ public class MessagesTab extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Der Messagetype. Wichtig für diese Klasse
+	 */
 	private MessageType messageType;
+
+	/**
+	 * Verwaltet das GUI
+	 */
 	private GridBagManager guiManager;
+
+	/**
+	 * Dieses Feld zeigt die Nachricht an (Von, Betreff, Inhalt etc.)
+	 */
 	private JTextPane messageTextField;
+
+	/**
+	 * Diese Tabelle enthählt alle Nachrichten einer Mailboxtyp (Inbox oder
+	 * Entwürfe)
+	 */
 	private JTable messagesTable;
 
+	/**
+	 * Inbox-Link. Nach dem Klicken zeigt es alle erhaltene Nachrichten an
+	 */
 	private JXHyperlink lbInbox;
+
+	/**
+	 * Entwürfe-Link. Nach dem Klicken zeigt es alle Entwürfe an
+	 */
 	private JXHyperlink lbEntwürfe;
+
+	/**
+	 * Erstellt ein neues Nachrichtenfenster zum Erstellen einer Nachricht
+	 */
 	private JButton createButton;
+
+	/**
+	 * Löscht eine selektierte Nachricht
+	 */
 	private JButton deleteButton;
+
+	/**
+	 * Druckt die selektierte Nachricht, falls das Gerät (Device) es zulässt
+	 */
 	private JButton printButton;
+
+	/**
+	 * Mit diesem Button kann man Anhänge speichern, falls das Gerät (Device) es
+	 * zulässt
+	 */
 	private JButton attachementButton;
+
+	/**
+	 * Mit diesem Button kann man eine erhaltene Nachricht antworten
+	 */
 	private JButton replyButton;
 
+	/**
+	 * Der Tabtitle
+	 */
 	private String tabTitle;
+
+	/**
+	 * Enthält alle Nachrichten eines Mailboxtype
+	 */
 	private List<Message> messages;
+
+	/**
+	 * Der zugehörige Messageclient
+	 */
 	private MessageClient messageClient;
+
+	/**
+	 * Der Messagetable
+	 */
 	private MessageTableModel tableModel;
+
+	/**
+	 * Der Mailboxtype
+	 */
 	private MessageBoxState boxState = MessageBoxState.INBOX;
+
+	/**
+	 * Enthält wichtige Funktionen (Bsp. Angang speichern, Auf Nachricht
+	 * anworten, wechseln zwischen Inbox und Entwürfen
+	 */
 	private BoxPorpertiesPanel boxPorpertiesPanel;
+	
+	/**
+	 * Das Gerät mit welcher der User sich angemoldet hat
+	 */
 	private Device device;
+	
+	/**
+	 * Der AttachmentListener. Überprüft ob die Nachricht einen Anhang hat
+	 */
 	private AttachementActionListener attachementActionListener;
 
 	/**
 	 * Initialisiert den MessagesTab
-	 * @param device Das Gerät mit welcher der User angemolden ist
-	 * @param messageClient Der zuständige MessageClient
-	 * @param messageType Der Messagetype
+	 * 
+	 * @param device
+	 *            Das Gerät mit welcher der User angemolden ist
+	 * @param messageClient
+	 *            Der zuständige MessageClient
+	 * @param messageType
+	 *            Der Messagetype
 	 */
 	public MessagesTab(Device device, MessageClient messageClient, MessageType messageType) {
 		this.messageClient = messageClient;
@@ -124,7 +204,7 @@ public class MessagesTab extends JComponent {
 		HTMLEditorKit eKit = new HTMLEditorKit();
 		messageTextField.setEditable(false);
 		messageTextField.setEditorKit(eKit);
-		
+
 		TableRowSorter<MessageTableModel> sorter = new TableRowSorter<MessageTableModel>();
 		messagesTable.setRowSorter(sorter);
 		sorter.setModel(tableModel);
@@ -136,9 +216,9 @@ public class MessagesTab extends JComponent {
 				return o1.compareTo(o2);
 			}
 		});
-		
+
 		sorter.sort();
-		
+
 		boxPorpertiesPanel.setBorder(new TitledBorder("Eigenschaften"));
 		attachementButton.addActionListener(attachementActionListener);
 
@@ -156,18 +236,17 @@ public class MessagesTab extends JComponent {
 				if (!boxState.equals(MessageBoxState.DRAFTS)) {
 					return;
 				}
-				
-				
-				if (e.getClickCount() == 2&&messagesTable.getSelectedRow()>-1) {
-					
-					int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 
-						Message message = messages.get(selectedRow);
-						MessageDialog mf = new MessageDialog(message, messageType, messageClient, true);
-						mf.setVisible(true);
-						updateMessageBoxes();
-						tableModel.refresh();
-						messagesTable.repaint();
+				if (e.getClickCount() == 2 && messagesTable.getSelectedRow() > -1) {
+
+					int selectedRow = messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
+
+					Message message = messages.get(selectedRow);
+					MessageDialog mf = new MessageDialog(message, messageType, messageClient, true);
+					mf.setVisible(true);
+					updateMessageBoxes();
+					tableModel.refresh();
+					messagesTable.repaint();
 				}
 			}
 		});
@@ -179,7 +258,7 @@ public class MessagesTab extends JComponent {
 					return;
 				}
 
-				int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
+				int selectedRow = messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 				Message m = messages.get(selectedRow);
 				String subjectText = "";
 
@@ -217,17 +296,17 @@ public class MessagesTab extends JComponent {
 					return;
 				}
 
-				int selectedRow=	messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
+				int selectedRow = messagesTable.convertRowIndexToModel(messagesTable.getSelectedRow());
 				Message message = messages.get(selectedRow);
 				Message newMessage = messageClient.newMessage(messageType);
 				newMessage.setDate(null);
 				newMessage.setMessage(message.getMessage());
 
-				if(message instanceof MessageWithSubjectAndAttachment){
-					((MessageWithSubjectAndAttachment) newMessage).setSubject(	((MessageWithSubjectAndAttachment) message).getSubject());
-					((MessageWithSubjectAndAttachment) newMessage).fillAttachements((ArrayList)((MessageWithSubjectAndAttachment) message).getAttachments());
+				if (message instanceof MessageWithSubjectAndAttachment) {
+					((MessageWithSubjectAndAttachment) newMessage).setSubject(((MessageWithSubjectAndAttachment) message).getSubject());
+					((MessageWithSubjectAndAttachment) newMessage).fillAttachements((ArrayList) ((MessageWithSubjectAndAttachment) message).getAttachments());
 				}
-				
+
 				ArrayList<String> to = new ArrayList<String>();
 				to.add(message.getFrom());
 				newMessage.setTo(to);
@@ -240,9 +319,7 @@ public class MessagesTab extends JComponent {
 		printButton.addActionListener(new PrintActionLIstener());
 		deleteButton.addActionListener(new DeleteActionListener());
 		messageTextField.setFont(MessageProperties.MESSAGE_FONT);
-		
-		
-		
+
 		guiManager.setX(0).setY(0).setWidth(6).setWeightX(6).setScrollPanel().setComp(messagesTable);
 		guiManager.setX(6).setY(0).setWidth(6).setWeightX(5).setScrollPanel().setComp(messageTextField);
 		guiManager.setX(12).setY(0).setWeightX(1).setWidth(1).setComp(boxPorpertiesPanel);
@@ -257,10 +334,9 @@ public class MessagesTab extends JComponent {
 		return tabTitle;
 	}
 
-	
 	/**
 	 * Der ActionListener für die Löschaktion der Nachrichten
-	 *
+	 * 
 	 */
 	class DeleteActionListener implements ActionListener {
 
@@ -281,7 +357,7 @@ public class MessagesTab extends JComponent {
 
 			for (int i : selectedRows) {
 
-				int selectedRow=	messagesTable.convertRowIndexToModel(i);
+				int selectedRow = messagesTable.convertRowIndexToModel(i);
 				Message m = messages.get(selectedRow);
 
 				if (boxState.equals(MessageBoxState.DRAFTS)) {
@@ -330,10 +406,10 @@ public class MessagesTab extends JComponent {
 			messagesTable.repaint();
 		}
 	}
-	
+
 	/**
 	 * Der ActionListener für die Printaktion der Nachrichten
-	 *
+	 * 
 	 */
 	class PrintActionLIstener implements ActionListener {
 
@@ -357,7 +433,7 @@ public class MessagesTab extends JComponent {
 
 	/**
 	 * Der UpdateListener für die Nachrichten
-	 *
+	 * 
 	 */
 	public class UpdateListener implements Observer {
 		@Override
@@ -366,11 +442,10 @@ public class MessagesTab extends JComponent {
 		}
 	}
 
-
-	
 	/**
-	 * Der InboxActionListener ist für das Anzeigen der Mailboxen und andere Komponente wichtig
-	 *
+	 * Der InboxActionListener ist für das Anzeigen der Mailboxen und andere
+	 * Komponente wichtig
+	 * 
 	 */
 	class InboxActionListener extends AbstractAction {
 
@@ -388,9 +463,11 @@ public class MessagesTab extends JComponent {
 		}
 
 	}
+
 	/**
-	 * Der DraftsActionListener ist für das Anzeigen der Mailboxen und andere Komponente wichtig
-	 *
+	 * Der DraftsActionListener ist für das Anzeigen der Mailboxen und andere
+	 * Komponente wichtig
+	 * 
 	 */
 	class DraftsActionListener extends AbstractAction {
 

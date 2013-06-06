@@ -163,11 +163,6 @@ public class World {
         }
     }
     
-    private void generateDraftWithReminder() {
-        
-    }
-    
-    
     public List<Device> getDevices(){
         ArrayList<Device> devices = new ArrayList<Device>();
         devices.add(annasComputer);
