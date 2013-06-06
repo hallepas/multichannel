@@ -175,6 +175,7 @@ public class IntegrationTest {
     @Test
     public synchronized void testSendMessageWithoutReminder() {
         Date date = new Date();
+        log.info("1. Datum: " + date.getTime());
         MessageClient outlook = annasComputer.openMailProgram();
         outlook.login();
         EmailMessage email = annasComputer.newEmail();
@@ -194,6 +195,7 @@ public class IntegrationTest {
         messages = thunderbird.getUnreadMessages();
         assertTrue("Mail ist noch nicht gelesen", messages.contains(email));
         assertTrue("Mail hat Datum", email.getDate() != null);
+        log.info("Email Datum: "+email.getDate().getTime());
         assertTrue("Mail Datum ist korrekt", email.getDate().after(date));
         date = new Date(new Date().getTime() + 10);
         assertTrue(email.getDate().before(date));
