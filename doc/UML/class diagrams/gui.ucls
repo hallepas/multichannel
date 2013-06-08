@@ -3,341 +3,290 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="gui.table.cell.renderer.AttachmentCellRenderer" project="Multichannel" 
     file="/Multichannel/src/gui/table/cell/renderer/AttachmentCellRenderer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="561" y="752"/>    
+    <position height="-1" width="-1" x="1395" y="111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <package id="2" language="java" name="gui.table.cell.renderer" project="Multichannel" 
-    file="/Multichannel/src/gui/table/cell/renderer" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="410" y="629"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <class id="3" language="java" name="gui.components.ReminderPanel" project="Multichannel" 
+  <class id="2" language="java" name="gui.components.ReminderPanel" project="Multichannel" 
     file="/Multichannel/src/gui/components/ReminderPanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1212" y="461"/>    
+    <position height="-1" width="-1" x="250" y="672"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="gui.components.MessagesTab.UpdateListener" project="Multichannel" 
+  <class id="3" language="java" name="gui.components.MessagesTab.UpdateListener" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2555" y="184"/>    
+    <position height="-1" width="-1" x="1842" y="1096"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="gui.components.MessagesTab.DeleteActionListener" project="Multichannel" 
+  <class id="4" language="java" name="gui.components.MessagesTab.DeleteActionListener" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2590" y="364"/>    
+    <position height="-1" width="-1" x="1693" y="640"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="gui.components.MessagesTab.DraftsActionListener" project="Multichannel" 
+  <class id="5" language="java" name="gui.components.MessagesTab.DraftsActionListener" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2837" y="505"/>    
+    <position height="-1" width="-1" x="1692" y="1401"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="gui.components.MessagesTab" project="Multichannel" 
+  <class id="6" language="java" name="gui.components.MessagesTab" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2209" y="448"/>    
+    <position height="-1" width="-1" x="1360" y="1031"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="gui.components.MessagesTab.InboxActionListener" project="Multichannel" 
+  <class id="7" language="java" name="gui.components.MessagesTab.InboxActionListener" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1900" y="617"/>    
+    <position height="-1" width="-1" x="1810" y="799"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="gui.components.MessagesTab.PrintActionLIstener" project="Multichannel" 
+  <class id="8" language="java" name="gui.components.MessagesTab.PrintActionLIstener" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1911" y="838"/>    
+    <position height="-1" width="-1" x="1825" y="954"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="gui.components.BoxPorpertiesPanel" project="Multichannel" 
+  <class id="9" language="java" name="gui.components.BoxPorpertiesPanel" project="Multichannel" 
     file="/Multichannel/src/gui/components/BoxPorpertiesPanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2476" y="854"/>    
+    <position height="-1" width="-1" x="1420" y="365"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <enumeration id="11" language="java" name="gui.components.MessagesTab.MessageBoxState" project="Multichannel" 
+  <enumeration id="10" language="java" name="gui.components.MessagesTab.MessageBoxState" project="Multichannel" 
     file="/Multichannel/src/gui/components/MessagesTab.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2988" y="783"/>    
+    <position height="-1" width="-1" x="1833" y="1251"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </enumeration>  
-  <class id="12" language="java" name="gui.dialog.ReminderRememberDialog" project="Multichannel" 
+  <class id="11" language="java" name="gui.dialog.ReminderRememberDialog" project="Multichannel" 
     file="/Multichannel/src/gui/dialog/ReminderRememberDialog.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="624" y="2084"/>    
+    <position height="-1" width="-1" x="793" y="422"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="gui.dialog.ErrorDialogManager" project="Multichannel" 
+  <class id="12" language="java" name="gui.dialog.ErrorDialogManager" project="Multichannel" 
     file="/Multichannel/src/gui/dialog/ErrorDialogManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="467" y="1404"/>    
+    <position height="98" width="184" x="894" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="gui.dialog.ReminderDialog" project="Multichannel" 
+  <class id="13" language="java" name="gui.dialog.ReminderDialog" project="Multichannel" 
     file="/Multichannel/src/gui/dialog/ReminderDialog.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1122" y="1469"/>    
+    <position height="-1" width="-1" x="241" y="368"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="gui.dialog.MessageDialog" project="Multichannel" 
+  <class id="14" language="java" name="gui.dialog.MessageDialog" project="Multichannel" 
     file="/Multichannel/src/gui/dialog/MessageDialog.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="793" y="1604"/>    
+    <position height="-1" width="-1" x="306" y="1132"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <package id="16" language="java" name="gui.dialog" project="Multichannel" file="/Multichannel/src/gui/dialog" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="452" y="1638"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <package id="17" language="java" name="gui.components" project="Multichannel" file="/Multichannel/src/gui/components" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1318" y="186"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <package id="18" language="java" name="gui.font" project="Multichannel" file="/Multichannel/src/gui/font" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="376" y="348"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <class id="19" language="java" name="gui.frame.MainFrame" project="Multichannel" 
+  <class id="15" language="java" name="gui.frame.MainFrame" project="Multichannel" 
     file="/Multichannel/src/gui/frame/MainFrame.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="984" y="2280"/>    
+    <position height="-1" width="-1" x="486" y="341"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="gui.frame.LoginFrame" project="Multichannel" 
-    file="/Multichannel/src/gui/frame/LoginFrame.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1227" y="2298"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <package id="21" language="java" name="gui.frame" project="Multichannel" file="/Multichannel/src/gui/frame" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="992" y="2100"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <class id="22" language="java" name="gui.helper.GridBagManager.DebugItem" project="Multichannel" 
+  <class id="16" language="java" name="gui.helper.GridBagManager.DebugItem" project="Multichannel" 
     file="/Multichannel/src/gui/helper/GridBagManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1768" y="2226"/>    
+    <position height="-1" width="-1" x="1342" y="1452"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="gui.helper.GridBagManager" project="Multichannel" 
+  <class id="17" language="java" name="gui.helper.GridBagManager" project="Multichannel" 
     file="/Multichannel/src/gui/helper/GridBagManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1760" y="1672"/>    
+    <position height="-1" width="-1" x="816" y="1122"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="24" language="java" name="gui.helper.MessageProperties" project="Multichannel" 
+  <class id="18" language="java" name="gui.helper.MessageProperties" project="Multichannel" 
     file="/Multichannel/src/gui/helper/MessageProperties.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2267" y="1505"/>    
+    <position height="152" width="315" x="539" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <package id="25" language="java" name="gui.helper" project="Multichannel" file="/Multichannel/src/gui/helper" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2144" y="1804"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <class id="26" language="java" name="gui.listener.action.AttachementActionListener" project="Multichannel" 
+  <class id="19" language="java" name="gui.listener.action.AttachementActionListener" project="Multichannel" 
     file="/Multichannel/src/gui/listener/action/AttachementActionListener.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2868" y="1644"/>    
+    <position height="152" width="303" x="196" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <package id="27" language="java" name="gui.listener.action" project="Multichannel" 
-    file="/Multichannel/src/gui/listener/action" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2804" y="1472"/>    
-    <display autosize="true" stereotype="true" accessors="true"/>  
-  </package>  
-  <association id="28">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="29" name="guiManager"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
+  <association id="20">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="21" name="guiManager"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="31">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="8"/>  
-  </nesting>  
+  <association id="23">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="24" name="guiManager"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="27" name="guiManager"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="30" name="guiManager"/>      
+      <multiplicity id="31" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <nesting id="32">    
-    <end type="SOURCE" refId="7"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="10"/>  
+  </nesting>  
+  <association id="33">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="34" name="guiManager"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="36">    
+    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="5"/>  
   </nesting>  
-  <nesting id="33">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="22"/>  
-  </nesting>  
-  <association id="34">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="35" name="items"/>      
-      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
+  <association id="37">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="38" name="guiManagerPropertiesPanel"/>      
+      <multiplicity id="39" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="22" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="37">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="4"/>  
-  </nesting>  
-  <association id="38">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="39" name="guiManager"/>      
-      <multiplicity id="40" minimum="0" maximum="1"/>    
+  <association id="40">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="41" name="items"/>      
+      <multiplicity id="42" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="41">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="42" name="guiManager"/>      
-      <multiplicity id="43" minimum="0" maximum="1"/>    
+  <association id="43">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="44" name="boxPorpertiesPanel"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="44">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="45" name="boxPorpertiesPanel"/>      
-      <multiplicity id="46" minimum="0" maximum="1"/>    
+  <association id="46">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="47" name="boxState"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="47">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="48" name="guiManager"/>      
-      <multiplicity id="49" minimum="0" maximum="1"/>    
+  <nesting id="49">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </nesting>  
+  <nesting id="50">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </nesting>  
+  <nesting id="51">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <nesting id="52">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="8"/>  
+  </nesting>  
+  <nesting id="53">    
+    <bendpoint x="1180" y="1472"/>    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="16"/>  
+  </nesting>  
+  <association id="54">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="55" name="reminderPanel"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="50">    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="51" name="guiManager"/>      
-      <multiplicity id="52" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="53">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="54" name="guiManager"/>      
-      <multiplicity id="55" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="56">    
+  <association id="57">    
     <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="57" name="reminderPanel"/>      
-      <multiplicity id="58" minimum="0" maximum="1"/>    
+      <attribute id="58" name="guiManager"/>      
+      <multiplicity id="59" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="59">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="11"/>  
-  </nesting>  
-  <nesting id="60">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="9"/>  
-  </nesting>  
-  <nesting id="61">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="6"/>  
-  </nesting>  
-  <association id="62">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="63" name="guiManager"/>      
-      <multiplicity id="64" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="65">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="66" name="boxState"/>      
-      <multiplicity id="67" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="68">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="69" name="guiManagerPropertiesPanel"/>      
-      <multiplicity id="70" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
