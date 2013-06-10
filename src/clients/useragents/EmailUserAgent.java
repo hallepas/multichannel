@@ -1,4 +1,4 @@
 package clients.useragents;
 
-
-public class EmailUserAgent extends UserAgent {}
+public class EmailUserAgent extends UserAgent {
+}

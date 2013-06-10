@@ -1,4 +1,5 @@
 package server;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -11,8 +12,6 @@ import message.Message;
 import message.MessageType;
 import message.Status;
 
-
-
 public abstract class MessageServer {
     private Map<String, ClientProxy> accountsOnline;
     private Map<String, Credentials> accounts;
@@ -20,9 +19,10 @@ public abstract class MessageServer {
     private final String domain;
     private final String serverName;
     protected static final TheInternet internet = TheInternet.goOnline();
-    private static final Logger log = Logger.getLogger( MessageServer.class.getName() );
+    private static final Logger log = Logger.getLogger(MessageServer.class
+            .getName());
 
-    protected MessageServer(String name, String domain){
+    protected MessageServer(String name, String domain) {
         this.domain = domain;
         this.serverName = name;
         // TODO: müsste HashMap<String, List<ClientProxy>> sein.
@@ -30,54 +30,62 @@ public abstract class MessageServer {
         accounts = new HashMap<String, Credentials>();
         messages = new HashMap<String, Mailbox>();
     }
-    
+
     /**
      * Wenn eine Nachricht nicht verschickt werden kann, den Absender
      * informieren
+     * 
      * @param message
      */
-    protected Message createSenderNotificationMessage(Message message, String reason) {
-    	MessageHandler handler = MessageHandler.getHandlerForType(message.getType());
-    	Message note = handler.newMessage();
-    	note.addRecipient(message.getFrom());
-    	note.setMessage("Ihre Nachricht an " + message.getTo() + 
-    			" konnte nicht verschickt werden.\n" + reason);
-    	log.warning("Nachricht an " + message.getTo() + " konnte nicht verschickt werden");
-    	return note;
-    }
-    protected void sendNotificationToSender(Message message, String reason) {
-    	Message note = createSenderNotificationMessage(message, reason);
-    	note.setDate(new Date());
-    	deliver(note.getTo().get(0), note);
+    protected Message createSenderNotificationMessage(Message message,
+            String reason) {
+        MessageHandler handler = MessageHandler.getHandlerForType(message
+                .getType());
+        Message note = handler.newMessage();
+        note.addRecipient(message.getFrom());
+        note.setMessage("Ihre Nachricht an " + message.getTo()
+                + " konnte nicht verschickt werden.\n" + reason);
+        log.warning("Nachricht an " + message.getTo()
+                + " konnte nicht verschickt werden");
+        return note;
     }
 
-    public String getDomain(){
+    protected void sendNotificationToSender(Message message, String reason) {
+        Message note = createSenderNotificationMessage(message, reason);
+        note.setDate(new Date());
+        deliver(note.getTo().get(0), note);
+    }
+
+    public String getDomain() {
         return domain;
     }
-    public String getName(){
+
+    public String getName() {
         return serverName;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return this.serverName + super.toString();
     }
 
     public Status register(String name, Credentials credentials) {
-        if(!accounts.containsKey(name)) {
+        if (!accounts.containsKey(name)) {
             accounts.put(name, credentials);
             messages.put(name, new Mailbox());
-            return new Status(200, "Account " + name + 
-                    " registered successfully with " + name +".");
+            return new Status(200, "Account " + name
+                    + " registered successfully with " + name + ".");
         } else {
-            if(accounts.get(name).equals(credentials)) {
-                return new Status(500, "Account " + name + 
-                        " already registered.");
+            if (accounts.get(name).equals(credentials)) {
+                return new Status(500, "Account " + name
+                        + " already registered.");
             } else {
-                return new Status(500, "Account " + name + 
-                        " already in use. Use a different name.");
+                return new Status(500, "Account " + name
+                        + " already in use. Use a different name.");
             }
         }
     }
+
     public Status unregister(String name, Credentials credentials) {
         if (accounts.get(name).equals(credentials)) {
             accounts.remove(name);
@@ -87,11 +95,11 @@ public abstract class MessageServer {
         }
         return new Status(500, "Error");
     }
-    
-    
+
     public boolean doesAccountExist(String name) {
         return accounts.containsKey(name);
     }
+
     public boolean isUserLoggedIn(String name) {
         return accountsOnline.containsKey(name);
     }
@@ -99,13 +107,13 @@ public abstract class MessageServer {
     /**
      * If the client implements the push interface, you can call him back.
      */
-    public ServerSocket login(String name, Credentials credentials, 
+    public ServerSocket login(String name, Credentials credentials,
             ClientProxy client) {
-        if(!doesAccountExist(name)) {
+        if (!doesAccountExist(name)) {
             log.fine("Account: " + name + " does not exist @ " + this);
             return null;
         }
-        if(accounts.get(name).equals(credentials)) {
+        if (accounts.get(name).equals(credentials)) {
             this.accountsOnline.put(name, client);
             log.fine("Login: " + name + " @ " + this);
             // delegate the instantiation to the class:
@@ -114,8 +122,8 @@ public abstract class MessageServer {
         return null;
     }
 
-    public Status logout(String name){
-        if(accountsOnline.containsKey(name)){
+    public Status logout(String name) {
+        if (accountsOnline.containsKey(name)) {
             accountsOnline.remove(name);
             log.fine(" " + name + " logged off @ " + this);
             return new Status(200, "User " + name + " logged out");
@@ -126,32 +134,35 @@ public abstract class MessageServer {
 
     // Package visible wegen tests
     abstract String getDomainForAddress(String name);
+
     protected abstract ServerSocket getSocket(String name);
 
-    
-    protected ServerProxy findServerForDomain(String domain){
+    protected ServerProxy findServerForDomain(String domain) {
         return internet.lookup(domain);
     };
 
-
     /**
      * Liefert die Nachrichten des Benutzers aus und löscht sie lokal.
-     * @param name Benutzername
+     * 
+     * @param name
+     *            Benutzername
      * @return Liste mit Nachrichten
      */
     protected List<Message> doPoll(String name) {
         // TODO: Exception werfen.
         // Benutzer muss eingeloggt sein.
-        if(!accountsOnline.containsKey(name)) return null;
+        if (!accountsOnline.containsKey(name))
+            return null;
         Mailbox box = messages.get(name);
         List<Message> newMessages = new ArrayList<Message>(box.getMessages());
         // delete Messages in Inbox
-        box.clear(); 
+        box.clear();
         return newMessages;
     }
-    
+
     /**
      * Diese Methode ist nur für Tests und sollte sonst nicht aufgerufen werden.
+     * 
      * @param name
      * @return
      */
@@ -161,39 +172,40 @@ public abstract class MessageServer {
     }
 
     /**
-     * Nachrichten an lokale Empfänger werden in deren Mailbox verschoben.
-     * Wenn der Empfänger nicht vorhanden ist, wird die Nachricht weitergeleitet.
+     * Nachrichten an lokale Empfänger werden in deren Mailbox verschoben. Wenn
+     * der Empfänger nicht vorhanden ist, wird die Nachricht weitergeleitet.
+     * 
      * @param name Username
-     * @param message Nachricht
+     * @param message  Nachricht
      * @return Status
      */
-    protected Status deliver(String name, Message message){
+    protected Status deliver(String name, Message message) {
         // Sort messages for local and external users.
-        log.fine("Delivering message from " + message.getFrom() + " to " 
-                    + message.getTo() + "on account " + name);
+        log.fine("Delivering message from " + message.getFrom() + " to "
+                + message.getTo() + "on account " + name);
         Map<String, Message> external = new HashMap<String, Message>();
-        for(String receiver : message.getTo()) {
-        	if(getDomainForAddress(receiver).equals(this.domain)) {
-                if(accounts.containsKey(receiver)) {
+        for (String receiver : message.getTo()) {
+            if (getDomainForAddress(receiver).equals(this.domain)) {
+                if (accounts.containsKey(receiver)) {
                     messages.get(receiver).add(message);
                     // Send Push-Notification
-                    if(accountsOnline.containsKey(receiver)) {
-                        Push push = new Push(accountsOnline.get(receiver), 
-                                             message.getType());
+                    if (accountsOnline.containsKey(receiver)) {
+                        Push push = new Push(accountsOnline.get(receiver),
+                                message.getType());
                         push.run();
                     }
                 } else {
                     // send notification user does not exist.
-                	// TODO: Infinite loop verhindern.
-                	sendNotificationToSender(message, 
-                			"Benutzer " + receiver + " existiert nicht");
+                    // TODO: Infinite loop verhindern.
+                    sendNotificationToSender(message, "Benutzer " + receiver
+                            + " existiert nicht");
                 }
-        	} else {
-        		external.put(receiver, message);
-        	}
- 
+            } else {
+                external.put(receiver, message);
+            }
+
         }
-        if(!external.isEmpty()) {
+        if (!external.isEmpty()) {
             forwardMessages(external);
         }
         return new Status(200, "All messages forwarded.");
@@ -201,26 +213,27 @@ public abstract class MessageServer {
 
     /**
      * Message Forwarding läuft in seinem eigenen Thread.
-     * @param forwards Map aus Domain und Nachricht
+     * 
+     * @param forwards  Map aus Domain und Nachricht
      */
-    protected void forwardMessages(Map<String,Message> forwards) {
+    protected void forwardMessages(Map<String, Message> forwards) {
         Forwarder forwarder = new Forwarder(forwards);
         forwarder.run();
     }
-    
+
     /**
-     * Innere Klasse, die sich um das Forwarding von Messages kümmert.
-     * Erst werden die externen Server gesucht, danach die entsprechenden
-     * Nachrichten an sie weitergeleitet.
+     * Innere Klasse, die sich um das Forwarding von Messages kümmert. Erst
+     * werden die externen Server gesucht, danach die entsprechenden Nachrichten
+     * an sie weitergeleitet.
      */
     public class Forwarder implements Runnable {
-        private final Map<String,Message> forwards;
-        private Map<String, ServerProxy> servers = 
-                new HashMap<String, ServerProxy>();
+        private final Map<String, Message> forwards;
+        private Map<String, ServerProxy> servers = new HashMap<String, ServerProxy>();
 
         protected Forwarder(Map<String, Message> forwards) {
             this.forwards = forwards;
         }
+
         public void run() {
             log.fine("forwarder");
             // Sort servers for forwarding
@@ -229,65 +242,71 @@ public abstract class MessageServer {
                 servers.put(address, findServerForDomain(domain));
             }
             // forward message to the servers
-            for (String address: servers.keySet()) {
+            for (String address : servers.keySet()) {
                 try {
-                    servers.get(address).deliver(address, forwards.get(address));
+                    servers.get(address)
+                            .deliver(address, forwards.get(address));
                 } catch (NullPointerException e) {
-                    sendNotificationToSender(forwards.get(address), 
+                    sendNotificationToSender(forwards.get(address),
                             "Domain für " + address + " existiert nicht");
                     log.warning("Kann Domain " + address + " nicht finden: ");
                 }
             }
         }
     }
-    
+
     /**
      * Innere Klasse, die sich um das Versenden von Push-Mitteilungen kümmert.
-     *
+     * 
      */
     public class Push implements Runnable {
         private final ClientProxy receiver;
         private final MessageType type;
-        
-        public Push(ClientProxy receiver, MessageType type){
+
+        public Push(ClientProxy receiver, MessageType type) {
             this.receiver = receiver;
             this.type = type;
         }
-        
-        public void run(){
-            log.fine("Sending Push notification from " + getName() + " for " + this.type);
+
+        public void run() {
+            log.fine("Sending Push notification from " + getName() + " for "
+                    + this.type);
             receiver.newMessages(type, getName());
         }
     }
-    
+
     public class ServerInfo implements ServerProxy {
         @Override
-        public ServerSocket login(String name, Credentials credentials, 
+        public ServerSocket login(String name, Credentials credentials,
                 ClientProxy client) {
             return MessageServer.this.login(name, credentials, client);
         }
+
         @Override
         public Status deliver(String name, Message message) {
-            if(!accounts.containsKey(name)) {
-                sendNotificationToSender(message, 
-                        "Benutzer " + name + " existiert nicht");
+            if (!accounts.containsKey(name)) {
+                sendNotificationToSender(message, "Benutzer " + name
+                        + " existiert nicht");
                 return new Status(404, "User " + name + "not found.");
             } else {
                 return MessageServer.this.deliver(name, message);
             }
         }
+
         @Override
         public Status register(String name, Credentials credentials) {
             return MessageServer.this.register(name, credentials);
         }
+
         @Override
         public void whosyourdaddy() {
-            log.fine(MessageServer.this.toString()); 
+            log.fine(MessageServer.this.toString());
         }
     }
 
     public class Socket implements ServerSocket {
         private final String name;
+
         protected Socket(String name) {
             this.name = name;
         }
@@ -299,14 +318,16 @@ public abstract class MessageServer {
 
         @Override
         public Status put(Message message) {
-            if(!accountsOnline.containsKey(this.name)) {
-                return new Status(403, "User " + this.name + "is not logged in.");
+            if (!accountsOnline.containsKey(this.name)) {
+                return new Status(403, "User " + this.name
+                        + "is not logged in.");
             } else {
                 return deliver(this.name, message);
             }
         }
+
         @Override
-        public String getServerName(){
+        public String getServerName() {
             return serverName;
         }
 
@@ -314,9 +335,10 @@ public abstract class MessageServer {
         public Status logout() {
             return MessageServer.this.logout(this.name);
         }
+
         @Override
         public void whosyourdaddy() {
-            log.fine(MessageServer.this.toString()); 
+            log.fine(MessageServer.this.toString());
         }
 
     }

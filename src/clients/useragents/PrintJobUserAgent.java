@@ -16,50 +16,52 @@ import exceptions.NotRequiredException;
  * 
  */
 
-public class PrintJobUserAgent extends UserAgent  {
+public class PrintJobUserAgent extends UserAgent {
     private ServerSocket printer;
 
     @Override
     public Status sendMessage(Message message) {
-	try {
-	    checkForAccount();
-	} catch (NotRequiredException e) {}
-        
-	return printer.put(message);
+        try {
+            checkForAccount();
+        } catch (NotRequiredException e) {
+        }
+
+        return printer.put(message);
     }
 
-    @Override  // Unless this is a scanner as well.
+    @Override
+    // Unless this is a scanner as well.
     public List<Message> receiveMessages() {
-	return null;
+        return null;
     }
 
     public void checkForAccount() throws NoAccountException {
-	if (printer == null) {
-	    throw new NoDeviceException("No printer connected.");
-	} else {
-	    throw new NotRequiredException("No account required");
-	}
+        if (printer == null) {
+            throw new NoDeviceException("No printer connected.");
+        } else {
+            throw new NotRequiredException("No account required");
+        }
     }
 
     public ServerSocket getPrinter() {
-	return printer;
+        return printer;
     }
 
     public void setPrinter(ServerSocket printer) {
-	this.printer = printer;
+        this.printer = printer;
     }
 
     public Status connect(Printer printer) {
-	this.printer = printer.getProxy();
-	return new Status(200, "printer connected");
+        this.printer = printer.getProxy();
+        return new Status(200, "printer connected");
     }
-//    @Override
-//    public Status login(ClientProxy client){
-//        if(this.printer != null){
-//            return new Status(200, "Printer online.");
-//        } else {
-//            return new Status(500, "No printer connected");
-//        }
-//    }
-    
+    // @Override
+    // public Status login(ClientProxy client){
+    // if(this.printer != null){
+    // return new Status(200, "Printer online.");
+    // } else {
+    // return new Status(500, "No printer connected");
+    // }
+    // }
+
 }

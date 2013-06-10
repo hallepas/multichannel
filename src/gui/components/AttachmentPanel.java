@@ -20,78 +20,80 @@ import message.Attachment;
  */
 public class AttachmentPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Verwaltet das Panel
-	 */
-	private GridBagManager guiManager;
+    /**
+     * Verwaltet das Panel
+     */
+    private GridBagManager guiManager;
 
-	/**
-	 * Enthält alle Anhänge
-	 */
-	private ArrayList<Attachment> attachments;
+    /**
+     * Enthält alle Anhänge
+     */
+    private ArrayList<Attachment> attachments;
 
-	/**
-	 * Die y-Koordinate welche das nächste AttachmentField platziert wrid
-	 */
-	private int y = 0;
+    /**
+     * Die y-Koordinate welche das nächste AttachmentField platziert wrid
+     */
+    private int y = 0;
 
-	/**
-	 * Initialisiert das AttachmentPanel
-	 */
-	public AttachmentPanel() {
-		this.guiManager = new GridBagManager(this);
-		this.attachments = new ArrayList<Attachment>();
-		setBorder(new TitledBorder("Anhang"));
-		
-		addContainerListener(new ContainerListener() {
-			
-			@Override
-			public void componentRemoved(ContainerEvent e) {
-				updateUI();
-			}
-			
-			@Override
-			public void componentAdded(ContainerEvent e) {
-				updateUI();
-			}
-		});
-	}
+    /**
+     * Initialisiert das AttachmentPanel
+     */
+    public AttachmentPanel() {
+        this.guiManager = new GridBagManager(this);
+        this.attachments = new ArrayList<Attachment>();
+        setBorder(new TitledBorder("Anhang"));
 
-	/**
-	 * Fügt es dem Panel hinzu. Zusätzlich wird ein Delete-Button angehängt
-	 * welcher beim klicken die Datei wieder entfernt
-	 * 
-	 * @param attachment
-	 *            Die ausgewählte Datei
-	 */
-	public void addAttachement(Attachment attachment) {
-		JButton btDelete = new JButton("X");
-		final AttachmentField attachmentField = new AttachmentField(attachment, btDelete);
+        addContainerListener(new ContainerListener() {
 
-		btDelete.addActionListener(new ActionListener() {
+            @Override
+            public void componentRemoved(ContainerEvent e) {
+                updateUI();
+            }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				guiManager.remove(attachmentField);
-				attachments.remove(attachmentField.getAttachment());
-				repaint();
-			}
-		});
+            @Override
+            public void componentAdded(ContainerEvent e) {
+                updateUI();
+            }
+        });
+    }
 
-		attachments.add(attachment);
-		guiManager.setX(0).setY(y).setComp(attachmentField);
-		repaint();
-		y++;
-	}
+    /**
+     * Fügt es dem Panel hinzu. Zusätzlich wird ein Delete-Button angehängt
+     * welcher beim klicken die Datei wieder entfernt
+     * 
+     * @param attachment
+     *            Die ausgewählte Datei
+     */
+    public void addAttachement(Attachment attachment) {
+        JButton btDelete = new JButton("X");
+        final AttachmentField attachmentField = new AttachmentField(attachment,
+                btDelete);
 
-	/**
-	 * Gibt alle ausgewählte Dateien zurück
-	 * @return Gibt alle ausgewählte Dateien zurück
-	 */
-	public ArrayList<Attachment> getAttachments() {
-		return attachments;
-	}
+        btDelete.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiManager.remove(attachmentField);
+                attachments.remove(attachmentField.getAttachment());
+                repaint();
+            }
+        });
+
+        attachments.add(attachment);
+        guiManager.setX(0).setY(y).setComp(attachmentField);
+        repaint();
+        y++;
+    }
+
+    /**
+     * Gibt alle ausgewählte Dateien zurück
+     * 
+     * @return Gibt alle ausgewählte Dateien zurück
+     */
+    public ArrayList<Attachment> getAttachments() {
+        return attachments;
+    }
 
 }

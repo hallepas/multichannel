@@ -13,56 +13,56 @@ import message.Message;
  */
 public class MarkerMailbox extends Mailbox {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<Message> unreadMessages = new ArrayList<Message>();
+    private List<Message> unreadMessages = new ArrayList<Message>();
 
-	public void setMessages(List<Message> messages, boolean asUnread) {
-		super.setMessages(messages);
-		if (asUnread)
-			this.unreadMessages = messages;
-	}
+    public void setMessages(List<Message> messages, boolean asUnread) {
+        super.setMessages(messages);
+        if (asUnread)
+            this.unreadMessages = messages;
+    }
 
-	public void setMessages(List<Message> messages) {
-		super.setMessages(messages);
-		this.unreadMessages = messages;
-	}
+    public void setMessages(List<Message> messages) {
+        super.setMessages(messages);
+        this.unreadMessages = messages;
+    }
 
-	public void add(Message message) {
-		super.add(message);
-		unreadMessages.add(message);
-	}
+    public void add(Message message) {
+        super.add(message);
+        unreadMessages.add(message);
+    }
 
-	public void sort() {
-		super.sort();
-		Collections.sort(unreadMessages);
-	}
+    public void sort() {
+        super.sort();
+        Collections.sort(unreadMessages);
+    }
 
-	public long unreadMessageCount() {
-		return this.unreadMessages.size();
-	}
+    public long unreadMessageCount() {
+        return this.unreadMessages.size();
+    }
 
-	public List<Message> getUnreadMessages() {
-		return unreadMessages;
-	}
+    public List<Message> getUnreadMessages() {
+        return unreadMessages;
+    }
 
-	public void markAllMessagesAsRead() {
-		unreadMessages.clear();
-	}
+    public void markAllMessagesAsRead() {
+        unreadMessages.clear();
+    }
 
-	public boolean isMessageUnread(Message message) {
-		return unreadMessages.contains(message);
-	}
+    public boolean isMessageUnread(Message message) {
+        return unreadMessages.contains(message);
+    }
 
-	public List<Message> popUnreadMessages() {
-		List<Message> messages = unreadMessages;
-		this.markAllMessagesAsRead();
-		return messages;
-	}
+    public List<Message> popUnreadMessages() {
+        List<Message> messages = unreadMessages;
+        this.markAllMessagesAsRead();
+        return messages;
+    }
 
-	public void markMessageAsRead(Message message) {
-		if (unreadMessages.contains(message)) {
-			unreadMessages.remove(message);
-		}
-	}
+    public void markMessageAsRead(Message message) {
+        if (unreadMessages.contains(message)) {
+            unreadMessages.remove(message);
+        }
+    }
 }

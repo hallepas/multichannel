@@ -14,7 +14,6 @@ import clients.useragents.UserAgent;
 
 // http://www.vogella.com/articles/JUnit/article.html#juniteclipse
 
-
 public class UserAgentTest {
 
     private List<UserAgent> createUAs() {
@@ -29,19 +28,20 @@ public class UserAgentTest {
     @Test
     public void testNoAccount() {
         List<UserAgent> userAgents = createUAs();
-        for (UserAgent userAgent:userAgents) {
+        for (UserAgent userAgent : userAgents) {
             userAgent.setAccount(null);
-            try{
+            try {
                 userAgent.receiveMessages();
                 fail("recieveMessage should raise exception if no account");
-            } catch (NoAccountException e) {}
-            try{
+            } catch (NoAccountException e) {
+            }
+            try {
                 userAgent.sendMessage(new EmailMessage());
                 fail("sendMessages should raise exception if no account");
-            } catch (NoAccountException e) {}
+            } catch (NoAccountException e) {
+            }
         }
         assertTrue("NoAccountException raised", true);
     }
-   
-    
+
 }

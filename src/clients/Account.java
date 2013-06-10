@@ -2,29 +2,33 @@ package clients;
 
 import clients.credentials.Credentials;
 
-
 public class Account implements Cloneable {
-    private String address; 
-    private String server; 
+    private String address;
+    private String server;
     private Credentials loginCredentials;
 
     public String getAddress() {
-	return address;
+        return address;
     }
+
     public void setAddress(String address) {
-	this.address = address;
+        this.address = address;
     }
+
     public String getServer() {
-	return server;
+        return server;
     }
+
     public void setServer(String server) {
-	this.server = server;
+        this.server = server;
     }
+
     public Credentials getLoginCredentials() {
-	return loginCredentials;
+        return loginCredentials;
     }
+
     public void setLoginCredentials(Credentials loginCredentials) {
-	this.loginCredentials = loginCredentials;
+        this.loginCredentials = loginCredentials;
     }
-    
+
 }

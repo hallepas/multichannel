@@ -17,85 +17,101 @@ import message.MessageWithSubjectAndAttachment;
 
 /**
  * Listener für den Anhang
- *
+ * 
  */
 public class AttachementActionListener implements ActionListener {
 
-	/**
-	 * Die Nachrichtentabelle
-	 */
-	private JTable table;
-	
-	/**
-	 * Die Nachrichten
-	 */
-	private List<Message> messages;
+    /**
+     * Die Nachrichtentabelle
+     */
+    private JTable table;
 
-	/**
-	 * Initialisiert den Listener
-	 * @param Die Messagetabelle
-	 * @param Die Messages
-	 */
-	public AttachementActionListener(JTable table, List<Message> messages) {
-		this.table = table;
-		this.messages = messages;
-	}
+    /**
+     * Die Nachrichten
+     */
+    private List<Message> messages;
 
-	/**
-	 * Öffnet den Ordnerdialog um ein Speicherpfad auszuwählen
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		int[] selectedRows = table.getSelectedRows();
+    /**
+     * Initialisiert den Listener
+     * 
+     * @param Die
+     *            Messagetabelle
+     * @param Die
+     *            Messages
+     */
+    public AttachementActionListener(JTable table, List<Message> messages) {
+        this.table = table;
+        this.messages = messages;
+    }
 
-		if (selectedRows.length != 1) {
-			if (selectedRows.length == 0) {
-				JOptionPane.showConfirmDialog(null, "Sie haben keine Nachricht ausgewählt. Bitte wählen Sie eine Nachricht aus", "Keine Nachricht ausgewählt", JOptionPane.PLAIN_MESSAGE);
-				return;
-			} else if (selectedRows.length > 1) {
-				JOptionPane.showConfirmDialog(null, "Es kann nur der Anhang einer Nachricht gespeichert werden. Bitte wählen Sie eine Nachricht aus", "Mehrere Nachricht ausgewählt", JOptionPane.PLAIN_MESSAGE);
-				return;
-			}
-		}
+    /**
+     * Öffnet den Ordnerdialog um ein Speicherpfad auszuwählen
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int[] selectedRows = table.getSelectedRows();
 
-		List<Attachment> attachements = new ArrayList<Attachment>();
+        if (selectedRows.length != 1) {
+            if (selectedRows.length == 0) {
+                JOptionPane
+                        .showConfirmDialog(
+                                null,
+                                "Sie haben keine Nachricht ausgewählt. Bitte wählen Sie eine Nachricht aus",
+                                "Keine Nachricht ausgewählt",
+                                JOptionPane.PLAIN_MESSAGE);
+                return;
+            } else if (selectedRows.length > 1) {
+                JOptionPane
+                        .showConfirmDialog(
+                                null,
+                                "Es kann nur der Anhang einer Nachricht gespeichert werden. Bitte wählen Sie eine Nachricht aus",
+                                "Mehrere Nachricht ausgewählt",
+                                JOptionPane.PLAIN_MESSAGE);
+                return;
+            }
+        }
 
-		for (int index : selectedRows) {
-			int selectedRow = table.convertRowIndexToModel(index);
-			MessageWithSubjectAndAttachment m = (MessageWithSubjectAndAttachment) messages.get(selectedRow);
-			attachements.addAll(m.getAttachments());
-		}
-		
+        List<Attachment> attachements = new ArrayList<Attachment>();
 
-		if (attachements.size() == 0) {
-			JOptionPane.showConfirmDialog(null, "Die ausgewählten Nachrichten haben keine Anhänge.", "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
-			return;
-		}
+        for (int index : selectedRows) {
+            int selectedRow = table.convertRowIndexToModel(index);
+            MessageWithSubjectAndAttachment m = (MessageWithSubjectAndAttachment) messages
+                    .get(selectedRow);
+            attachements.addAll(m.getAttachments());
+        }
 
-		JFileChooser fc = new JFileChooser();
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (attachements.size() == 0) {
+            JOptionPane.showConfirmDialog(null,
+                    "Die ausgewählten Nachrichten haben keine Anhänge.",
+                    "Kein Anhang vorhanden", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
 
-		if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = fc.getSelectedFile();
-			if (selectedFile.isDirectory()) {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-				for (Attachment at : attachements) {
-					try {
-						at.saveAttachment(selectedFile.getPath());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
+        if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fc.getSelectedFile();
+            if (selectedFile.isDirectory()) {
 
-			}
-		}
-	}
+                for (Attachment at : attachements) {
+                    try {
+                        at.saveAttachment(selectedFile.getPath());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
 
-	/**
-	 * @param messages  Updatet die Liste
-	 */
-	public void updateMessages(List<Message> messages) {
-		this.messages = messages;
-	}
+            }
+        }
+    }
+
+    /**
+     * @param messages
+     *            Updatet die Liste
+     */
+    public void updateMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 
 }

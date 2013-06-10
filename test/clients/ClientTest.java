@@ -28,26 +28,28 @@ public class ClientTest {
         messages.add(email);
         messages.add(mms);
         assertEquals(messages.size(), 2);
-        List<Message> filtered = MessageClient.getOnlyType(messages, MessageType.EMAIL);
+        List<Message> filtered = MessageClient.getOnlyType(messages,
+                MessageType.EMAIL);
         assertTrue(filtered.contains(email));
         assertFalse(filtered.contains(mms));
     }
 
     @Test
     public void testMessageCreation() {
-        MessageClient client = new MessageClient(new MessageType[]{MessageType.EMAIL, MessageType.PRINT});
+        MessageClient client = new MessageClient(new MessageType[] {
+                MessageType.EMAIL, MessageType.PRINT });
         Message message = client.newMessage(MessageType.EMAIL);
         assertTrue("Email Message", message instanceof EmailMessage);
         message = client.newMessage(MessageType.PRINT);
         assertTrue("Print Job message", message instanceof PrintJobMessage);
         assertTrue(client.canPrint());
     }
-    
 
     @Test
     public void testValidator() {
-        MessageClient client = new MessageClient(new MessageType[]{MessageType.EMAIL, 
-                MessageType.PRINT, MessageType.SMS, MessageType.MMS});
+        MessageClient client = new MessageClient(new MessageType[] {
+                MessageType.EMAIL, MessageType.PRINT, MessageType.SMS,
+                MessageType.MMS });
         Message sms = client.newMessage(MessageType.SMS);
         sms.setFrom("0781234567");
         sms.addRecipient("0792221122");
@@ -61,15 +63,15 @@ public class ClientTest {
         sms.removeRecipient("079222112233");
         sms.addRecipient("+41791234433");
         assertTrue(client.validateMessage(sms));
-        sms.setMessage("Eine sehr lange Nachricht, die länger als die erlaubten 160 Zeichen ist." +
-        		"Darum sollte bei der Validierung ein Fehler geschmissen werden." +
-        		"Duis autem vel eum iriure dolor in hendrerit in vulputate velit " +
-        		"esse molestie consequat, vel illum dolore eu feugiat nulla facilisis " +
-        		"at vero eros et accumsan et iusto odio dignissim qui blandit praesent " +
-        		"luptatum zzril delenit augue duis dolore te feugait nulla facilisi.");
+        sms.setMessage("Eine sehr lange Nachricht, die länger als die erlaubten 160 Zeichen ist."
+                + "Darum sollte bei der Validierung ein Fehler geschmissen werden."
+                + "Duis autem vel eum iriure dolor in hendrerit in vulputate velit "
+                + "esse molestie consequat, vel illum dolore eu feugiat nulla facilisis "
+                + "at vero eros et accumsan et iusto odio dignissim qui blandit praesent "
+                + "luptatum zzril delenit augue duis dolore te feugait nulla facilisi.");
         assertTrue(sms.getMessage().length() > 160);
         assertFalse(client.validateMessage(sms));
-        
+
         Message email = client.newMessage(MessageType.EMAIL);
         email.setFrom("test@gmail.com");
         email.addRecipient("baechsim@students.zhaw.ch");
@@ -81,7 +83,7 @@ public class ClientTest {
         assertFalse(client.validateMessage(email));
         email.setFrom("test@aa");
         assertFalse(client.validateMessage(email));
-        
+
     }
 
 }

@@ -18,204 +18,229 @@ import clients.MessageClient;
 
 /**
  * Dialog welcher dem User auf den Reminder erinnert
- *
+ * 
  */
 public class ReminderRememberDialog extends JDialog {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Verwaltet das GUI
-	 */
-	private GridBagManager guiManager;
-	
-	/**
-	 * Der Senden-Button
-	 */
-	private JButton sendButton;
-	
-	/**
-	 * Entfernt den Reminder
-	 */
-	private JButton deleteReminderButton;
-	
-	/**
-	 * Öffnet den Messagedialog
-	 */
-	private JButton bearbeitenButton;
-	
-	/**
-	 * Öffnet den Reminderdialog
-	 */
-	private JButton laterButton;
-	
-	/**
-	 * Zeigt das Reminderdatum der Nachricht an
-	 */
-	private JLabel dateLb;
-	
-	/**
-	 * Zeigt die "An"-Liste der Nachricht an
-	 */
-	private JLabel toLb;
-	
-	/**
-	 * Zeigt den Betreff der Nachricht an
-	 */
-	private JLabel subjectLb;
-	
-	/**
-	 * Zeigt die Anhänge der Nachricht an
-	 */
-	private JLabel attachementLb;
-	
-	/**
-	 * Die betroffene Nachricht
-	 */
-	private Message message;
-	
-	/**
-	 * Der Messageclient
-	 */
-	private MessageClient messageClient;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Initialisiert die Klasse
-	 * @param message Die betroffene Nachricht
-	 * @param messageClient Der MessageClient
-	 */
-	public ReminderRememberDialog(Message message, MessageClient messageClient) {
-		this.messageClient = messageClient;
-		this.guiManager = new GridBagManager(this);
-		this.dateLb = new JLabel("An: ");
-		this.toLb = new JLabel("An: ");
-		this.subjectLb = new JLabel("Betreff: ");
-		this.attachementLb = new JLabel("Anhang:");
-		this.sendButton = new JButton("Jetzt senden");
-		this.deleteReminderButton = new JButton("Reminder löschen");
-		this.bearbeitenButton = new JButton("Bearbeiten");
-		this.laterButton = new JButton("Später bearbeiten");
-		this.message = message;
+    /**
+     * Verwaltet das GUI
+     */
+    private GridBagManager guiManager;
 
-		configure();
-	}
+    /**
+     * Der Senden-Button
+     */
+    private JButton sendButton;
 
-	/**
-	 * Statische Methode um diesen Dialog zu erstellen
-	 * @param message Die betroffene Nachricht
-	 * @param client Der Messageclient
-	 */
-	public static void createDialog(Message message, MessageClient client) {
-		ReminderRememberDialog dialog = new ReminderRememberDialog(message, client);
-		dialog.setVisible(true);
-	}
+    /**
+     * Entfernt den Reminder
+     */
+    private JButton deleteReminderButton;
 
-	/**
-	 * Bereit die Labels vor
-	 */
-	private void prepareLabels() {
-		dateLb.setText("<html><b>Erinnerung: </b>" + MessageProperties.DATE_AND_TIME_FORMATTER.format(message.getReminder()));
-		toLb.setText("<html><b>" + toLb.getText() + "</b>" + getSeperatedTo(message.getTo()));
+    /**
+     * Öffnet den Messagedialog
+     */
+    private JButton bearbeitenButton;
 
-		if (message instanceof MessageWithSubjectAndAttachment) {
-			subjectLb.setText("<html><b>" + subjectLb.getText() + "</b>" + ((MessageWithSubjectAndAttachment) message).getSubject());
-			String attachementText = ((MessageWithSubjectAndAttachment) message).getAttachments().toString();
-			attachementLb.setText("<html><b>" + attachementLb.getText() + "</b> " + (attachementText == "[]" ? "Keine" : attachementText));
-		}
-	}
+    /**
+     * Öffnet den Reminderdialog
+     */
+    private JButton laterButton;
 
-	/**
-	 * Baut den Dialog auf
-	 */
-	private void configure() {
-		sendButton.addActionListener(new ActionListener() {
+    /**
+     * Zeigt das Reminderdatum der Nachricht an
+     */
+    private JLabel dateLb;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				messageClient.submit(message);
-				dispose();
-			}
-		});
+    /**
+     * Zeigt die "An"-Liste der Nachricht an
+     */
+    private JLabel toLb;
 
-		bearbeitenButton.addActionListener(new ActionListener() {
+    /**
+     * Zeigt den Betreff der Nachricht an
+     */
+    private JLabel subjectLb;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				message.setReminder(null);
-				MessageDialog md = new MessageDialog(message, message.getType(), messageClient, false);
-				md.setVisible(true);
-				dispose();
-			}
-		});
+    /**
+     * Zeigt die Anhänge der Nachricht an
+     */
+    private JLabel attachementLb;
 
-		laterButton.addActionListener(new ActionListener() {
+    /**
+     * Die betroffene Nachricht
+     */
+    private Message message;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				message.setReminder(null);
-				ReminderDialog rd = new ReminderDialog(message);
-				rd.setVisible(true);
-				dispose();
-			}
-		});
+    /**
+     * Der Messageclient
+     */
+    private MessageClient messageClient;
 
-		deleteReminderButton.addActionListener(new ActionListener() {
+    /**
+     * Initialisiert die Klasse
+     * 
+     * @param message
+     *            Die betroffene Nachricht
+     * @param messageClient
+     *            Der MessageClient
+     */
+    public ReminderRememberDialog(Message message, MessageClient messageClient) {
+        this.messageClient = messageClient;
+        this.guiManager = new GridBagManager(this);
+        this.dateLb = new JLabel("An: ");
+        this.toLb = new JLabel("An: ");
+        this.subjectLb = new JLabel("Betreff: ");
+        this.attachementLb = new JLabel("Anhang:");
+        this.sendButton = new JButton("Jetzt senden");
+        this.deleteReminderButton = new JButton("Reminder löschen");
+        this.bearbeitenButton = new JButton("Bearbeiten");
+        this.laterButton = new JButton("Später bearbeiten");
+        this.message = message;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				message.setReminder(null);
-				dispose();
-			}
-		});
+        configure();
+    }
 
-		prepareLabels();
-		guiManager.setX(0).setY(0).setFill(GridBagConstraints.HORIZONTAL).setComp(dateLb);
-		guiManager.setX(0).setY(1).setFill(GridBagConstraints.HORIZONTAL).setComp(new JLabel());
-		guiManager.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL).setComp(toLb);
+    /**
+     * Statische Methode um diesen Dialog zu erstellen
+     * 
+     * @param message
+     *            Die betroffene Nachricht
+     * @param client
+     *            Der Messageclient
+     */
+    public static void createDialog(Message message, MessageClient client) {
+        ReminderRememberDialog dialog = new ReminderRememberDialog(message,
+                client);
+        dialog.setVisible(true);
+    }
 
-		if (message instanceof MessageWithSubjectAndAttachment) {
-			guiManager.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL).setComp(subjectLb);
-			guiManager.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL).setComp(attachementLb);
-		}
+    /**
+     * Bereit die Labels vor
+     */
+    private void prepareLabels() {
+        dateLb.setText("<html><b>Erinnerung: </b>"
+                + MessageProperties.DATE_AND_TIME_FORMATTER.format(message
+                        .getReminder()));
+        toLb.setText("<html><b>" + toLb.getText() + "</b>"
+                + getSeperatedTo(message.getTo()));
 
-		guiManager.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(sendButton);
-		guiManager.setX(1).setY(5).setFill(GridBagConstraints.HORIZONTAL).setComp(bearbeitenButton);
-		guiManager.setX(0).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(deleteReminderButton);
-		guiManager.setX(1).setY(6).setFill(GridBagConstraints.HORIZONTAL).setComp(laterButton);
+        if (message instanceof MessageWithSubjectAndAttachment) {
+            subjectLb.setText("<html><b>" + subjectLb.getText() + "</b>"
+                    + ((MessageWithSubjectAndAttachment) message).getSubject());
+            String attachementText = ((MessageWithSubjectAndAttachment) message)
+                    .getAttachments().toString();
+            attachementLb.setText("<html><b>" + attachementLb.getText()
+                    + "</b> "
+                    + (attachementText == "[]" ? "Keine" : attachementText));
+        }
+    }
 
-		setTitle("Reminder");
+    /**
+     * Baut den Dialog auf
+     */
+    private void configure() {
+        sendButton.addActionListener(new ActionListener() {
 
-		if (message instanceof MessageWithSubjectAndAttachment) {
-			setSize(350, 200);
-		} else {
-			setSize(350, 150);
-		}
-		setLocationRelativeTo(null);
-		setModal(true);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                messageClient.submit(message);
+                dispose();
+            }
+        });
 
-	/**
-	 * 
-	 * @param list Die Liste aus welchen man einen schönen Text erstellt
-	 * @return Gibt einen schönen Text zurück
-	 */
-	private String getSeperatedTo(ArrayList<String> list) {
-		// Letztes Semikolon entfernen
-		String tempTos = "";
-		if (list.size() == 0) {
-			return "";
-		}
+        bearbeitenButton.addActionListener(new ActionListener() {
 
-		for (int i = 0; i < list.size(); i++) {
-			tempTos += list.get(i) + "; ";
-		}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                message.setReminder(null);
+                MessageDialog md = new MessageDialog(message,
+                        message.getType(), messageClient, false);
+                md.setVisible(true);
+                dispose();
+            }
+        });
 
-		String tos = tempTos.substring(0, tempTos.length() - 2);
+        laterButton.addActionListener(new ActionListener() {
 
-		return tos;
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                message.setReminder(null);
+                ReminderDialog rd = new ReminderDialog(message);
+                rd.setVisible(true);
+                dispose();
+            }
+        });
+
+        deleteReminderButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                message.setReminder(null);
+                dispose();
+            }
+        });
+
+        prepareLabels();
+        guiManager.setX(0).setY(0).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(dateLb);
+        guiManager.setX(0).setY(1).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(new JLabel());
+        guiManager.setX(0).setY(2).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(toLb);
+
+        if (message instanceof MessageWithSubjectAndAttachment) {
+            guiManager.setX(0).setY(3).setFill(GridBagConstraints.HORIZONTAL)
+                    .setComp(subjectLb);
+            guiManager.setX(0).setY(4).setFill(GridBagConstraints.HORIZONTAL)
+                    .setComp(attachementLb);
+        }
+
+        guiManager.setX(0).setY(5).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(sendButton);
+        guiManager.setX(1).setY(5).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(bearbeitenButton);
+        guiManager.setX(0).setY(6).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(deleteReminderButton);
+        guiManager.setX(1).setY(6).setFill(GridBagConstraints.HORIZONTAL)
+                .setComp(laterButton);
+
+        setTitle("Reminder");
+
+        if (message instanceof MessageWithSubjectAndAttachment) {
+            setSize(350, 200);
+        } else {
+            setSize(350, 150);
+        }
+        setLocationRelativeTo(null);
+        setModal(true);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    }
+
+    /**
+     * 
+     * @param list
+     *            Die Liste aus welchen man einen schönen Text erstellt
+     * @return Gibt einen schönen Text zurück
+     */
+    private String getSeperatedTo(ArrayList<String> list) {
+        // Letztes Semikolon entfernen
+        String tempTos = "";
+        if (list.size() == 0) {
+            return "";
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            tempTos += list.get(i) + "; ";
+        }
+
+        String tos = tempTos.substring(0, tempTos.length() - 2);
+
+        return tos;
+    }
 }

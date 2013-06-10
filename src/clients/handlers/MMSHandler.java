@@ -7,12 +7,12 @@ import message.Message;
 public class MMSHandler extends MessageWithAttachmentsHandler {
 
     public MMSHandler() {
-	super(new MMSValidator());
+        super(new MMSValidator());
     }
 
     @Override
     public Message newMessage() {
-	return new MMSMessage();
+        return new MMSMessage();
     }
 
 }

@@ -12,19 +12,21 @@ import message.SMSMessage;
  */
 public class Smartphone extends Cellphone {
 
-	public Smartphone(String deviceName) {
-		super(new MessageClient(new MessageType[]{MessageType.EMAIL, 
-			  MessageType.SMS, MessageType.MMS}), deviceName);
-	}
-	
-	public EmailMessage newEmail(){
-		return (EmailMessage) newMessage(MessageType.EMAIL);
-	}
-	public MMSMessage newMMS(){
-		return (MMSMessage) newMessage(MessageType.MMS);
-	}
-	public SMSMessage newSMS(){
-		return (SMSMessage) newMessage(MessageType.SMS);
-	}
-	
+    public Smartphone(String deviceName) {
+        super(new MessageClient(new MessageType[] { MessageType.EMAIL,
+                MessageType.SMS, MessageType.MMS }), deviceName);
+    }
+
+    public EmailMessage newEmail() {
+        return (EmailMessage) newMessage(MessageType.EMAIL);
+    }
+
+    public MMSMessage newMMS() {
+        return (MMSMessage) newMessage(MessageType.MMS);
+    }
+
+    public SMSMessage newSMS() {
+        return (SMSMessage) newMessage(MessageType.SMS);
+    }
+
 }

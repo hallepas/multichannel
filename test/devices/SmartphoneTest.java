@@ -19,9 +19,12 @@ public class SmartphoneTest {
     @Test
     public void test() {
         Smartphone iphone = new Smartphone("iPhone");
-        assertTrue("Smartphone kann Email senden", iphone.newEmail() instanceof EmailMessage);
-        assertTrue("Smartphone kann SMS schicken", iphone.newSMS() instanceof SMSMessage);
-        assertTrue("Smartphone kann MMS schicken", iphone.newMMS() instanceof MMSMessage);
+        assertTrue("Smartphone kann Email senden",
+                iphone.newEmail() instanceof EmailMessage);
+        assertTrue("Smartphone kann SMS schicken",
+                iphone.newSMS() instanceof SMSMessage);
+        assertTrue("Smartphone kann MMS schicken",
+                iphone.newMMS() instanceof MMSMessage);
     }
 
 }

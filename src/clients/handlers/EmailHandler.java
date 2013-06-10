@@ -7,12 +7,12 @@ import message.Message;
 public class EmailHandler extends MessageWithAttachmentsHandler {
 
     public EmailHandler() {
-	super(new EmailValidator());
+        super(new EmailValidator());
     }
 
     @Override
     public Message newMessage() {
-	return new EmailMessage();
+        return new EmailMessage();
     }
 
 }

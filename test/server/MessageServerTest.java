@@ -10,7 +10,7 @@ public class MessageServerTest {
 
     @Before
     public void setUp() throws Exception {
-       // internet.startOver();   
+        // internet.startOver();
     }
 
     @Test
@@ -20,8 +20,8 @@ public class MessageServerTest {
         assertEquals("4179", swisscom.getDomainForAddress("+41791234567"));
         assertEquals("4179", swisscom.getDomainForAddress("0791234567"));
     }
-    
-    public void testEmailServer(){
+
+    public void testEmailServer() {
         MessageServer gmail = new EmailServer("GMail", "gmail.com");
         assertEquals("gmail.com", gmail.getDomainForAddress("sb@gmail.com"));
         assertEquals("yahoo.de", gmail.getDomainForAddress("sb@yahoo.de"));

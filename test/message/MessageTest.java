@@ -26,27 +26,30 @@ public class MessageTest {
         Message druck = MessageType.PRINT.instance();
         assertTrue(druck instanceof PrintJobMessage);
     }
-    
+
     @Test
     public void testFileAttachment() {
-        String path = "data" + File.separator + "test" + File.separator + "Attachment.dat";
-        String dog = "data" + File.separator + "test" + File.separator + "Woof.gif";
+        String path = "data" + File.separator + "test" + File.separator
+                + "Attachment.dat";
+        String dog = "data" + File.separator + "test" + File.separator
+                + "Woof.gif";
         Writer fw = null;
         Attachment attachment = null;
-        try
-        {
-          fw = new FileWriter( path );
-          fw.write( "Zwei Jäger treffen sich..." );
-          fw.append( System.getProperty("line.separator") ); // e.g. "\n"
+        try {
+            fw = new FileWriter(path);
+            fw.write("Zwei Jäger treffen sich...");
+            fw.append(System.getProperty("line.separator")); // e.g. "\n"
+        } catch (IOException e) {
+            System.err.println("Konnte Datei nicht erstellen");
+        } finally {
+            if (fw != null)
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
-        catch ( IOException e ) {
-          System.err.println( "Konnte Datei nicht erstellen" );
-        }
-        finally {
-          if ( fw != null )
-            try { fw.close(); } catch ( IOException e ) { e.printStackTrace(); }
-        }
-        
+
         EmailMessage message = new EmailMessage();
         try {
             attachment = new Attachment(path);
@@ -55,11 +58,12 @@ public class MessageTest {
         }
         message.addAttachment(attachment);
         assertTrue("Message hat Attachment", message.hasAttachment());
-        
-        assertEquals("Attachment hat Namen", attachment.getFileName(), "Attachment.dat");
+
+        assertEquals("Attachment hat Namen", attachment.getFileName(),
+                "Attachment.dat");
         // Datei löschen.
         new File(path).delete();
-        
+
         assertTrue("Message hat Attachment", message.hasAttachment());
         File file = new File(path);
         // Die Datei existiert nicht mehr.
@@ -75,18 +79,20 @@ public class MessageTest {
         try {
             fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
-            assertEquals("Dateiinhalt überprüfen", reader.readLine(), 
-                                                    "Zwei Jäger treffen sich..." );
+            assertEquals("Dateiinhalt überprüfen", reader.readLine(),
+                    "Zwei Jäger treffen sich...");
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
             fail("Datei konnte nicht gelesen werden");
-        }      
+        }
         file.delete();
         // Check with Images
         try {
             attachment = new Attachment(dog);
-        } catch (IOException e) { e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertEquals(attachment.getFileName(), "Woof.gif");
         File dogFile = new File(dog);
         assertEquals(dogFile.getPath(), dog);
@@ -99,8 +105,7 @@ public class MessageTest {
             e.printStackTrace();
         }
         assertTrue(dogFile.exists());
-        
-      
+
     }
 
 }

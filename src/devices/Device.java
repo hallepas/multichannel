@@ -17,42 +17,43 @@ public abstract class Device {
     private final String deviceName;
 
     protected Device(MessageClient client, String deviceName) {
-	messageclient = client;
-	this.deviceName = deviceName;
+        messageclient = client;
+        this.deviceName = deviceName;
     }
 
     public MessageClient getMessageClient() {
-	return messageclient;
+        return messageclient;
     }
+
     // Verbose alternative
-    public MessageClient openMailProgram(){
+    public MessageClient openMailProgram() {
         return getMessageClient();
     }
 
     public String getDeviceName() {
-	return deviceName;
+        return deviceName;
     }
 
     public String getDeviceType() {
-	return this.getClass().getSimpleName();
+        return this.getClass().getSimpleName();
     }
 
-    public String toString(){
-	return this.getClass().getSimpleName() + " " + this.deviceName;
+    public String toString() {
+        return this.getClass().getSimpleName() + " " + this.deviceName;
     }
 
     protected Message newMessage(MessageType type) {
-	try {
-	    return messageclient.newMessage(type);
-	} catch (IllegalArgumentException e) {
-	    System.out.println("Kann keine Nachricht vom Typ " 
-		    + type + " erstellen.");
-	    return null;
-	}
+        try {
+            return messageclient.newMessage(type);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Kann keine Nachricht vom Typ " + type
+                    + " erstellen.");
+            return null;
+        }
     }
 
     public UserAgent newUserAgentFor(MessageType type) {
-	return messageclient.getUserAgentFor(type);
+        return messageclient.getUserAgentFor(type);
     }
 
     /**
@@ -61,7 +62,7 @@ public abstract class Device {
      * @return Set mit den Typen der unterstützten Formate.
      */
     public Set<MessageType> getSupportedMessageFormats() {
-	return messageclient.getSupportedMessageFormats();
+        return messageclient.getSupportedMessageFormats();
     }
 
 }

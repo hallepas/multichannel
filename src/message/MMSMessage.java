@@ -6,7 +6,7 @@ public class MMSMessage extends MessageWithSubjectAndAttachment {
 
     @Override
     public MessageType getType() {
-	return MessageType.MMS;
+        return MessageType.MMS;
     }
 
 }

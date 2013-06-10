@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Die Message-Hauptklasse
- * 
+ * Die Message-Hauptklasse. Möglichst keine Funktionalität hier.
  * 
  */
 public abstract class Message implements Comparable<Message>, Serializable {
@@ -18,87 +17,77 @@ public abstract class Message implements Comparable<Message>, Serializable {
     private Date reminder;
 
     public Message() {
-	super();
-	this.from = "";
-	this.to = new ArrayList<String>();
-	this.message = "";
-	this.date = null;
-	this.reminder = null;
+        super();
+        this.from = "";
+        this.to = new ArrayList<String>();
+        this.message = "";
+        this.date = null;
+        this.reminder = null;
     }
-
-//    public Message(String from, ArrayList<String> to, String message, 
-//	    Date date, Date reminder) {
-//	super();
-//	this.from = from;
-//	this.to = to;
-//	this.message = message;
-//	this.date = date;
-//	this.reminder = reminder;
-//    }
 
     public abstract MessageType getType();
 
     public String getMessage() {
-	return message;
+        return message;
     }
 
     public void setMessage(String message) {
-	this.message = message;
+        this.message = message;
     }
 
     public String getFrom() {
-	return from;
+        return from;
     }
 
     public void setFrom(String from) {
-	this.from = from;
+        this.from = from;
     }
 
     public ArrayList<String> getTo() {
-	return to;
+        return to;
     }
 
     public void setTo(ArrayList<String> to) {
-	this.to = to;
+        this.to = to;
     }
 
     public void addRecipient(String recipient) {
-	this.to.add(recipient);
+        this.to.add(recipient);
     }
+
     public void removeRecipient(String recipient) {
         this.to.remove(recipient);
     }
 
     public Date getDate() {
-	return date;
+        return date;
     }
 
     public void setDate(Date date) {
-	this.date = date;
+        this.date = date;
     }
 
     public Date getReminder() {
-	return reminder;
-    }
-    
-    public void setReminder(Date reminder) {
-	this.reminder = reminder;
+        return reminder;
     }
 
+    public void setReminder(Date reminder) {
+        this.reminder = reminder;
+    }
 
     @Override
     public int compareTo(Message other) {
-        if (this.date != null && other.getDate() != null)
-        {
+        if (this.date != null && other.getDate() != null) {
             return this.date.compareTo(other.getDate());
         } else {
             return 0;
         }
-	
+
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Message from " + from + "to " + to;
     }
-    
+
 }

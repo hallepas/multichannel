@@ -5,9 +5,9 @@ package handlers.validators;
 
 public class MMSValidator extends MobileMessageValidator {
 
-    //	@Override
-    //	public void validateMessage(Message message) throws ValidationError {
-    //		super.validateMessage(message);
-    //	}
+    // @Override
+    // public void validateMessage(Message message) throws ValidationError {
+    // super.validateMessage(message);
+    // }
 
 }

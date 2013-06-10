@@ -6,6 +6,6 @@ public class EmailMessage extends MessageWithSubjectAndAttachment {
 
     @Override
     public MessageType getType() {
-	return MessageType.EMAIL;
+        return MessageType.EMAIL;
     }
 }

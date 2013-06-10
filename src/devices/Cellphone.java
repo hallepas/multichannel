@@ -17,17 +17,17 @@ public abstract class Cellphone extends Device {
         // Sei mal zufällig generiert pro Device.
         this.imei = new Random().nextLong();
     }
-    
+
     public long getImei() {
         return this.imei;
     }
-    
-    public SMSMessage newSMS(){
+
+    public SMSMessage newSMS() {
         return (SMSMessage) newMessage(MessageType.SMS);
     }
-    public MMSMessage newMMS(){
+
+    public MMSMessage newMMS() {
         return (MMSMessage) newMessage(MessageType.MMS);
     }
-    
 
 }
