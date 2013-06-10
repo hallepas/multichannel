@@ -34,10 +34,8 @@ public class AttachementActionListener implements ActionListener {
     /**
      * Initialisiert den Listener
      * 
-     * @param Die
-     *            Messagetabelle
-     * @param Die
-     *            Messages
+     * @param table Die Messagetabelle
+     * @param messages Die Messages
      */
     public AttachementActionListener(JTable table, List<Message> messages) {
         this.table = table;

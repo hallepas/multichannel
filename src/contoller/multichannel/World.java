@@ -221,7 +221,7 @@ public class World {
     /**
      * Erzeugt ein zufälliges Datum
      * 
-     * @return
+     * @return zufälliges Datum
      */
     private Date getDate() {
         long offset = Timestamp.valueOf("2011-01-01 00:00:00").getTime();

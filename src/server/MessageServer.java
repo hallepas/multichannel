@@ -164,7 +164,7 @@ public abstract class MessageServer {
      * Diese Methode ist nur für Tests und sollte sonst nicht aufgerufen werden.
      * 
      * @param name
-     * @return
+     * @return Liste mit Nachrichten des Benutzers
      */
     public List<Message> getMessagesForUser(String name) {
         Mailbox box = messages.get(name);
