@@ -71,7 +71,6 @@ public class MessageTest {
         try {
             attachment.saveAttachment(file.getParent());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         assertTrue(file.exists());

@@ -55,13 +55,5 @@ public class PrintJobUserAgent extends UserAgent {
         this.printer = printer.getProxy();
         return new Status(200, "printer connected");
     }
-    // @Override
-    // public Status login(ClientProxy client){
-    // if(this.printer != null){
-    // return new Status(200, "Printer online.");
-    // } else {
-    // return new Status(500, "No printer connected");
-    // }
-    // }
 
 }

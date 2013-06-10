@@ -38,7 +38,6 @@ public class MultichannelController {
                     frameCounter--;
 
                     if (frameCounter == 0) {
-                        // Killt das Programm
                         System.exit(0);
                     }
                     ;
