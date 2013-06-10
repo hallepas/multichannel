@@ -25,7 +25,7 @@ public abstract class MessageServer {
     protected MessageServer(String name, String domain) {
         this.domain = domain;
         this.serverName = name;
-        // TODO: müsste HashMap<String, List<ClientProxy>> sein.
+        // TODO: sollte HashMap<String, List<ClientProxy>> sein.
         accountsOnline = new HashMap<String, ClientProxy>();
         accounts = new HashMap<String, Credentials>();
         messages = new HashMap<String, Mailbox>();
